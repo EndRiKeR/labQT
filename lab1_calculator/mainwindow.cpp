@@ -3,9 +3,6 @@
 #include <iostream>
 #include <cmath>
 
-void numberNowCheck(QPushButton* button);
-void whatINeedToDo();
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -42,7 +39,7 @@ struct calcMath mathInstrument = {0.0, 0.0, false, 1, "None", true}; // Да, э
 void MainWindow::on_btn_numeric_clicked() //Эта функция отслеживает нажатие на циферки и текущее число
 {
     QPushButton *button = (QPushButton *)sender(); // Can I use C-style ((QPushButton *))?
-    if (mathInstrument.point) { // bug with unenabled buttons
+    if (mathInstrument.point) {
         mathInstrument.numberNow = mathInstrument.numberNow + ((button->text()).toDouble() / pow(10.0, mathInstrument.pointDeep++));
     } else {
         mathInstrument.numberNow = mathInstrument.numberNow * 10 + (button->text()).toDouble();
@@ -55,7 +52,7 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
         ui->lbl_main->setText("Only Restart");
         //Here new window with error
     }
-    outputStatisticData(&mathInstrument); //Вспомогательная функция для понимая, что лежит в структуре
+    outputStatisticData(&mathInstrument);
 }
 
 void MainWindow::on_btn_move_clicked() //Общая функция для всех действий
@@ -71,7 +68,7 @@ void MainWindow::on_btn_move_clicked() //Общая функция для все
     outputStatisticData(&mathInstrument);
 }
 
-void MainWindow::on_btn_clear_clicked()
+void MainWindow::on_btn_clear_clicked() //Очистка
 {
     mathInstrument = {0.0, 0.0, false, 1, "None", true};
     ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
@@ -79,14 +76,7 @@ void MainWindow::on_btn_clear_clicked()
     outputStatisticData(&mathInstrument);
 }
 
-void outputStatisticData(calcMath* mathInstrument)
-{
-    std::cout << mathInstrument->numberNow << " " << mathInstrument->result << " " << mathInstrument->nextMove.toStdString() << std::endl;
-}
-
-
-
-void MainWindow::on_btn_point_clicked()
+void MainWindow::on_btn_point_clicked() //Точка в числе
 {
     mathInstrument.point = true;
     QPushButton *button = (QPushButton *)sender();
@@ -94,11 +84,10 @@ void MainWindow::on_btn_point_clicked()
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
         ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15) + '.');
     }
-    outputStatisticData(&mathInstrument); //Вспомогательная функция для понимая, что лежит в структуре
+    outputStatisticData(&mathInstrument);
 }
 
-
-void MainWindow::on_btn_result_clicked()
+void MainWindow::on_btn_result_clicked() //Вывод результата
 {
     if (mathInstrument.nextMove.toStdString() != "None") {
         whatINeedToDo();
@@ -109,7 +98,13 @@ void MainWindow::on_btn_result_clicked()
     }
 }
 
-void whatINeedToDo()
+void MainWindow::on_btn_delete_clicked()
+{
+    //пока не реализовано
+    ui->btn_delete->setEnabled(0);
+}
+
+void whatINeedToDo() // большая часть кода со switch для действий со знаками
 {
     if (mathInstrument.firstTimeRes) {
         mathInstrument.result = mathInstrument.numberNow;
@@ -139,9 +134,7 @@ void whatINeedToDo()
     }
 }
 
-void MainWindow::on_btn_delete_clicked()
+void outputStatisticData(calcMath* mathInstrument) //Вспомогательная функция для понимая, что лежит в структуре
 {
-    //пока не реализовано
-    ui->btn_delete->setEnabled(0);
+    std::cout << mathInstrument->numberNow << " " << mathInstrument->result << " " << mathInstrument->nextMove.toStdString() << std::endl;
 }
-

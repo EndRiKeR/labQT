@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-struct calcMath {
+struct calcMath { //Доп структура для хранения нужных для мат логики данных
     double result;
     double numberNow;
     bool point;
@@ -12,7 +12,8 @@ struct calcMath {
     bool firstTimeRes;
 };
 
-void outputStatisticData(calcMath* mathInstrument);
+void outputStatisticData(calcMath* mathInstrument); //вспомогательные функци
+void whatINeedToDo();
 
 
 QT_BEGIN_NAMESPACE
