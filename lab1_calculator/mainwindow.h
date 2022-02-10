@@ -3,6 +3,18 @@
 
 #include <QMainWindow>
 
+struct calcMath {
+    double result;
+    double numberNow;
+    bool point;
+    int pointDeep;
+    QString nextMove = "None"; // None, Plus(+), Minus(-), Div(/), Mult(*)
+    bool firstTimeRes;
+};
+
+void outputStatisticData(calcMath* mathInstrument);
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -14,6 +26,19 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+    void on_btn_numeric_clicked();
+
+    void on_btn_move_clicked();
+
+    void on_btn_clear_clicked();
+
+    void on_btn_point_clicked();
+
+    void on_btn_result_clicked();
+
+    void on_btn_delete_clicked();
 
 private:
     Ui::MainWindow *ui;
