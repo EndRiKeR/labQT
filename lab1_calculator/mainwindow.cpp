@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_mult, &QPushButton::clicked, this, &MainWindow::on_btn_move_clicked);
     connect(ui->btn_divide, &QPushButton::clicked, this, &MainWindow::on_btn_move_clicked);
     connect(ui->btn_clear, &QPushButton::clicked, this, &MainWindow::on_btn_clear_clicked);
-    connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::on_btn_delete_clicked);
+    connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::on_btn_delete_clicked, Qt::ConnectionType::SingleShotConnection);
     connect(ui->btn_result, &QPushButton::clicked, this, &MainWindow::on_btn_result_clicked); // double result  bug
-    ui->btn_delete->setEnabled(0);
+    //ui->btn_delete->setEnabled(0);
 
 }
 
@@ -98,10 +98,28 @@ void MainWindow::on_btn_result_clicked() //Вывод результата
     }
 }
 
-void MainWindow::on_btn_delete_clicked()
+void MainWindow::on_btn_delete_clicked() // Удаление
 {
-    //пока не реализовано
-    ui->btn_delete->setEnabled(0);
+//    bool point = false;
+    double temp = mathInstrument.numberNow;
+    std::string str = std::to_string(temp);
+    std::cout << str << " " << str.size() << " " << temp << "\t";
+    for (int i = str.size() - 1; i >= 0; --i) {
+        if (str[i] != '0' & str[i] != '\0') { //Тут можно contain использовать
+            str[i] = '\0';
+//            if (point) {
+//                ui->btn_delete->setEnabled(1);
+//            }
+            break;
+        }
+//        if (str[i] == '.') {
+//            point = true;
+//        }
+    }
+    temp = atof(str.c_str());
+    mathInstrument.numberNow = temp;
+    ui->lbl_main->setText(QString::number(temp, 'g', 15));
+    std::cout << str << " " << str.size() << " " << temp << std::endl;
 }
 
 void whatINeedToDo() // большая часть кода со switch для действий со знаками
