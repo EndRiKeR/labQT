@@ -100,21 +100,21 @@ void MainWindow::on_btn_result_clicked() //Вывод результата
 
 void MainWindow::on_btn_delete_clicked() // Удаление
 {
-//    bool point = false;
+    bool point = false;
     double temp = mathInstrument.numberNow;
     std::string str = std::to_string(temp);
     std::cout << str << " " << str.size() << " " << temp << "\t";
     for (int i = str.size() - 1; i >= 0; --i) {
-        if (str[i] != '0' & str[i] != '\0') { //Тут можно contain использовать
+        if (str[i] != '0' & str[i] != '.' & str[i] != '\0') { //Тут можно contain использовать
             str[i] = '\0';
-//            if (point) {
-//                ui->btn_delete->setEnabled(1);
-//            }
+            if (point) {
+                ui->btn_delete->setEnabled(1);
+            }
             break;
         }
-//        if (str[i] == '.') {
-//            point = true;
-//        }
+        if (str[i] == '.') {
+            point = true;
+        }
     }
     temp = atof(str.c_str());
     mathInstrument.numberNow = temp;
