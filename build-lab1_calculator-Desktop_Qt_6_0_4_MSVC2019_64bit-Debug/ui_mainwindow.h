@@ -53,6 +53,8 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
+        MainWindow->setMinimumSize(QSize(312, 521));
+        MainWindow->setMaximumSize(QSize(312, 521));
         QFont font;
         font.setPointSize(20);
         MainWindow->setFont(font);

@@ -43,6 +43,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    calcMath mathInstrument = {0.0, 0.0, false, 1, "None", true};
 
 };
 #endif // MAINWINDOW_H

@@ -2,12 +2,14 @@
 #include "ui_mainwindow.h"
 #include <iostream>
 #include <cmath>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowFlags(Qt::WindowCloseButtonHint);
     connect(ui->btn_0, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
     connect(ui->btn_1, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
     connect(ui->btn_2, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
@@ -34,7 +36,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-struct calcMath mathInstrument = {0.0, 0.0, false, 1, "None", true}; // Да, это глобальная переменная. Ну убейте, не знаю, как без нее
+//struct calcMath mathInstrument = {0.0, 0.0, false, 1, "None", true}; // Да, это глобальная переменная. Ну убейте, не знаю, как без нее
 
 void MainWindow::on_btn_numeric_clicked() //Эта функция отслеживает нажатие на циферки и текущее число
 {
@@ -50,7 +52,7 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
     } else {
         ui->centralwidget->setEnabled(0);
         ui->lbl_main->setText("Only Restart");
-        //Here new window with error
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
     }
     outputStatisticData(&mathInstrument);
 }
@@ -122,28 +124,30 @@ void MainWindow::on_btn_delete_clicked() // Удаление
     std::cout << str << " " << str.size() << " " << temp << std::endl;
 }
 
-void whatINeedToDo() // большая часть кода со switch для действий со знаками
+void whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
 {
-    if (mathInstrument.firstTimeRes) {
-        mathInstrument.result = mathInstrument.numberNow;
-        mathInstrument.firstTimeRes = false;
+    if (mathInstrument->firstTimeRes) {
+        mathInstrument->result = mathInstrument->numberNow;
+        mathInstrument->firstTimeRes = false;
+
     } else {
-        switch(mathInstrument.nextMove.toStdString()[0]) {
+        switch(mathInstrument->nextMove.toStdString()[0]) {
             case '+':
-                mathInstrument.result += mathInstrument.numberNow;
+                mathInstrument->result += mathInstrument->numberNow;
                 break;
             case '-':
-                mathInstrument.result -= mathInstrument.numberNow;
+                mathInstrument->result -= mathInstrument->numberNow;
                 break;
             case '/':
-                if (mathInstrument.numberNow != 0) {
-                    mathInstrument.result = mathInstrument.result / mathInstrument.numberNow;
+                if (mathInstrument->numberNow != 0) {
+                    mathInstrument->result = mathInstrument->result / mathInstrument->numberNow;
                 } else {
-                    //new error window
+                    QMessageBox::information(0, "Title", "ERROR");
+                   // void MainWindow::on_btn_clear_clicked();
                 }
                 break;
             case '*':
-                mathInstrument.result *= mathInstrument.numberNow;
+                mathInstrument->result *= mathInstrument->numberNow;
                 break;
             default:
                 //new error window
