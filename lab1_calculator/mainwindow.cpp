@@ -2,7 +2,10 @@
 #include "ui_mainwindow.h"
 #include <iostream>
 #include <cmath>
+#include <string>
 #include <QMessageBox>
+
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,16 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_clear, &QPushButton::clicked, this, &MainWindow::on_btn_clear_clicked);
     connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::on_btn_delete_clicked, Qt::ConnectionType::SingleShotConnection);
     connect(ui->btn_result, &QPushButton::clicked, this, &MainWindow::on_btn_result_clicked); // double result  bug
-    //ui->btn_delete->setEnabled(0);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-//struct calcMath mathInstrument = {0.0, 0.0, false, 1, "None", true}; // Да, это глобальная переменная. Ну убейте, не знаю, как без нее
 
 void MainWindow::on_btn_numeric_clicked() //Эта функция отслеживает нажатие на циферки и текущее число
 {
@@ -60,7 +59,7 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
 void MainWindow::on_btn_move_clicked() //Общая функция для всех действий
 {
     QPushButton *button = (QPushButton *)sender();
-    whatINeedToDo();
+    whatINeedToDo(&mathInstrument);
     mathInstrument.numberNow = 0.0;
     mathInstrument.point = false;
     ui->btn_point->setEnabled(1);
@@ -92,7 +91,7 @@ void MainWindow::on_btn_point_clicked() //Точка в числе
 void MainWindow::on_btn_result_clicked() //Вывод результата
 {
     if (mathInstrument.nextMove.toStdString() != "None") {
-        whatINeedToDo();
+        whatINeedToDo(&mathInstrument);
         ui->btn_point->setEnabled(1);
         ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
         outputStatisticData(&mathInstrument);
@@ -100,31 +99,63 @@ void MainWindow::on_btn_result_clicked() //Вывод результата
     }
 }
 
-void MainWindow::on_btn_delete_clicked() // Удаление
+bool myContainChInStr(std::string str, const char ch)
 {
-    bool point = false;
-    double temp = mathInstrument.numberNow;
-    std::string str = std::to_string(temp);
-    std::cout << str << " " << str.size() << " " << temp << "\t";
-    for (int i = str.size() - 1; i >= 0; --i) {
-        if (str[i] != '0' & str[i] != '.' & str[i] != '\0') { //Тут можно contain использовать
-            str[i] = '\0';
-            if (point) {
-                ui->btn_delete->setEnabled(1);
-            }
-            break;
-        }
-        if (str[i] == '.') {
-            point = true;
+    bool result = false;
+    for (size_t i = 0; i < str.size(); ++i) {
+        if (str[i] == ch) {
+            result = true;
         }
     }
-    temp = atof(str.c_str());
-    mathInstrument.numberNow = temp;
-    ui->lbl_main->setText(QString::number(temp, 'g', 15));
-    std::cout << str << " " << str.size() << " " << temp << std::endl;
+    return result;
 }
 
-void whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
+void MainWindow::on_btn_delete_clicked() // Удаление
+{
+    //user logic
+    std::string str = ui->lbl_main->text().toStdString();
+    std::cout << str.size() << std::endl;
+    size_t pos = str.size() - 1;
+    if (str.size() <= 1) { // Нулевой символ + цифра
+        ui->lbl_main->setText("0");
+    } else {
+        std::cout << str << " ";
+        for (size_t i = str.size() - 1; i >= 0; --i) {
+            if (str[i] != '\0') {
+                str[i] = '\0';
+                break;
+            }
+            pos -= 1;
+        }
+        ui->lbl_main->setText(QString::fromStdString(str.substr(0, pos)));
+        mathInstrument.numberNow = atof(str.substr(0, pos).c_str());
+        if (!myContainChInStr(ui->lbl_main->text().toStdString(), '.')) {
+            ui->btn_point->setEnabled(1);
+        }
+    }
+    std::cout << str << " " << mathInstrument.numberNow << std::endl;
+
+//    double temp = mathInstrument.numberNow;
+//    std::string str = std::to_string(temp);
+//    for (size_t i = str.size() - 1; i >= 0; --i) {
+//        if (str[i] != '0' & str[i] != '.' & str[i] != '\0') { //Тут можно contain использовать
+//            str[i] = '\0';
+//            if (point) {
+//                ui->btn_delete->setEnabled(1);
+//            }
+//            break;
+//        }
+//        if (str[i] == '.') {
+//            point = true;
+//        }
+//    }
+//    temp = atof(str.c_str());
+//    mathInstrument.numberNow = temp;
+//    ui->lbl_main->setText(QString::number(temp, 'g', 15));
+//    std::cout << str << " " << str.size() << " " << temp << std::endl;
+}
+
+void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
 {
     if (mathInstrument->firstTimeRes) {
         mathInstrument->result = mathInstrument->numberNow;
@@ -142,8 +173,7 @@ void whatINeedToDo(struct calcMath* mathInstrument) // большая часть
                 if (mathInstrument->numberNow != 0) {
                     mathInstrument->result = mathInstrument->result / mathInstrument->numberNow;
                 } else {
-                    QMessageBox::information(0, "Title", "ERROR");
-                   // void MainWindow::on_btn_clear_clicked();
+                   QMessageBox::information(0, "ERROR", "Вы решили поделить на ноль. Покайтесь и перезапустите калькулятор.");
                 }
                 break;
             case '*':

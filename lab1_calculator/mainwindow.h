@@ -12,9 +12,8 @@ struct calcMath { //Доп структура для хранения нужны
     bool firstTimeRes;
 };
 
-void outputStatisticData(calcMath* mathInstrument); //вспомогательные функци
-void whatINeedToDo();
-
+bool myContainChInStr(std::string str, const char ch);
+void outputStatisticData(struct calcMath* mathInstrument); //вспомогательные функци
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,7 +21,7 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+    Q_OBJECT     
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -40,6 +39,8 @@ private slots:
     void on_btn_result_clicked();
 
     void on_btn_delete_clicked();
+
+    void whatINeedToDo(struct calcMath* mathInstrument);
 
 private:
     Ui::MainWindow *ui;
