@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    const uint offsetsAndSize[22];
-    char stringdata0[180];
+    const uint offsetsAndSize[36];
+    char stringdata0[255];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_MainWindow_t, stringdata0) + ofs), len 
@@ -37,16 +37,25 @@ QT_MOC_LITERAL(55, 20), // "on_btn_clear_clicked"
 QT_MOC_LITERAL(76, 20), // "on_btn_point_clicked"
 QT_MOC_LITERAL(97, 21), // "on_btn_result_clicked"
 QT_MOC_LITERAL(119, 21), // "on_btn_delete_clicked"
-QT_MOC_LITERAL(141, 13), // "whatINeedToDo"
-QT_MOC_LITERAL(155, 9), // "calcMath*"
-QT_MOC_LITERAL(165, 14) // "mathInstrument"
+QT_MOC_LITERAL(141, 11), // "enableMoves"
+QT_MOC_LITERAL(153, 1), // "i"
+QT_MOC_LITERAL(155, 13), // "whatINeedToDo"
+QT_MOC_LITERAL(169, 9), // "calcMath*"
+QT_MOC_LITERAL(179, 14), // "mathInstrument"
+QT_MOC_LITERAL(194, 12), // "enableDelete"
+QT_MOC_LITERAL(207, 12), // "enableResult"
+QT_MOC_LITERAL(220, 11), // "enablePoint"
+QT_MOC_LITERAL(232, 9), // "enableNum"
+QT_MOC_LITERAL(242, 12) // "enableAllBtn"
 
     },
     "MainWindow\0on_btn_numeric_clicked\0\0"
     "on_btn_move_clicked\0on_btn_clear_clicked\0"
     "on_btn_point_clicked\0on_btn_result_clicked\0"
-    "on_btn_delete_clicked\0whatINeedToDo\0"
-    "calcMath*\0mathInstrument"
+    "on_btn_delete_clicked\0enableMoves\0i\0"
+    "whatINeedToDo\0calcMath*\0mathInstrument\0"
+    "enableDelete\0enableResult\0enablePoint\0"
+    "enableNum\0enableAllBtn"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,7 +65,7 @@ static const uint qt_meta_data_MainWindow[] = {
        9,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,13 +73,19 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   56,    2, 0x08,    0 /* Private */,
-       3,    0,   57,    2, 0x08,    1 /* Private */,
-       4,    0,   58,    2, 0x08,    2 /* Private */,
-       5,    0,   59,    2, 0x08,    3 /* Private */,
-       6,    0,   60,    2, 0x08,    4 /* Private */,
-       7,    0,   61,    2, 0x08,    5 /* Private */,
-       8,    1,   62,    2, 0x08,    6 /* Private */,
+       1,    0,   92,    2, 0x08,    0 /* Private */,
+       3,    0,   93,    2, 0x08,    1 /* Private */,
+       4,    0,   94,    2, 0x08,    2 /* Private */,
+       5,    0,   95,    2, 0x08,    3 /* Private */,
+       6,    0,   96,    2, 0x08,    4 /* Private */,
+       7,    0,   97,    2, 0x08,    5 /* Private */,
+       8,    1,   98,    2, 0x08,    6 /* Private */,
+      10,    1,  101,    2, 0x08,    8 /* Private */,
+      13,    1,  104,    2, 0x08,   10 /* Private */,
+      14,    1,  107,    2, 0x08,   12 /* Private */,
+      15,    1,  110,    2, 0x08,   14 /* Private */,
+      16,    1,  113,    2, 0x08,   16 /* Private */,
+      17,    1,  116,    2, 0x08,   18 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -79,7 +94,13 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 9,   10,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, 0x80000000 | 11,   12,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int,    9,
 
        0        // eod
 };
@@ -96,7 +117,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->on_btn_point_clicked(); break;
         case 4: _t->on_btn_result_clicked(); break;
         case 5: _t->on_btn_delete_clicked(); break;
-        case 6: _t->whatINeedToDo((*reinterpret_cast< calcMath*(*)>(_a[1]))); break;
+        case 6: _t->enableMoves((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 7: _t->whatINeedToDo((*reinterpret_cast< calcMath*(*)>(_a[1]))); break;
+        case 8: _t->enableDelete((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 9: _t->enableResult((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: _t->enablePoint((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 11: _t->enableNum((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 12: _t->enableAllBtn((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -110,7 +137,7 @@ const QMetaObject MainWindow::staticMetaObject = { {
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_MainWindow_t
 
-, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<calcMath *, std::false_type>
+, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<calcMath *, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<int, std::false_type>
 
 
 >,
@@ -137,13 +164,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 13)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 13;
     }
     return _id;
 }

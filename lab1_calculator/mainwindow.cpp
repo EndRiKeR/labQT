@@ -4,13 +4,13 @@
 #include <cmath>
 #include <string>
 #include <QMessageBox>
-
-
+#include <fstream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     setWindowFlags(Qt::WindowCloseButtonHint);
     connect(ui->btn_0, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_clear, &QPushButton::clicked, this, &MainWindow::on_btn_clear_clicked);
     connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::on_btn_delete_clicked, Qt::ConnectionType::SingleShotConnection);
     connect(ui->btn_result, &QPushButton::clicked, this, &MainWindow::on_btn_result_clicked); // double result  bug
+    enableMoves(0);
+    enableResult(0);
+    enableDelete(0);
 }
 
 MainWindow::~MainWindow()
@@ -37,54 +40,73 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::infoForUser() //Сообщение, в котором объясняется работа калькулятора
+{
+    std::ifstream readMeFile("E:/myProgects/labQT/lab1_calculator/READ_ME");
+    std::string temp;
+    std::string str;
+    if (readMeFile.is_open()) {
+        while (getline(readMeFile, temp)) {
+            str += temp;
+            str += '\n';
+        }
+    }
+    QMessageBox msgBox;
+    msgBox.setText("Используя этот калькулятор Вы соглашаетесь с условиями пользовательского соглашения.");
+    msgBox.setInformativeText("Вы согласны?");
+    msgBox.setDetailedText(str.c_str());
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int answer = msgBox.exec();
+    switch (answer) {
+    case QMessageBox::Yes:
+        break;
+    case QMessageBox::No:
+        QMessageBox::information(0, "ERROR", "Очень жаль.");
+        MainWindow::~MainWindow();
+        break;
+    default:
+        MainWindow::~MainWindow();
+        break;
+    }
+}
+
 void MainWindow::on_btn_numeric_clicked() //Эта функция отслеживает нажатие на циферки и текущее число
 {
+    //Включение кнопок
+    enableMoves(1);
+    enableDelete(1);
+    if (mathInstrument.nextMove != "None") {
+        enableResult(1);
+    }
+    //Математика
     QPushButton *button = (QPushButton *)sender(); // Can I use C-style ((QPushButton *))?
     if (mathInstrument.point) {
         mathInstrument.numberNow = mathInstrument.numberNow + ((button->text()).toDouble() / pow(10.0, mathInstrument.pointDeep++));
     } else {
         mathInstrument.numberNow = mathInstrument.numberNow * 10 + (button->text()).toDouble();
     }
-
+    //Вывод
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
-        if (ui->lbl_main->text() == "0") {
+        if (ui->lbl_main->text() == "0" || mathInstrument.nextMove == "Res" || mathInstrument.afterMove) {
             ui->lbl_main->setText("");
+            mathInstrument.afterMove = false;
         }
         ui->lbl_main->setText(ui->lbl_main->text() + button->text());
     } else {
-        ui->centralwidget->setEnabled(0);
+        enableAllBtn(0);
         ui->lbl_main->setText("Only Restart");
         QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
     }
     outputStatisticData(&mathInstrument);
 }
 
-void MainWindow::on_btn_move_clicked() //Общая функция для всех действий
-{
-    QPushButton *button = (QPushButton *)sender();
-    whatINeedToDo(&mathInstrument);
-    mathInstrument.numberNow = 0.0;
-    mathInstrument.point = false;
-    ui->btn_point->setEnabled(1);
-    mathInstrument.nextMove = button->text();
-    mathInstrument.pointDeep = 1;
-    ui->lbl_main->setText("0");
-    outputStatisticData(&mathInstrument);
-}
-
-void MainWindow::on_btn_clear_clicked() //Очистка
-{
-    mathInstrument = {0.0, 0.0, false, 1, "None", true};
-    ui->lbl_main->setText("0");
-    ui->btn_point->setEnabled(1);
-    outputStatisticData(&mathInstrument);
-}
-
 void MainWindow::on_btn_point_clicked() //Точка в числе
 {
     mathInstrument.point = true;
-    QPushButton *button = (QPushButton *)sender();
-    button->setEnabled(0);
+    //mathInstrument.afterMove = true;
+    enableResult(0);
+    enablePoint(0);
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
         ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15) + '.');
     } else {
@@ -93,35 +115,15 @@ void MainWindow::on_btn_point_clicked() //Точка в числе
     outputStatisticData(&mathInstrument);
 }
 
-void MainWindow::on_btn_result_clicked() //Вывод результата
-{
-    if (mathInstrument.nextMove.toStdString() != "None") {
-        whatINeedToDo(&mathInstrument);
-        ui->btn_point->setEnabled(1);
-        ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
-        outputStatisticData(&mathInstrument);
-        mathInstrument = {0.0, 0.0, false, 1, "None", true};
-    }
-}
-
-bool myContainChInStr(std::string str, const char ch)
-{
-    bool result = false;
-    for (size_t i = 0; i < str.size(); ++i) {
-        if (str[i] == ch) {
-            result = true;
-        }
-    }
-    return result;
-}
-
 void MainWindow::on_btn_delete_clicked() // Удаление
 {
     std::string str = ui->lbl_main->text().toStdString();
-    std::cout << str.size() << std::endl;
+    std::cout << str.size() << " " << (str.size() <= 1) << std::endl;
     size_t pos = str.size() - 1;
     if (str.size() <= 1) { // Нулевой символ + цифра
         ui->lbl_main->setText("0");
+        mathInstrument.numberNow = 0;
+        enableDelete(0);
     } else {
         std::cout << str << " ";
         for (size_t i = str.size() - 1; i >= 0; --i) {
@@ -134,10 +136,56 @@ void MainWindow::on_btn_delete_clicked() // Удаление
         ui->lbl_main->setText(QString::fromStdString(str.substr(0, pos)));
         mathInstrument.numberNow = atof(str.substr(0, pos).c_str());
         if (!myContainChInStr(ui->lbl_main->text().toStdString(), '.')) {
-            ui->btn_point->setEnabled(1);
+            enablePoint(1);
         }
     }
     std::cout << str << " " << mathInstrument.numberNow << std::endl;
+}
+
+void MainWindow::on_btn_move_clicked() //Общая функция для всех действий
+{
+    QPushButton *button = (QPushButton *)sender();
+    whatINeedToDo(&mathInstrument);
+    //настройка структуры
+    mathInstrument.numberNow = 0.0;
+    mathInstrument.point = false;
+    mathInstrument.nextMove = button->text();
+    mathInstrument.pointDeep = 1;
+    mathInstrument.afterMove = true;
+    ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
+    outputStatisticData(&mathInstrument);
+    //включение кнопок
+    enablePoint(1);
+    enableMoves(0);
+    enableResult(0);
+}
+
+void MainWindow::on_btn_result_clicked() //Вывод результата
+{
+    if (mathInstrument.nextMove != "None" && mathInstrument.nextMove != "Res") {
+        whatINeedToDo(&mathInstrument);
+        if (mathInstrument.result < 1e+16) {
+            ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
+        } else {
+            QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
+            ui->lbl_main->setText("Only Restart");
+        }
+
+        mathInstrument = {0.0, 0.0, false, 1, "Res", true};
+        enableAllBtn(0);
+        outputStatisticData(&mathInstrument);
+    }
+}
+
+void MainWindow::on_btn_clear_clicked() //Очистка
+{
+    mathInstrument = {0.0, 0.0, false, 1, "None", true, false};
+    ui->lbl_main->setText("0");
+    enableAllBtn(1);
+    enableMoves(0);
+    enableResult(0);
+    enableDelete(0);
+    outputStatisticData(&mathInstrument);
 }
 
 void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
@@ -159,13 +207,14 @@ void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // больша�
                     mathInstrument->result = mathInstrument->result / mathInstrument->numberNow;
                 } else {
                    QMessageBox::information(0, "ERROR", "Вы решили поделить на ноль. Покайтесь и перезапустите калькулятор.");
+                   ui->lbl_main->setText("Only Restart");
                 }
                 break;
             case '*':
                 mathInstrument->result *= mathInstrument->numberNow;
                 break;
             default:
-                //new error window
+                QMessageBox::information(0, "ERROR", "Если вы видите эту строчку, то проверьтесь на сверх способности. Экзорцист уже вызван.\nПерезапустите калькулятор.");
                 break;
         }
     }
@@ -174,4 +223,62 @@ void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // больша�
 void outputStatisticData(calcMath* mathInstrument) //Вспомогательная функция для понимая, что лежит в структуре
 {
     std::cout << mathInstrument->numberNow << " " << mathInstrument->result << " " << mathInstrument->nextMove.toStdString() << std::endl;
+}
+
+bool myContainChInStr(std::string str, const char ch) //Contains только в С++23 :(
+{
+    bool result = false;
+    for (size_t i = 0; i < str.size(); ++i) {
+        if (str[i] == ch) {
+            result = true;
+        }
+    }
+    return result;
+}
+
+//Далее идут функции для группого и не очень включения/выключения кнопок
+void MainWindow::enableMoves(int i)
+{
+    ui->btn_minus->setEnabled(i);
+    ui->btn_plus->setEnabled(i);
+    ui->btn_mult->setEnabled(i);
+    ui->btn_divide->setEnabled(i);
+}
+
+void MainWindow::enableDelete(int i)
+{
+    ui->btn_delete->setEnabled(i);
+}
+
+void MainWindow::enableResult(int i)
+{
+    ui->btn_result->setEnabled(i);
+}
+
+void MainWindow::enablePoint(int i)
+{
+    ui->btn_point->setEnabled(i);
+}
+
+void MainWindow::enableNum(int i)
+{
+    ui->btn_0->setEnabled(i);
+    ui->btn_1->setEnabled(i);
+    ui->btn_2->setEnabled(i);
+    ui->btn_3->setEnabled(i);
+    ui->btn_4->setEnabled(i);
+    ui->btn_5->setEnabled(i);
+    ui->btn_6->setEnabled(i);
+    ui->btn_7->setEnabled(i);
+    ui->btn_8->setEnabled(i);
+    ui->btn_9->setEnabled(i);
+}
+
+void MainWindow::enableAllBtn(int i)
+{
+    enableDelete(i);
+    enableMoves(i);
+    enableNum(i);
+    enablePoint(i);
+    enableResult(i);
 }

@@ -10,6 +10,7 @@ struct calcMath { //Доп структура для хранения нужны
     int pointDeep;
     QString nextMove = "None"; // None, Plus(+), Minus(-), Div(/), Mult(*)
     bool firstTimeRes;
+    bool afterMove = false;
 };
 
 bool myContainChInStr(std::string str, const char ch);
@@ -26,6 +27,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void infoForUser();
 
 private slots:
     void on_btn_numeric_clicked();
@@ -40,7 +42,19 @@ private slots:
 
     void on_btn_delete_clicked();
 
+    void enableMoves(int i);
+
     void whatINeedToDo(struct calcMath* mathInstrument);
+
+    void enableDelete(int i);
+
+    void enableResult(int i);
+
+    void enablePoint(int i);
+
+    void enableNum(int i);
+
+    void enableAllBtn(int i);
 
 private:
     Ui::MainWindow *ui;
