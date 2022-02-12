@@ -19,8 +19,8 @@ CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStri
 INCPATH       = -I..\lab1_calculator -I. -I..\..\..\QT\6.0.4\msvc2019_64\include -I..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets -I..\..\..\QT\6.0.4\msvc2019_64\include\QtGui -I..\..\..\QT\6.0.4\msvc2019_64\include\QtCore -Idebug -I. -I/include -I..\..\..\QT\6.0.4\msvc2019_64\mkspecs\win32-msvc 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /DEBUG /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = E:\QT\6.0.4\msvc2019_64\lib\Qt6Widgetsd.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6Guid.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6Cored.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6EntryPointd.lib shell32.lib  
-QMAKE         = E:\QT\6.0.4\msvc2019_64\bin\qmake.exe
+LIBS          = D:\QT\6.0.4\msvc2019_64\lib\Qt6Widgetsd.lib D:\QT\6.0.4\msvc2019_64\lib\Qt6Guid.lib D:\QT\6.0.4\msvc2019_64\lib\Qt6Cored.lib D:\QT\6.0.4\msvc2019_64\lib\Qt6EntryPointd.lib shell32.lib  
+QMAKE         = D:\QT\6.0.4\msvc2019_64\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
 MKDIR         = mkdir
@@ -30,8 +30,8 @@ COPY_DIR      = xcopy /s /q /y /i
 INSTALL_FILE  = copy /y
 INSTALL_PROGRAM = copy /y
 INSTALL_DIR   = xcopy /s /q /y /i
-QINSTALL      = E:\QT\6.0.4\msvc2019_64\bin\qmake.exe -install qinstall
-QINSTALL_PROGRAM = E:\QT\6.0.4\msvc2019_64\bin\qmake.exe -install qinstall -exe
+QINSTALL      = D:\QT\6.0.4\msvc2019_64\bin\qmake.exe -install qinstall
+QINSTALL_PROGRAM = D:\QT\6.0.4\msvc2019_64\bin\qmake.exe -install qinstall -exe
 DEL_FILE      = del
 SYMLINK       = $(QMAKE) -install ln -f -s
 DEL_DIR       = rmdir
@@ -132,7 +132,7 @@ DESTDIR_TARGET = debug\lab1_calculator.exe
 first: all
 all: Makefile.Debug  debug\lab1_calculator.exe
 
-debug\lab1_calculator.exe: E:\QT\6.0.4\msvc2019_64\lib\Qt6Widgetsd.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6Guid.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6Cored.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6EntryPointd.lib ui_mainwindow.h $(OBJECTS) 
+debug\lab1_calculator.exe: D:\QT\6.0.4\msvc2019_64\lib\Qt6Widgetsd.lib D:\QT\6.0.4\msvc2019_64\lib\Qt6Guid.lib D:\QT\6.0.4\msvc2019_64\lib\Qt6Cored.lib D:\QT\6.0.4\msvc2019_64\lib\Qt6EntryPointd.lib ui_mainwindow.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
 debug\main.obj debug\mainwindow.obj debug\moc_mainwindow.obj
 $(LIBS)
@@ -171,7 +171,7 @@ compiler_moc_predefs_make_all: debug\moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) debug\moc_predefs.h
 debug\moc_predefs.h: ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\data\dummy.cpp
-	cl -BxE:\QT\6.0.4\msvc2019_64\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -Zi -MDd -std:c++17 -utf-8 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\data\dummy.cpp 2>NUL >debug\moc_predefs.h
+	cl -BxD:\QT\6.0.4\msvc2019_64\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -Zi -MDd -std:c++17 -utf-8 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\data\dummy.cpp 2>NUL >debug\moc_predefs.h
 
 compiler_moc_header_make_all: debug\moc_mainwindow.cpp
 compiler_moc_header_clean:
@@ -309,7 +309,7 @@ debug\moc_mainwindow.cpp: ..\lab1_calculator\mainwindow.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtGui\qicon.h \
 		debug\moc_predefs.h \
 		..\..\..\QT\6.0.4\msvc2019_64\bin\moc.exe
-	E:\QT\6.0.4\msvc2019_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include E:/myProgects/labQT/build-lab1_calculator-Desktop_Qt_6_0_4_MSVC2019_64bit-Debug/debug/moc_predefs.h -IE:/QT/6.0.4/msvc2019_64/mkspecs/win32-msvc -IE:/myProgects/labQT/lab1_calculator -IE:/QT/6.0.4/msvc2019_64/include -IE:/QT/6.0.4/msvc2019_64/include/QtWidgets -IE:/QT/6.0.4/msvc2019_64/include/QtGui -IE:/QT/6.0.4/msvc2019_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\cppwinrt" ..\lab1_calculator\mainwindow.h -o debug\moc_mainwindow.cpp
+	D:\QT\6.0.4\msvc2019_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/progectsForCPP/labQT/build-lab1_calculator-Desktop_Qt_6_0_4_MSVC2019_64bit-Debug/debug/moc_predefs.h -ID:/QT/6.0.4/msvc2019_64/mkspecs/win32-msvc -ID:/progectsForCPP/labQT/lab1_calculator -ID:/QT/6.0.4/msvc2019_64/include -ID:/QT/6.0.4/msvc2019_64/include/QtWidgets -ID:/QT/6.0.4/msvc2019_64/include/QtGui -ID:/QT/6.0.4/msvc2019_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.16299.0\cppwinrt" ..\lab1_calculator\mainwindow.h -o debug\moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -320,7 +320,7 @@ compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
 ui_mainwindow.h: ..\lab1_calculator\mainwindow.ui \
 		..\..\..\QT\6.0.4\msvc2019_64\bin\uic.exe
-	E:\QT\6.0.4\msvc2019_64\bin\uic.exe ..\lab1_calculator\mainwindow.ui -o ui_mainwindow.h
+	D:\QT\6.0.4\msvc2019_64\bin\uic.exe ..\lab1_calculator\mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:

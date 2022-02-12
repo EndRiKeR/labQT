@@ -47,7 +47,10 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
     }
 
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
-        ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+        if (ui->lbl_main->text() == "0") {
+            ui->lbl_main->setText("");
+        }
+        ui->lbl_main->setText(ui->lbl_main->text() + button->text());
     } else {
         ui->centralwidget->setEnabled(0);
         ui->lbl_main->setText("Only Restart");
@@ -65,14 +68,14 @@ void MainWindow::on_btn_move_clicked() //Общая функция для все
     ui->btn_point->setEnabled(1);
     mathInstrument.nextMove = button->text();
     mathInstrument.pointDeep = 1;
-    ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
+    ui->lbl_main->setText("0");
     outputStatisticData(&mathInstrument);
 }
 
 void MainWindow::on_btn_clear_clicked() //Очистка
 {
     mathInstrument = {0.0, 0.0, false, 1, "None", true};
-    ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    ui->lbl_main->setText("0");
     ui->btn_point->setEnabled(1);
     outputStatisticData(&mathInstrument);
 }
@@ -84,6 +87,8 @@ void MainWindow::on_btn_point_clicked() //Точка в числе
     button->setEnabled(0);
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
         ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15) + '.');
+    } else {
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
     }
     outputStatisticData(&mathInstrument);
 }
@@ -112,7 +117,6 @@ bool myContainChInStr(std::string str, const char ch)
 
 void MainWindow::on_btn_delete_clicked() // Удаление
 {
-    //user logic
     std::string str = ui->lbl_main->text().toStdString();
     std::cout << str.size() << std::endl;
     size_t pos = str.size() - 1;
@@ -134,25 +138,6 @@ void MainWindow::on_btn_delete_clicked() // Удаление
         }
     }
     std::cout << str << " " << mathInstrument.numberNow << std::endl;
-
-//    double temp = mathInstrument.numberNow;
-//    std::string str = std::to_string(temp);
-//    for (size_t i = str.size() - 1; i >= 0; --i) {
-//        if (str[i] != '0' & str[i] != '.' & str[i] != '\0') { //Тут можно contain использовать
-//            str[i] = '\0';
-//            if (point) {
-//                ui->btn_delete->setEnabled(1);
-//            }
-//            break;
-//        }
-//        if (str[i] == '.') {
-//            point = true;
-//        }
-//    }
-//    temp = atof(str.c_str());
-//    mathInstrument.numberNow = temp;
-//    ui->lbl_main->setText(QString::number(temp, 'g', 15));
-//    std::cout << str << " " << str.size() << " " << temp << std::endl;
 }
 
 void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
