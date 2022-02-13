@@ -5,12 +5,11 @@
 #include <string>
 #include <QMessageBox>
 #include <fstream>
+#include <locale>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
-
+    setlocale(LC_ALL, "Russian");
     ui->setupUi(this);
     setWindowFlags(Qt::WindowCloseButtonHint);
     connect(ui->btn_0, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
@@ -27,12 +26,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_minus, &QPushButton::clicked, this, &MainWindow::on_btn_move_clicked);
     connect(ui->btn_mult, &QPushButton::clicked, this, &MainWindow::on_btn_move_clicked);
     connect(ui->btn_divide, &QPushButton::clicked, this, &MainWindow::on_btn_move_clicked);
-    connect(ui->btn_clear, &QPushButton::clicked, this, &MainWindow::on_btn_clear_clicked);
-    connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::on_btn_delete_clicked, Qt::ConnectionType::SingleShotConnection);
-    connect(ui->btn_result, &QPushButton::clicked, this, &MainWindow::on_btn_result_clicked); // double result  bug
+    connect(ui->btn_clear, &QPushButton::clicked, this, &MainWindow::clear_clicked);
+    connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::delete_clicked);
+    connect(ui->btn_result, &QPushButton::clicked, this, &MainWindow::result_clicked);
+    //Решение бага с двойным подключением: Qt автоматически подключает такие названия.
+    //Например, есть кнопка ui->name и если просто создать слот с именем on_name_clicked(),
+    //то Qt сам подключит сигнал clicked() к этому слоту внутри вызова ui->setupUi(this).
+    //Поэтому, можно либо переименовать название слота, либо не подключать его вручную.
+    //www.cyberforum.ru by Humanoid
     enableMoves(0);
     enableResult(0);
     enableDelete(0);
+    enableSwap(0);
+    std::cout << std::endl;
 }
 
 MainWindow::~MainWindow()
@@ -98,13 +104,15 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
         ui->lbl_main->setText("Only Restart");
         QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
     }
-    outputStatisticData(&mathInstrument);
+    if (ui->lbl_main->text().toStdString() != "0") {
+        enableSwap(1);
+    }
+    outputStatisticData(&mathInstrument, "Number (0 - 9)");
 }
 
 void MainWindow::on_btn_point_clicked() //Точка в числе
 {
     mathInstrument.point = true;
-    //mathInstrument.afterMove = true;
     enableResult(0);
     enablePoint(0);
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
@@ -112,20 +120,21 @@ void MainWindow::on_btn_point_clicked() //Точка в числе
     } else {
         QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
     }
-    outputStatisticData(&mathInstrument);
+    outputStatisticData(&mathInstrument, "Point (.)");
 }
 
-void MainWindow::on_btn_delete_clicked() // Удаление
+void MainWindow::delete_clicked() // Удаление
 {
     std::string str = ui->lbl_main->text().toStdString();
-    std::cout << str.size() << " " << (str.size() <= 1) << std::endl;
+    std::cout << "str len: " << str.size();
     size_t pos = str.size() - 1;
-    if (str.size() <= 1) { // Нулевой символ + цифра
+    if (str.size() <= 1) {
         ui->lbl_main->setText("0");
         mathInstrument.numberNow = 0;
         enableDelete(0);
+        enableSwap(0);
     } else {
-        std::cout << str << " ";
+        std::cout << "str before: " << str << " ";
         for (size_t i = str.size() - 1; i >= 0; --i) {
             if (str[i] != '\0') {
                 str[i] = '\0';
@@ -137,9 +146,11 @@ void MainWindow::on_btn_delete_clicked() // Удаление
         mathInstrument.numberNow = atof(str.substr(0, pos).c_str());
         if (!myContainChInStr(ui->lbl_main->text().toStdString(), '.')) {
             enablePoint(1);
+        } else {
+            mathInstrument.pointDeep -= 1;
         }
     }
-    std::cout << str << " " << mathInstrument.numberNow << std::endl;
+    std::cout << " str after: "<< str << " number now: " << mathInstrument.numberNow << std::endl;
 }
 
 void MainWindow::on_btn_move_clicked() //Общая функция для всех действий
@@ -153,14 +164,14 @@ void MainWindow::on_btn_move_clicked() //Общая функция для все
     mathInstrument.pointDeep = 1;
     mathInstrument.afterMove = true;
     ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
-    outputStatisticData(&mathInstrument);
+    outputStatisticData(&mathInstrument, "Move (+,-,*,/)");
     //включение кнопок
     enablePoint(1);
     enableMoves(0);
     enableResult(0);
 }
 
-void MainWindow::on_btn_result_clicked() //Вывод результата
+void MainWindow::result_clicked() //Вывод результата
 {
     if (mathInstrument.nextMove != "None" && mathInstrument.nextMove != "Res") {
         whatINeedToDo(&mathInstrument);
@@ -173,11 +184,11 @@ void MainWindow::on_btn_result_clicked() //Вывод результата
 
         mathInstrument = {0.0, 0.0, false, 1, "Res", true};
         enableAllBtn(0);
-        outputStatisticData(&mathInstrument);
+        outputStatisticData(&mathInstrument, "Equale (=)");
     }
 }
 
-void MainWindow::on_btn_clear_clicked() //Очистка
+void MainWindow::clear_clicked() //Очистка
 {
     mathInstrument = {0.0, 0.0, false, 1, "None", true, false};
     ui->lbl_main->setText("0");
@@ -185,7 +196,8 @@ void MainWindow::on_btn_clear_clicked() //Очистка
     enableMoves(0);
     enableResult(0);
     enableDelete(0);
-    outputStatisticData(&mathInstrument);
+    enableSwap(0);
+    outputStatisticData(&mathInstrument, "Clear (C)");
 }
 
 void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
@@ -220,9 +232,12 @@ void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // больша�
     }
 }
 
-void outputStatisticData(calcMath* mathInstrument) //Вспомогательная функция для понимая, что лежит в структуре
+void outputStatisticData(calcMath* mathInstrument, const std::string str) //Вспомогательная функция для понимая, что лежит в структуре
 {
-    std::cout << mathInstrument->numberNow << " " << mathInstrument->result << " " << mathInstrument->nextMove.toStdString() << std::endl;
+    std::cout << "Function: " << str << std::endl
+              << "Number now: " << mathInstrument->numberNow << std::endl
+              << "Result now: " << mathInstrument->result << std::endl
+              << "Next move: " << mathInstrument->nextMove.toStdString() << std::endl << std::endl;
 }
 
 bool myContainChInStr(std::string str, const char ch) //Contains только в С++23 :(
@@ -274,6 +289,11 @@ void MainWindow::enableNum(int i)
     ui->btn_9->setEnabled(i);
 }
 
+void MainWindow::enableSwap(int i)
+{
+    ui->btn_swap->setEnabled(i);
+}
+
 void MainWindow::enableAllBtn(int i)
 {
     enableDelete(i);
@@ -281,4 +301,24 @@ void MainWindow::enableAllBtn(int i)
     enableNum(i);
     enablePoint(i);
     enableResult(i);
+    enableSwap(i);
+    enableWerewolf(i);
 }
+
+void MainWindow::enableWerewolf(int i)
+{
+    ui->btn_werewolf->setEnabled(i);
+}
+
+void MainWindow::on_btn_swap_clicked()
+{
+    mathInstrument.numberNow = -mathInstrument.numberNow;
+    ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    outputStatisticData(&mathInstrument, "swap");
+}
+
+void MainWindow::on_btn_werewolf_clicked()
+{
+
+}
+
