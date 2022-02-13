@@ -7,11 +7,31 @@
 #include <fstream>
 #include <locale>
 
+//Системыне функции
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     setlocale(LC_ALL, "Russian");
     ui->setupUi(this);
     setWindowFlags(Qt::WindowCloseButtonHint);
+    houstonConnectButtonPLS();
+    enableFunctions(0);
+    enablePoint(1);
+    std::cout << std::endl;
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+//Все подключения
+void MainWindow::houstonConnectButtonPLS()
+{
+    //Решение бага с двойным подключением: Qt автоматически подключает такие названия.
+    //Например, есть кнопка ui->name и если просто создать слот с именем on_name_clicked(),
+    //то Qt сам подключит сигнал clicked() к этому слоту внутри вызова ui->setupUi(this).
+    //Поэтому, можно либо переименовать название слота, либо не подключать его вручную.
+    //www.cyberforum.ru by Humanoid
     connect(ui->btn_0, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
     connect(ui->btn_1, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
     connect(ui->btn_2, &QPushButton::clicked, this, &MainWindow::on_btn_numeric_clicked);
@@ -29,23 +49,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->btn_clear, &QPushButton::clicked, this, &MainWindow::clear_clicked);
     connect(ui->btn_delete, &QPushButton::clicked, this, &MainWindow::delete_clicked);
     connect(ui->btn_result, &QPushButton::clicked, this, &MainWindow::result_clicked);
-    //Решение бага с двойным подключением: Qt автоматически подключает такие названия.
-    //Например, есть кнопка ui->name и если просто создать слот с именем on_name_clicked(),
-    //то Qt сам подключит сигнал clicked() к этому слоту внутри вызова ui->setupUi(this).
-    //Поэтому, можно либо переименовать название слота, либо не подключать его вручную.
-    //www.cyberforum.ru by Humanoid
-    enableMoves(0);
-    enableResult(0);
-    enableDelete(0);
-    enableSwap(0);
-    std::cout << std::endl;
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
+//Окна вне калькулятора
 void MainWindow::infoForUser() //Сообщение, в котором объясняется работа калькулятора
 {
     std::ifstream readMeFile("E:/myProgects/labQT/lab1_calculator/READ_ME");
@@ -77,11 +83,13 @@ void MainWindow::infoForUser() //Сообщение, в котором объя�
     }
 }
 
+//Функции кнопок
 void MainWindow::on_btn_numeric_clicked() //Эта функция отслеживает нажатие на циферки и текущее число
 {
     //Включение кнопок
-    enableMoves(1);
-    enableDelete(1);
+    enableFunctions(1);
+    enableResult(0);
+    enableSwap(0);
     if (mathInstrument.nextMove != "None") {
         enableResult(1);
     }
@@ -102,7 +110,7 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
     } else {
         enableAllBtn(0);
         ui->lbl_main->setText("Only Restart");
-        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора.\nПокайтесь и перезапустите калькулятор.");
     }
     if (ui->lbl_main->text().toStdString() != "0") {
         enableSwap(1);
@@ -118,7 +126,7 @@ void MainWindow::on_btn_point_clicked() //Точка в числе
     if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
         ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15) + '.');
     } else {
-        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора.\nПокайтесь и перезапустите калькулятор.");
     }
     outputStatisticData(&mathInstrument, "Point (.)");
 }
@@ -133,6 +141,9 @@ void MainWindow::delete_clicked() // Удаление
         mathInstrument.numberNow = 0;
         enableDelete(0);
         enableSwap(0);
+        enableWerewolf(0);
+        enableSQRT(0);
+        enablePOW2(0);
     } else {
         std::cout << "str before: " << str << " ";
         for (size_t i = str.size() - 1; i >= 0; --i) {
@@ -166,9 +177,14 @@ void MainWindow::on_btn_move_clicked() //Общая функция для все
     ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
     outputStatisticData(&mathInstrument, "Move (+,-,*,/)");
     //включение кнопок
+    enableNum(1);
     enablePoint(1);
     enableMoves(0);
     enableResult(0);
+    enableSwap(0);
+    enableWerewolf(0);
+    enableSQRT(0);
+    enablePOW2(0);
 }
 
 void MainWindow::result_clicked() //Вывод результата
@@ -178,10 +194,10 @@ void MainWindow::result_clicked() //Вывод результата
         if (mathInstrument.result < 1e+16) {
             ui->lbl_main->setText(QString::number(mathInstrument.result, 'g', 15));
         } else {
-            QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора. Покайтесь и перезапустите калькулятор.");
+            QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора.\nПокайтесь и перезапустите калькулятор.");
             ui->lbl_main->setText("Only Restart");
         }
-
+        mem.potentionalRes = mathInstrument.result;
         mathInstrument = {0.0, 0.0, false, 1, "Res", true};
         enableAllBtn(0);
         outputStatisticData(&mathInstrument, "Equale (=)");
@@ -191,15 +207,114 @@ void MainWindow::result_clicked() //Вывод результата
 void MainWindow::clear_clicked() //Очистка
 {
     mathInstrument = {0.0, 0.0, false, 1, "None", true, false};
+    mem = {0.0, 0.0};
     ui->lbl_main->setText("0");
     enableAllBtn(1);
-    enableMoves(0);
-    enableResult(0);
-    enableDelete(0);
-    enableSwap(0);
+    enableFunctions(0);
+    enablePoint(1);
     outputStatisticData(&mathInstrument, "Clear (C)");
 }
 
+void MainWindow::on_btn_swap_clicked()
+{
+    mathInstrument.numberNow = -mathInstrument.numberNow;
+    ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    outputStatisticData(&mathInstrument, "swap");
+}
+
+void MainWindow::on_btn_werewolf_clicked()
+{
+    if (mathInstrument.numberNow != 0) {
+        mathInstrument.numberNow = 1.0 / mathInstrument.numberNow;
+        ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    } else {
+        QMessageBox::information(0, "ERROR", "Вы решили поделить на ноль.\nПокайтесь и перезапустите калькулятор.");
+        ui->lbl_main->setText("Only Restart");
+        enableAllBtn(0);
+    }
+    enableNum(0);
+    enablePoint(0);
+    enableDelete(0);
+    outputStatisticData(&mathInstrument, "werewolf");
+}
+
+void MainWindow::on_btn_sqrt_clicked()
+{
+    if (mathInstrument.numberNow >= 0) {
+        mathInstrument.numberNow = sqrt(mathInstrument.numberNow);
+        ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    } else {
+        QMessageBox::information(0, "ERROR", "Вы решили взять корень отрицательного числа.\nПокайтесь и перезапустите калькулятор.");
+        ui->lbl_main->setText("Only Restart");
+        enableAllBtn(0);
+    }
+    enableNum(0);
+    enablePoint(0);
+    enableDelete(0);
+    outputStatisticData(&mathInstrument, "sqrt");
+}
+
+void MainWindow::on_btn_pow2_clicked()
+{
+    mathInstrument.numberNow = pow (mathInstrument.numberNow, 2);
+    if (QString::number(mathInstrument.numberNow, 'g', 15).size() < 15) {
+        ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    } else {
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора.\nПокайтесь и перезапустите калькулятор.");
+        ui->lbl_main->setText("Only Restart");
+        enableAllBtn(0);
+    }
+    enableNum(0);
+    enablePoint(0);
+    enableDelete(0);
+    outputStatisticData(&mathInstrument, "pow2");
+}
+
+void MainWindow::on_btn_m_plus_clicked()
+{
+    if (mathInstrument.nextMove == "Res") {
+        mem.result += mem.potentionalRes;
+    } else {
+        mem.result += mathInstrument.numberNow;
+    }
+    if (mem.result >= 1e+14) {
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора.\nПокайтесь и перезапустите калькулятор.");
+        ui->lbl_main->setText("Only Restart");
+        enableAllBtn(0);
+    }
+    outputStatisticData(&mem, "memory plus");
+}
+
+void MainWindow::on_btn_m_minus_clicked()
+{
+    if (mathInstrument.nextMove == "Res") {
+        mem.result -= mem.potentionalRes;
+    } else {
+        mem.result -= mathInstrument.numberNow;
+    }
+    if (mem.result <= -1e+14) {
+        QMessageBox::information(0, "ERROR", "Вы переполнили память калькулятора.\nПокайтесь и перезапустите калькулятор.");
+        ui->lbl_main->setText("Only Restart");
+        enableAllBtn(0);
+    }
+    outputStatisticData(&mem, "memory plus");
+}
+
+void MainWindow::on_btn_mr_clicked()
+{
+    mathInstrument.numberNow = mem.result;
+    ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
+    enableNum(0);
+    enablePoint(0);
+    enableDelete(0);
+}
+
+void MainWindow::on_btn_mc_clicked()
+{
+    mem = {0.0, 0.0};
+}
+
+//Рандомный вспомогательные функции
 void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // большая часть кода со switch для действий со знаками
 {
     if (mathInstrument->firstTimeRes) {
@@ -218,15 +333,16 @@ void MainWindow::whatINeedToDo(struct calcMath* mathInstrument) // больша�
                 if (mathInstrument->numberNow != 0) {
                     mathInstrument->result = mathInstrument->result / mathInstrument->numberNow;
                 } else {
-                   QMessageBox::information(0, "ERROR", "Вы решили поделить на ноль. Покайтесь и перезапустите калькулятор.");
+                   QMessageBox::information(0, "ERROR", "Вы решили поделить на ноль.\nПокайтесь и перезапустите калькулятор.");
                    ui->lbl_main->setText("Only Restart");
+                   enableAllBtn(0);
                 }
                 break;
             case '*':
                 mathInstrument->result *= mathInstrument->numberNow;
                 break;
             default:
-                QMessageBox::information(0, "ERROR", "Если вы видите эту строчку, то проверьтесь на сверх способности. Экзорцист уже вызван.\nПерезапустите калькулятор.");
+                QMessageBox::information(0, "ERROR", "Если вы видите эту строчку, то проверьтесь на сверх способности.\nЭкзорцист уже вызван.\nПерезапустите калькулятор.");
                 break;
         }
     }
@@ -238,6 +354,13 @@ void outputStatisticData(calcMath* mathInstrument, const std::string str) //Вс
               << "Number now: " << mathInstrument->numberNow << std::endl
               << "Result now: " << mathInstrument->result << std::endl
               << "Next move: " << mathInstrument->nextMove.toStdString() << std::endl << std::endl;
+}
+
+void outputStatisticData(calcMemory* mem, const std::string str) //Вспомогательная функция для понимая, что лежит в памяти
+{
+    std::cout << "Function: " << str << std::endl
+              << "Result now: " << mem->result << std::endl
+              << "Potent result now: " << mem->potentionalRes << std::endl << std::endl;
 }
 
 bool myContainChInStr(std::string str, const char ch) //Contains только в С++23 :(
@@ -294,6 +417,62 @@ void MainWindow::enableSwap(int i)
     ui->btn_swap->setEnabled(i);
 }
 
+void MainWindow::enableWerewolf(int i)
+{
+    ui->btn_werewolf->setEnabled(i);
+}
+
+void MainWindow::enableSQRT(int i)
+{
+    ui->btn_sqrt->setEnabled(i);
+}
+
+void MainWindow::enablePOW2(int i)
+{
+    ui->btn_pow2->setEnabled(i);
+}
+
+void MainWindow::enableMPlus(int i)
+{
+    ui->btn_m_plus->setEnabled(i);
+}
+
+void MainWindow::enableMMinus(int i)
+{
+    ui->btn_m_minus->setEnabled(i);
+}
+
+void MainWindow::enableMClear(int i)
+{
+    ui->btn_mc->setEnabled(i);
+}
+
+void MainWindow::enableMResult(int i)
+{
+    ui->btn_mr->setEnabled(i);
+}
+
+void MainWindow::enableMFunctions(int i)
+{
+    enableMPlus(i);
+    enableMMinus(i);
+    enableMResult(i);
+    enableMClear(i);
+}
+
+void MainWindow::enableFunctions(int i)
+{
+    enableDelete(i);
+    enableMFunctions(i);
+    enableSwap(i);
+    enableWerewolf(i);
+    enableSQRT(i);
+    enablePOW2(i);
+    enablePoint(i);
+    enableMoves(i);
+    enableResult(i);
+}
+
 void MainWindow::enableAllBtn(int i)
 {
     enableDelete(i);
@@ -303,22 +482,7 @@ void MainWindow::enableAllBtn(int i)
     enableResult(i);
     enableSwap(i);
     enableWerewolf(i);
+    enableSQRT(i);
+    enablePOW2(i);
+    enableMFunctions(i);
 }
-
-void MainWindow::enableWerewolf(int i)
-{
-    ui->btn_werewolf->setEnabled(i);
-}
-
-void MainWindow::on_btn_swap_clicked()
-{
-    mathInstrument.numberNow = -mathInstrument.numberNow;
-    ui->lbl_main->setText(QString::number(mathInstrument.numberNow, 'g', 15));
-    outputStatisticData(&mathInstrument, "swap");
-}
-
-void MainWindow::on_btn_werewolf_clicked()
-{
-
-}
-
