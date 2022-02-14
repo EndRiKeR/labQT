@@ -180,7 +180,7 @@ public:
         btn_1->setText(QCoreApplication::translate("MainWindow", "1", nullptr));
         btn_result->setText(QCoreApplication::translate("MainWindow", "=", nullptr));
         btn_3->setText(QCoreApplication::translate("MainWindow", "3", nullptr));
-        btn_point->setText(QCoreApplication::translate("MainWindow", ",", nullptr));
+        btn_point->setText(QCoreApplication::translate("MainWindow", ".", nullptr));
         btn_8->setText(QCoreApplication::translate("MainWindow", "8", nullptr));
         btn_6->setText(QCoreApplication::translate("MainWindow", "6", nullptr));
         btn_minus->setText(QCoreApplication::translate("MainWindow", "-", nullptr));
