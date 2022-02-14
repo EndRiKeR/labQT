@@ -307,6 +307,9 @@ void MainWindow::on_btn_mr_clicked()
     enableNum(0);
     enablePoint(0);
     enableDelete(0);
+    if (!mathInstrument.firstTimeRes) {
+        enableResult(1);
+    }
 }
 
 void MainWindow::on_btn_mc_clicked()
