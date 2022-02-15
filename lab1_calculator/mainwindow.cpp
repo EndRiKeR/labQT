@@ -46,7 +46,7 @@ void MainWindow::houstonConnectButtonPLS()
 //Окна вне калькулятора
 void MainWindow::infoForUser() //Сообщение, в котором объясняется работа калькулятора
 {
-    std::ifstream readMeFile("E:/myProgects/labQT/lab1_calculator/READ_ME");
+    std::ifstream readMeFile("D:/progectsForCPP/labQT/lab1_calculator/READ_ME");
     std::string temp;
     std::string str;
     if (readMeFile.is_open()) {
