@@ -18,12 +18,18 @@ void doMath(struct mathData* md)
 
 void doNone(struct mathData* md)
 {
-    //do none :)
+    if (md->operationType == Add) {
+        doAdd(md);
+    } else if (md->MoveNext == None) {
+        md->MoveNext = md->operationType;
+        md->valueRes = md->valueNow;
+        md->valueNow = 0;
+    }
 }
 
 void doDefaultOperation(struct mathData* md)
 {
-    switch(md->operationType) { //Вопрос, Switch еще пригоден? (ООП - язык без выбора. Цитата препода по ООП)
+    switch(md->MoveNext) { //Вопрос, Switch еще пригоден? (ООП - язык без выбора. Цитата препода по ООП)
     case Plus:
         doPlus(md);
         break;
@@ -36,6 +42,8 @@ void doDefaultOperation(struct mathData* md)
     case Div:
         doDiv(md);
         break;
+    case None:
+        doNone(md);
     default:
         md->error = true;
         break;

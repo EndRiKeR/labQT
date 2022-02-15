@@ -4,6 +4,8 @@
 #include <string>
 #include "newDataType.h"
 
+void prepareForNextMove(struct mathData* md);
+
 //default operations
 void doPlus(struct mathData* md);
 void doMinus(struct mathData* md);

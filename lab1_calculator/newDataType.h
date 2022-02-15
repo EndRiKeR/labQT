@@ -18,7 +18,10 @@ struct mathData {
     double valueNow = 0.0;
     double valueRes = 0.0;
     int operationType = None;
+    int MoveNext = None;
     bool error = false;
+    bool firstTime = true;
+    bool point = false;
     int pointDeep = 0;
     struct memoryData memory = {0.0};
 };
