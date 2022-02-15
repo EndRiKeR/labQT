@@ -16,17 +16,6 @@ void doMath(struct mathData* md)
     }
 }
 
-void doNone(struct mathData* md)
-{
-    if (md->operationType == Add) {
-        doAdd(md);
-    } else if (md->MoveNext == None) {
-        md->MoveNext = md->operationType;
-        md->valueRes = md->valueNow;
-        md->valueNow = 0;
-    }
-}
-
 void doDefaultOperation(struct mathData* md)
 {
     switch(md->MoveNext) { //Вопрос, Switch еще пригоден? (ООП - язык без выбора. Цитата препода по ООП)
@@ -44,10 +33,12 @@ void doDefaultOperation(struct mathData* md)
         break;
     case None:
         doNone(md);
+        break;
     default:
         md->error = true;
         break;
     }
+    md->afterMove = true;
 }
 
 void doInstrumentalOperation(struct mathData* md)

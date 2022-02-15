@@ -1,10 +1,24 @@
 #include "calculatorMath.h"
 
+//help func
 void prepareForNextMove(struct mathData* md)
 {
     md->valueNow = 0.0;
+    md->point = false;
     md->pointDeep = 0;
     md->MoveNext = md->operationType;
+}
+
+void doNone(struct mathData* md)
+{
+    if (md->operationType == Add) {
+        doAdd(md);
+    } else if (md->MoveNext == None) {
+        md->MoveNext = md->operationType;
+        md->valueRes = md->valueNow;
+        md->valueNow = 0;
+        prepareForNextMove(md);
+    }
 }
 
 //default operations
@@ -39,7 +53,7 @@ void doDiv(struct mathData* md)
 //instrument operations
 void doAdd(struct mathData* md)
 {
-    if (!md->pointDeep) {
+    if (!md->point) {
         md->valueNow = md->valueNow * 10 + md->valueUser;
     } else {
         md->valueNow = md->valueNow + (md->valueUser / pow(10, md->pointDeep));
@@ -49,26 +63,16 @@ void doAdd(struct mathData* md)
 
 void doDel(struct mathData* md)
 {
-    if (!md->point) {
-        md->valueNow = md->valueNow / 10;
-    } else {
+    if (md->point) {
         md->pointDeep -= 1;
-        std::string tmp = std::to_string(md->valueNow);
-        for (size_t i = tmp.size() - 1; i >= 0; --i) {
-            if (tmp[i] != '\0') {
-                tmp[i] = '\0';
-                break;
-            }
-        }
-        md->valueNow = atof(tmp.c_str());
     }
+    md->valueNow = atof(md->visual.c_str());
 }
 
 void doPoint(struct mathData* md)
 {
-    if (!md->pointDeep) {
-        md->pointDeep = 1;
-    }
+    md->point = true;
+    md->pointDeep = 1;
 }
 
 void doRes(struct mathData* md)
@@ -90,6 +94,7 @@ void doRes(struct mathData* md)
         md->error = true;
         break;
     }
+    md->afterMove = true;
 }
 
 void doClear(struct mathData* md)
@@ -100,9 +105,10 @@ void doClear(struct mathData* md)
     md->operationType = Clear;
     md->MoveNext = None;
     md->error = false;
-    md->firstTime = true;
     md->point = false;
+    md->afterMove = false;
     md->pointDeep = 0;
+    std::string visual = "0";
     md->memory = {0.0};
 }
 

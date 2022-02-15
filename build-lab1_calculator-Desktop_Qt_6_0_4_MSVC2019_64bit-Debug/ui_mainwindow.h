@@ -164,7 +164,9 @@ public:
         btn_pow2 = new QPushButton(centralwidget);
         btn_pow2->setObjectName(QString::fromUtf8("btn_pow2"));
         btn_pow2->setGeometry(QRect(230, 210, 61, 41));
-        btn_pow2->setFont(font3);
+        QFont font4;
+        font4.setPointSize(10);
+        btn_pow2->setFont(font4);
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -201,7 +203,7 @@ public:
         btn_mr->setText(QCoreApplication::translate("MainWindow", "MR", nullptr));
         btn_m_plus->setText(QCoreApplication::translate("MainWindow", "M+", nullptr));
         btn_m_minus->setText(QCoreApplication::translate("MainWindow", "M-", nullptr));
-        btn_pow2->setText(QCoreApplication::translate("MainWindow", "X^2", nullptr));
+        btn_pow2->setText(QCoreApplication::translate("MainWindow", "pow(x, 2)", nullptr));
     } // retranslateUi
 
 };

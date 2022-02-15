@@ -2,9 +2,12 @@
 #define CALCULATORMATH_H
 
 #include <string>
+#include <iostream>
 #include "newDataType.h"
 
+//help func
 void prepareForNextMove(struct mathData* md);
+void doNone(struct mathData* md);
 
 //default operations
 void doPlus(struct mathData* md);

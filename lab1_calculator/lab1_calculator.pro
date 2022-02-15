@@ -12,13 +12,15 @@ SOURCES += \
     calculatorLogic.cpp \
     calculatorMath.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    visualLogic.cpp
 
 HEADERS += \
     calculatorLogic.h \
     calculatorMath.h \
     mainwindow.h \
-    newDataType.h
+    newDataType.h \
+    visualLogic.h
 
 FORMS += \
     mainwindow.ui

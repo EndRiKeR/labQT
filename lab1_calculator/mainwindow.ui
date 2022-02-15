@@ -432,11 +432,11 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>13</pointsize>
+      <pointsize>10</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>X^2</string>
+     <string>pow(x, 2)</string>
     </property>
    </widget>
   </widget>

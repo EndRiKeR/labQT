@@ -1,6 +1,8 @@
 #ifndef NEWDATATYPE_H
 #define NEWDATATYPE_H
 
+#include <string>
+
 enum {
     None = 0,
     DO, Plus, Minus, Mult, Div, endDO,
@@ -20,9 +22,10 @@ struct mathData {
     int operationType = None;
     int MoveNext = None;
     bool error = false;
-    bool firstTime = true;
     bool point = false;
+    bool afterMove = false;
     int pointDeep = 0;
+    std::string visual = "0";
     struct memoryData memory = {0.0};
 };
 

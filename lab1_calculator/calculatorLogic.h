@@ -5,7 +5,6 @@
 #include "newDataType.h"
 
 void doMath(struct mathData* md);
-void doNone(struct mathData* md);
 void doDefaultOperation(struct mathData* md);
 void doInstrumentalOperation(struct mathData* md);
 void doAdditionalOperation(struct mathData* md);
