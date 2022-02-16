@@ -1,6 +1,7 @@
 #include "calculatorLogic.h"
 #include "calculatorMath.h"
 
+//Первостепенное деление
 void doMath(struct mathData* md)
 {
     if (md->operationType == None) {
@@ -16,6 +17,7 @@ void doMath(struct mathData* md)
     }
 }
 
+//Деление по классификации
 void doDefaultOperation(struct mathData* md)
 {
     switch(md->MoveNext) { //Вопрос, Switch еще пригоден? (ООП - язык без выбора. Цитата препода по ООП)

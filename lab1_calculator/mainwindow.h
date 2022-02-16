@@ -5,11 +5,11 @@
 #include "newDataType.h"
 #include "ui_mainwindow.h"
 #include "calculatorLogic.h"
-#include <iostream>
+#include <iostream> // для отладки
 #include <cmath>
 #include <string>
 #include <QMessageBox>
-#include <fstream>
+#include <fstream> //Для пользовательского соглашения
 
 bool myContainCharItStr(std::string str, const char& ch);
 

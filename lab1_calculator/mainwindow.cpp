@@ -76,7 +76,8 @@ void MainWindow::infoForUser() //Сообщение, в котором объя�
 }
 
 //Функции кнопок
-void MainWindow::on_btn_numeric_clicked() //Эта функция отслеживает нажатие на циферки и текущее число
+//Эта функция отслеживает нажатие на циферки и текущее число
+void MainWindow::on_btn_numeric_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
     md.valueUser = atof(btn->text().toStdString().c_str());
@@ -94,7 +95,8 @@ void MainWindow::on_btn_numeric_clicked() //Эта функция отслежи
     textErrorsChecker();
 }
 
-void MainWindow::on_btn_point_clicked() //Точка в числе
+//Точка в числе
+void MainWindow::on_btn_point_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
     md.operationType = Point;
@@ -106,7 +108,8 @@ void MainWindow::on_btn_point_clicked() //Точка в числе
     textErrorsChecker();
 }
 
-void MainWindow::delete_clicked() // Удаление
+// Удаление
+void MainWindow::delete_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
     md.operationType = Del;
@@ -124,7 +127,8 @@ void MainWindow::delete_clicked() // Удаление
     textErrorsChecker();
 }
 
-void MainWindow::on_btn_move_clicked() //Общая функция для всех действий
+//Общая функция для всех действий
+void MainWindow::on_btn_move_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
     switch (btn->text().toStdString()[0]) {
@@ -152,7 +156,8 @@ void MainWindow::on_btn_move_clicked() //Общая функция для все
     textErrorsChecker();
 }
 
-void MainWindow::result_clicked() //Вывод результата
+//Вывод результата
+void MainWindow::result_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
     md.operationType = Res;
@@ -164,7 +169,8 @@ void MainWindow::result_clicked() //Вывод результата
     textErrorsChecker();
 }
 
-void MainWindow::clear_clicked() //Очистка
+//Очистка
+void MainWindow::clear_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
     md.operationType = Clear;
@@ -177,6 +183,7 @@ void MainWindow::clear_clicked() //Очистка
     enableNum(1);
 }
 
+//С плюса на минус и наоборот
 void MainWindow::on_btn_swap_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
@@ -187,6 +194,7 @@ void MainWindow::on_btn_swap_clicked()
     textErrorsChecker();
 }
 
+//Обратное число от числа
 void MainWindow::on_btn_werewolf_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
@@ -204,6 +212,7 @@ void MainWindow::on_btn_werewolf_clicked()
     outputMD();
 }
 
+//Корень от числа
 void MainWindow::on_btn_sqrt_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
@@ -221,6 +230,7 @@ void MainWindow::on_btn_sqrt_clicked()
     outputMD();
 }
 
+//Возведение во вторую степень
 void MainWindow::on_btn_pow2_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
@@ -238,6 +248,8 @@ void MainWindow::on_btn_pow2_clicked()
     outputMD();
 }
 
+//Работа с памятью
+//Добавить число в память
 void MainWindow::on_btn_m_plus_clicked()
 {
     md.operationType = MPlus;
@@ -246,6 +258,7 @@ void MainWindow::on_btn_m_plus_clicked()
     textErrorsChecker();
 }
 
+//Вычесть число из памяти
 void MainWindow::on_btn_m_minus_clicked()
 {
     md.operationType = MMinus;
@@ -254,6 +267,7 @@ void MainWindow::on_btn_m_minus_clicked()
     textErrorsChecker();
 }
 
+//Вывести результат памяти
 void MainWindow::on_btn_mr_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
@@ -262,6 +276,7 @@ void MainWindow::on_btn_mr_clicked()
     updateLabel(btn);
     enableFunctions(0);
     enableMoves(1);
+    enableNum(0);
     if (md.MoveNext != None) {
         enableResult(1);
     }
@@ -269,6 +284,7 @@ void MainWindow::on_btn_mr_clicked()
     outputMD();
 }
 
+//Очистить память
 void MainWindow::on_btn_mc_clicked()
 {
     QPushButton* btn = (QPushButton *)sender();
@@ -303,6 +319,7 @@ void MainWindow::enablePoint(int i)
     ui->btn_point->setEnabled(i);
 }
 
+//Отключить числовую панель
 void MainWindow::enableNum(int i)
 {
     ui->btn_0->setEnabled(i);
@@ -317,6 +334,7 @@ void MainWindow::enableNum(int i)
     ui->btn_9->setEnabled(i);
 }
 
+//Вкл\выкл функций памяти
 void MainWindow::enableMFunctions(int i)
 {
     ui->btn_m_minus->setEnabled(i);
@@ -325,6 +343,7 @@ void MainWindow::enableMFunctions(int i)
     ui->btn_mc->setEnabled(i);
 }
 
+//Вкл\выкл всех функций в целом
 void MainWindow::enableFunctions(int i)
 {
     enablePoint(i);
@@ -338,12 +357,15 @@ void MainWindow::enableFunctions(int i)
     ui->btn_pow2->setEnabled(i);
 }
 
+//Отключение всех кнопок, кроме (С)
 void MainWindow::enableAllBtn(int i)
 {
     enableFunctions(i);
     enableNum(i);
 }
 
+//Вспомогательные функции, которые заменяют реально существующие или помогающие с дебагом и ошибками
+//Вывод структуры mathData
 void MainWindow::outputMD()
 {
     std::cout << "Value Now: " << md.valueNow << std::endl
@@ -357,6 +379,7 @@ void MainWindow::outputMD()
               << "Error: " << md.error << std::endl << std::endl;
 }
 
+//Проверка на излишне большой текст (15+ символов)
 bool MainWindow::checkBigText()
 {
     bool result = false;
@@ -375,6 +398,7 @@ bool MainWindow::checkBigText()
     return result;
 }
 
+//Вынесение повторяющего куска кода с проверкой на ошибки
 void MainWindow::textErrorsChecker()
 {
     if (checkBigText()) {
@@ -384,6 +408,7 @@ void MainWindow::textErrorsChecker()
     }
 }
 
+//Проверки на логические ошибки
 void MainWindow::logicErrors(QString str, QPushButton* btn)
 {
     if (!md.error) {
@@ -395,6 +420,7 @@ void MainWindow::logicErrors(QString str, QPushButton* btn)
     }
 }
 
+//.contains() доступен только в C++25 (cppreference.com) :(
 bool myContainCharItStr(std::string str, const char& ch)
 {
     bool result = false;

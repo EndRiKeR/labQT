@@ -1,5 +1,6 @@
 #include "visualLogic.h"
 
+//Первостепенная сортировка по типу действий
 void MainWindow::updateLabel(QPushButton* btn)
 {
     if (md.operationType >= DO && md.operationType <= endDO) {
@@ -13,6 +14,7 @@ void MainWindow::updateLabel(QPushButton* btn)
     }
 }
 
+//Дробное деление для важных функций
 void MainWindow::doVisualInstrumentalOperation(QPushButton* btn)
 {
     switch(md.operationType) {
@@ -37,9 +39,9 @@ void MainWindow::doVisualInstrumentalOperation(QPushButton* btn)
     }
 }
 
+//Визуализация добавление циферки
 void MainWindow::doVisualAdd(QPushButton* btn)
 {
-    //if ((ui->lbl_main->text() == "0" || md.MoveNext != None) && md.valueNow == 0.0) {
     if (ui->lbl_main->text() == "0" || md.afterMove) {
         ui->lbl_main->setText(btn->text());
         md.afterMove = false;
@@ -48,6 +50,7 @@ void MainWindow::doVisualAdd(QPushButton* btn)
     }
 }
 
+//Визуализация удаления циферки/точки
 void MainWindow::doVisualDel()
 {
     if (ui->lbl_main->text().size() > 1) {
@@ -57,16 +60,19 @@ void MainWindow::doVisualDel()
     }
 }
 
+//Визуализация добавления точки
 void MainWindow::doVisualPoint(QPushButton* btn)
 {
     ui->lbl_main->setText(ui->lbl_main->text() + btn->text());
 }
 
+//Визуализация результата
 void MainWindow::doVisualRes()
 {
     ui->lbl_main->setText(QString::number(md.valueRes, 'g', 15));
 }
 
+//Визуализация очистки
 void MainWindow::doVisualClear()
 {
     ui->lbl_main->setText(QString::number(md.valueNow, 'g', 15));
