@@ -53,12 +53,22 @@ void doDiv(struct mathData* md)
 //instrument operations
 void doAdd(struct mathData* md)
 {
-    if (!md->point) {
-        md->valueNow = md->valueNow * 10 + md->valueUser;
+    if (md->valueNow >= 0) {
+        if (!md->point) {
+            md->valueNow = md->valueNow * 10 + md->valueUser;
+        } else {
+            md->valueNow = md->valueNow + (md->valueUser / pow(10, md->pointDeep));
+            md->pointDeep += 1;
+        }
     } else {
-        md->valueNow = md->valueNow + (md->valueUser / pow(10, md->pointDeep));
-        md->pointDeep += 1;
+        if (!md->point) {
+            md->valueNow = md->valueNow * 10 - md->valueUser;
+        } else {
+            md->valueNow = md->valueNow - (md->valueUser / pow(10, md->pointDeep));
+            md->pointDeep += 1;
+        }
     }
+
 }
 
 void doDel(struct mathData* md)
