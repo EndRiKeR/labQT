@@ -53,11 +53,15 @@ void MainWindow::doVisualAdd(QPushButton* btn)
 //Визуализация удаления циферки/точки
 void MainWindow::doVisualDel()
 {
-    if (ui->lbl_main->text().size() > 1) {
-        ui->lbl_main->setText(QString::fromStdString(ui->lbl_main->text().toStdString().substr(0, ui->lbl_main->text().size() - 1)));
-    } else {
+    if ((ui->lbl_main->text().size() == 2 && ui->lbl_main->text()[0] == '-') || ui->lbl_main->text().size() < 1) {
         ui->lbl_main->setText("0");
+    } else {
+        ui->lbl_main->setText(QString::fromStdString(ui->lbl_main->text().toStdString().substr(0, ui->lbl_main->text().size() - 1)));
     }
+//    if (ui->lbl_main->text().size() > 1) {
+//    } else {
+//        ui->lbl_main->setText("0");
+//    }
 }
 
 //Визуализация добавления точки

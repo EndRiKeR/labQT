@@ -389,9 +389,6 @@ bool MainWindow::checkBigText()
     if (md.valueNow > 1e+14 || md.valueNow < -1e+14) {
         result = true;
     }
-    if (md.valueRes > 1e+14 || md.valueRes < -1e+14) {
-        result = true;
-    }
     if (md.memory.valueNow > 1e+14 || md.memory.valueNow < -1e+14) {
         result = true;
     }
