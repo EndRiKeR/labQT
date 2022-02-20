@@ -10,10 +10,13 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    visualLogic.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    newDataType.h \
+    visualLogic.h
 
 FORMS += \
     mainwindow.ui

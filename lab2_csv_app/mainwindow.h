@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "newDataType.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +16,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void setSizeColumToDefault();
+
+    void on_btn_add_row_clicked();
+    void clearAllItem();
+
 private:
     Ui::MainWindow *ui;
+    struct excel ex;
 };
 #endif // MAINWINDOW_H
