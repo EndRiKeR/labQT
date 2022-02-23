@@ -18,12 +18,14 @@ public:
 
 private slots:
     void setSizeColumToDefault();
-
+    void input_file();
     void on_btn_add_row_clicked();
     void clearAllItem();
 
 private:
     Ui::MainWindow *ui;
     struct excel ex;
+    std::list<std::string>* list;
+    std::vector<std::string>* listOfWords;
 };
 #endif // MAINWINDOW_H

@@ -50,18 +50,22 @@ OBJECTS_DIR   = release
 
 ####### Files
 
-SOURCES       = ..\lab2_csv_app\main.cpp \
+SOURCES       = ..\lab2_csv_app\BLogic.cpp \
+		..\lab2_csv_app\main.cpp \
 		..\lab2_csv_app\mainwindow.cpp \
 		..\lab2_csv_app\visualLogic.cpp release\moc_mainwindow.cpp
-OBJECTS       = release\main.obj \
+OBJECTS       = release\BLogic.obj \
+		release\main.obj \
 		release\mainwindow.obj \
 		release\visualLogic.obj \
 		release\moc_mainwindow.obj
 
 DIST          = READ_ME \
-		russian_demography.csv ..\lab2_csv_app\mainwindow.h \
+		russian_demography.csv ..\lab2_csv_app\BLogic.h \
+		..\lab2_csv_app\mainwindow.h \
 		..\lab2_csv_app\newDataType.h \
-		..\lab2_csv_app\visualLogic.h ..\lab2_csv_app\main.cpp \
+		..\lab2_csv_app\visualLogic.h ..\lab2_csv_app\BLogic.cpp \
+		..\lab2_csv_app\main.cpp \
 		..\lab2_csv_app\mainwindow.cpp \
 		..\lab2_csv_app\visualLogic.cpp
 QMAKE_TARGET  = lab2_csv_app
@@ -140,7 +144,7 @@ all: Makefile.Release  release\lab2_csv_app.exe
 
 release\lab2_csv_app.exe: E:\QT\6.0.4\msvc2019_64\lib\Qt6Widgets.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6Gui.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6Core.lib E:\QT\6.0.4\msvc2019_64\lib\Qt6EntryPoint.lib ui_mainwindow.h $(OBJECTS) 
 	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
-release\main.obj release\mainwindow.obj release\visualLogic.obj release\moc_mainwindow.obj
+release\BLogic.obj release\main.obj release\mainwindow.obj release\visualLogic.obj release\moc_mainwindow.obj
 $(LIBS)
 <<
 
@@ -150,10 +154,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) lab2_csv_app.zip $(SOURCES) $(DIST) ..\lab2_csv_app\lab2_csv_app.pro ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\spec_pre.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\windows-desktop.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\windows_vulkan_sdk.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\windows-vulkan.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\msvc-desktop.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\qconfig.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_ext_freetype.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_ext_libpng.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core5compat.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core5compat_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core_qobject_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_dbus.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_designer.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_entrypoint_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_fb_support_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_gui.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_help.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_help_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_linguist.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_linguist_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_network.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_network_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_opengl.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_openglwidgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_openglwidgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qml.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlcompiler_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3d.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3d_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dassetimport.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dassetimport_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3druntimerender.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dutils.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dutils_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2impl.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2impl_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickshapes_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_shadertools.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_shadertools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_sql.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svg.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svgwidgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svgwidgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_testlib.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_tools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_uitools.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_widgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_xml.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_zlib_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qt_functions.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qt_config.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\win32-msvc\qmake.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\spec_post.prf .qmake.stash ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\exclusive_builds.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\msvc-version.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\toolchain.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\default_pre.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\default_pre.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\resolve_config.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\exclusive_builds_post.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\default_post.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\build_pass.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qml_debug.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\entrypoint.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\precompile_header.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\warn_on.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qt.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\resources_functions.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\resources.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\moc.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\opengl.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\uic.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qmake_use.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\file_copies.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\windows.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\testcase_targets.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\exceptions.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\yacc.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\lex.prf ..\lab2_csv_app\lab2_csv_app.pro ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6Widgets.prl ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6Gui.prl ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6Core.prl ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6EntryPoint.prl    ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\data\dummy.cpp ..\lab2_csv_app\mainwindow.h ..\lab2_csv_app\newDataType.h ..\lab2_csv_app\visualLogic.h  ..\lab2_csv_app\main.cpp ..\lab2_csv_app\mainwindow.cpp ..\lab2_csv_app\visualLogic.cpp ..\lab2_csv_app\mainwindow.ui    
+	$(ZIP) lab2_csv_app.zip $(SOURCES) $(DIST) ..\lab2_csv_app\lab2_csv_app.pro ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\spec_pre.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\windows-desktop.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\windows_vulkan_sdk.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\windows-vulkan.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\msvc-desktop.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\qconfig.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_ext_freetype.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_ext_libpng.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core5compat.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core5compat_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_core_qobject_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_dbus.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_designer.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_entrypoint_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_fb_support_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_gui.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_help.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_help_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_linguist.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_linguist_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_network.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_network_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_opengl.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_openglwidgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_openglwidgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qml.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlcompiler_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlmodels_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_qmlworkerscript_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3d.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3d_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dassetimport.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dassetimport_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3druntimerender.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dutils.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick3dutils_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2impl.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickcontrols2impl_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickshapes_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_shadertools.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_shadertools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_sql.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svg.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svgwidgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_svgwidgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_testlib.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_tools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_uitools.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_widgets.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_xml.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\modules\qt_lib_zlib_private.pri ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qt_functions.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qt_config.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\win32-msvc\qmake.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\spec_post.prf .qmake.stash ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\exclusive_builds.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\common\msvc-version.conf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\toolchain.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\default_pre.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\default_pre.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\resolve_config.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\exclusive_builds_post.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\default_post.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\build_pass.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qml_debug.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\entrypoint.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\precompile_header.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\warn_on.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qt.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\resources_functions.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\resources.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\moc.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\opengl.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\uic.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\qmake_use.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\file_copies.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\win32\windows.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\testcase_targets.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\exceptions.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\yacc.prf ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\lex.prf ..\lab2_csv_app\lab2_csv_app.pro ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6Widgets.prl ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6Gui.prl ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6Core.prl ..\..\..\QT\6.0.4\msvc2019_64\lib\Qt6EntryPoint.prl    ..\..\..\QT\6.0.4\msvc2019_64\mkspecs\features\data\dummy.cpp ..\lab2_csv_app\BLogic.h ..\lab2_csv_app\mainwindow.h ..\lab2_csv_app\newDataType.h ..\lab2_csv_app\visualLogic.h  ..\lab2_csv_app\BLogic.cpp ..\lab2_csv_app\main.cpp ..\lab2_csv_app\mainwindow.cpp ..\lab2_csv_app\visualLogic.cpp ..\lab2_csv_app\mainwindow.ui    
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.obj release\mainwindow.obj release\visualLogic.obj release\moc_mainwindow.obj
+	-$(DEL_FILE) release\BLogic.obj release\main.obj release\mainwindow.obj release\visualLogic.obj release\moc_mainwindow.obj
 
 distclean: clean 
 	-$(DEL_FILE) .qmake.stash
@@ -339,6 +343,58 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 
 ####### Compile
+
+release\BLogic.obj: ..\lab2_csv_app\BLogic.cpp ..\lab2_csv_app\BLogic.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\QList \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qlist.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qarraydatapointer.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qarraydataops.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qarraydata.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qpair.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qglobal.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qconfig-bootstrapped.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qconfig.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qtcore-config.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qsystemdetection.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qprocessordetection.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qcompilerdetection.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qtypeinfo.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qcontainerfwd.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qsysinfo.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qlogging.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qflags.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qatomic.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qbasicatomic.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qgenericatomic.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qatomic_cxx11.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qatomic_msvc.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qglobalstatic.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qmutex.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qnumeric.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qversiontagging.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qcontainertools_impl.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qnamespace.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qtmetamacros.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qhashfunctions.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstring.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qchar.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringview.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qbytearray.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qrefcount.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qbytearrayalgorithms.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qbytearrayview.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringliteral.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringalgorithms.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qanystringview.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qutf8stringview.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringtokenizer.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringbuilder.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qiterator.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qbytearraylist.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringlist.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qalgorithms.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtCore\qstringmatcher.h
 
 release\main.obj: ..\lab2_csv_app\main.cpp ..\lab2_csv_app\mainwindow.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QMainWindow \
@@ -638,10 +694,14 @@ release\mainwindow.obj: ..\lab2_csv_app\mainwindow.cpp ..\lab2_csv_app\mainwindo
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qstyle.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qtabbar.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qrubberband.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QPushButton \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qpushbutton.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QTableWidget \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qtablewidget.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qtableview.h \
-		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QWidget
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QWidget \
+		..\lab2_csv_app\BLogic.h
 
 release\visualLogic.obj: ..\lab2_csv_app\visualLogic.cpp ..\lab2_csv_app\visualLogic.h \
 		..\lab2_csv_app\mainwindow.h \
@@ -802,6 +862,9 @@ release\visualLogic.obj: ..\lab2_csv_app\visualLogic.cpp ..\lab2_csv_app\visualL
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qstyle.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qtabbar.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qrubberband.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QPushButton \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qpushbutton.h \
+		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qabstractbutton.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\QTableWidget \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qtablewidget.h \
 		..\..\..\QT\6.0.4\msvc2019_64\include\QtWidgets\qtableview.h \

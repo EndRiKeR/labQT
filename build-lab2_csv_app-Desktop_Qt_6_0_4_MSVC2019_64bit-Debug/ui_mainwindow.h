@@ -53,6 +53,7 @@ public:
         tbl_main->setHorizontalHeaderItem(6, __qtablewidgetitem6);
         tbl_main->setObjectName(QString::fromUtf8("tbl_main"));
         tbl_main->setGeometry(QRect(30, 280, 971, 291));
+        tbl_main->setEditTriggers(QAbstractItemView::NoEditTriggers);
         btn_add_row = new QPushButton(centralwidget);
         btn_add_row->setObjectName(QString::fromUtf8("btn_add_row"));
         btn_add_row->setGeometry(QRect(70, 210, 121, 31));

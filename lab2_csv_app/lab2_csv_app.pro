@@ -9,11 +9,13 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    BLogic.cpp \
     main.cpp \
     mainwindow.cpp \
     visualLogic.cpp
 
 HEADERS += \
+    BLogic.h \
     mainwindow.h \
     newDataType.h \
     visualLogic.h
