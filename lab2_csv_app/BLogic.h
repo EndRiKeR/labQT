@@ -7,9 +7,15 @@
 #include <list>
 #include <vector>
 #include <QMessageBox>
+#include "newDataType.h"
 
-void input_data_from_file(std::list<std::string>& list, const std::string& filename);
-void output_list_of_str(const std::list<std::string>& list);
-void split_str_to_words(std::vector<std::string>& vector, const std::string& str, char sep);
+void outputListOfStr(const std::list<std::string>& list);
+void splitStrToWords(std::list<std::string>& vector, const std::string& str, char sep);
+void inputDataFromFile(std::list<std::string>& list,
+                            const std::string& filename,
+                            const std::string& region);
+std::vector<double> catchNumbers(const std::list<std::string>& list, const int columnNum);
+std::pair<double, double> maxAndMin(const std::vector<double>& vec);
+double med(std::vector<double>& vec);
 
 #endif // BLOGIC_H

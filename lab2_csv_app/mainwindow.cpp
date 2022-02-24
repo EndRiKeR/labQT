@@ -10,37 +10,68 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setSizeColumToDefault();
-    input_file();
-}
-
-void MainWindow::input_file()
-{
-    list = new std::list<std::string>;
-    input_data_from_file(*list, "E:/myProgects/labQT/lab2_csv_app/russian_demography.csv");
-    listOfWords = new std::vector<std::string>;
-    for (auto & str : *list) {
-        split_str_to_words(*listOfWords, str, ',');
-    }
 }
 
 MainWindow::~MainWindow()
 {
-    clearAllItem();
+    clearAll();
     delete ui;
 }
 
-void MainWindow::on_btn_add_row_clicked()
+void MainWindow::on_btn_view_all_clicked()
 {
-    ex.row = list->size();
-    ui->tbl_main->setRowCount(++ex.row);
-    std::string str = listOfWords[0];
-    QString qstr = QString::fromStdString(str);
+    ui->txt_region->clear();
+    inputFile();
+    clearAllItem();
+    outputTable();
+}
+
+void MainWindow::on_btn_view_part_clicked()
+{
+    inputFile();
+    clearAllItem();
+    outputTable();
+}
+
+void MainWindow::outputTable()
+{
+    QTableWidgetItem* item;
+    QString qstr;
+    ui->tbl_main->setRowCount(ex.row - 1);
+    auto it = listOfWords->begin();
     for (size_t i = 0; i < ui->tbl_main->rowCount(); ++i) {
         for (size_t j = 0; j < ui->tbl_main->columnCount(); ++j) {
-            QTableWidgetItem* item = new QTableWidgetItem(QString::fromStdString(listOfWords[j]));
+            qstr = QString::fromStdString(*it);
+            if (qstr == "") {
+                qstr = "-";
+            }
+            item = new QTableWidgetItem(qstr);
             ui->tbl_main->setItem(i, j, item);
+            it++;
+            if (it  == listOfWords->end()) {
+                break;
+            }
         }
     }
+    QMessageBox::information(0, "Все ок!", "Ваша таблица была успешно загружена)");
+}
+
+void MainWindow::inputFile()
+{
+    list = new std::list<std::string>;
+    std::string region = ui->txt_region->toPlainText().toStdString();
+    if (ui->txt_region->toPlainText() == "") {
+        region = ",";
+    }
+    inputDataFromFile(*list,
+                            "E:/myProgects/labQT/lab2_csv_app/russian_demography.csv",
+                            region);
+    ex.row = list->size();
+    listOfWords = new std::list<std::string>;
+    for (auto & str : *list) {
+        splitStrToWords(*listOfWords, str, ',');
+    }
+    delete list;
 }
 
 void MainWindow::clearAllItem()
@@ -50,6 +81,11 @@ void MainWindow::clearAllItem()
             delete ui->tbl_main->item(i, j);
         }
     }
+}
+
+void MainWindow::clearAll()
+{
+    clearAllItem();
     delete list;
     delete listOfWords;
 }

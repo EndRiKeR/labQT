@@ -12,9 +12,11 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -24,7 +26,10 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QTableWidget *tbl_main;
-    QPushButton *btn_add_row;
+    QPushButton *btn_view_all;
+    QPushButton *btn_view_part;
+    QTextEdit *txt_region;
+    QLabel *lbl_region;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -54,9 +59,18 @@ public:
         tbl_main->setObjectName(QString::fromUtf8("tbl_main"));
         tbl_main->setGeometry(QRect(30, 280, 971, 291));
         tbl_main->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        btn_add_row = new QPushButton(centralwidget);
-        btn_add_row->setObjectName(QString::fromUtf8("btn_add_row"));
-        btn_add_row->setGeometry(QRect(70, 210, 121, 31));
+        btn_view_all = new QPushButton(centralwidget);
+        btn_view_all->setObjectName(QString::fromUtf8("btn_view_all"));
+        btn_view_all->setGeometry(QRect(810, 220, 191, 41));
+        btn_view_part = new QPushButton(centralwidget);
+        btn_view_part->setObjectName(QString::fromUtf8("btn_view_part"));
+        btn_view_part->setGeometry(QRect(810, 170, 191, 41));
+        txt_region = new QTextEdit(centralwidget);
+        txt_region->setObjectName(QString::fromUtf8("txt_region"));
+        txt_region->setGeometry(QRect(210, 170, 581, 41));
+        lbl_region = new QLabel(centralwidget);
+        lbl_region->setObjectName(QString::fromUtf8("lbl_region"));
+        lbl_region->setGeometry(QRect(30, 170, 191, 41));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -68,7 +82,7 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tbl_main->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Age", nullptr));
+        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Year", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = tbl_main->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Region", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tbl_main->horizontalHeaderItem(3);
@@ -79,7 +93,9 @@ public:
         ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Gen Dem Rate", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = tbl_main->horizontalHeaderItem(6);
         ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Urbanization", nullptr));
-        btn_add_row->setText(QCoreApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214 \321\201\321\202\321\200\320\276\321\207\320\272\321\203", nullptr));
+        btn_view_all->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\320\262\320\265\321\201\321\202\320\270 \320\277\320\276\320\273\320\275\321\203\321\216 \321\202\320\260\320\261\320\273\320\270\321\206\321\203", nullptr));
+        btn_view_part->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\320\262\320\265\321\201\321\202\320\270 \321\207\320\260\321\201\321\202\321\214 \321\202\320\260\320\261\320\273\320\270\321\207\320\272\320\270", nullptr));
+        lbl_region->setText(QCoreApplication::translate("MainWindow", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\265\320\263\320\270\320\276\320\275 \320\264\320\273\321\217 \320\277\320\276\320\270\321\201\320\272\320\260:", nullptr));
     } // retranslateUi
 
 };
