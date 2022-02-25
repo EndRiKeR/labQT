@@ -119,7 +119,6 @@ void doClear(struct mathData* md)
     md->afterMove = false;
     md->pointDeep = 0;
     std::string visual = "0";
-    md->memory = {0.0};
 }
 
 //additional operations
@@ -154,12 +153,20 @@ void doPow(struct mathData* md)
 //memory operations
 void doMPlus(struct mathData* md)
 {
-    md->memory.valueNow += md->valueNow;
+    if (md->afterMove) {
+        md->memory.valueNow += md->valueRes;
+    } else {
+        md->memory.valueNow += md->valueNow;
+    }
 }
 
 void doMMinus(struct mathData* md)
 {
-    md->memory.valueNow -= md->valueNow;
+    if (md->afterMove) {
+        md->memory.valueNow -= md->valueRes;
+    } else {
+        md->memory.valueNow -= md->valueNow;
+    }
 }
 
 void doMResult(struct mathData* md)

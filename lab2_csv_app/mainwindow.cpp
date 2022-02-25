@@ -64,7 +64,7 @@ void MainWindow::inputFile()
         region = ",";
     }
     inputDataFromFile(*list,
-                            "E:/myProgects/labQT/lab2_csv_app/russian_demography.csv",
+                            "D:/progectsForCPP/labQT/lab2_csv_app/russian_demography.csv",
                             region);
     ex.row = list->size();
     listOfWords = new std::list<std::string>;

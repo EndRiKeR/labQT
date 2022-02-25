@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     setWindowFlags(Qt::WindowCloseButtonHint);
     houstonConnectButtonPLS();
     enableFunctions(0);
+    enableMFunctions(0);
     enablePoint(1);
     std::cout << std::endl;
 }
@@ -86,6 +87,7 @@ void MainWindow::on_btn_numeric_clicked()
     doMath(&md);
     outputMD();
     enableFunctions(1);
+    enableMFunctions(1);
     if (md.MoveNext == None) {
         enableResult(0);
     }
@@ -104,6 +106,7 @@ void MainWindow::on_btn_point_clicked()
     updateLabel(btn);
     outputMD();
     enableFunctions(0);
+    enableMFunctions(0);
     enableDelete(1);
     textErrorsChecker();
 }
@@ -152,7 +155,12 @@ void MainWindow::on_btn_move_clicked()
     logicErrors("Вы попытались поделить на ноль.\nПокайтесь и начните заново.", btn);
     outputMD();
     enableMoves(0);
+    enableMFunctions(1);
     enableNum(1);
+    enableFunctions(0);
+    enablePoint(1);
+    enableResult(1);
+    enableDelete(1);
     textErrorsChecker();
 }
 
@@ -166,6 +174,7 @@ void MainWindow::result_clicked()
     outputMD();
     enableFunctions(0);
     enableNum(0);
+    ui->btn_mr->setEnabled(0);
     textErrorsChecker();
 }
 
@@ -177,8 +186,8 @@ void MainWindow::clear_clicked()
     doMath(&md);
     updateLabel(btn);
     outputMD();
-
     enableFunctions(0);
+    enableMFunctions(1);
     enablePoint(1);
     enableNum(1);
 }
@@ -244,7 +253,6 @@ void MainWindow::on_btn_pow2_clicked()
     if (md.MoveNext != None) {
         enableResult(1);
     }
-    textErrorsChecker();
     outputMD();
 }
 
@@ -350,7 +358,6 @@ void MainWindow::enableFunctions(int i)
     enableMoves(i);
     enableResult(i);
     enableDelete(i);
-    enableMFunctions(i);
     ui->btn_swap->setEnabled(i);
     ui->btn_werewolf->setEnabled(i);
     ui->btn_sqrt->setEnabled(i);
@@ -362,6 +369,7 @@ void MainWindow::enableAllBtn(int i)
 {
     enableFunctions(i);
     enableNum(i);
+    enableMFunctions(i);
 }
 
 //Вспомогательные функции, которые заменяют реально существующие или помогающие с дебагом и ошибками
@@ -400,6 +408,7 @@ void MainWindow::textErrorsChecker()
 {
     if (checkBigText()) {
         enableAllBtn(0);
+        md.memory.valueNow = 0.0;
         ui->lbl_main->setText("REALLY?");
         QMessageBox::information(0, "ERROR", "Слишком большой текст.\nПокайтесь и начните заново.");
     }
@@ -412,6 +421,7 @@ void MainWindow::logicErrors(QString str, QPushButton* btn)
         updateLabel(btn);
     } else {
         enableAllBtn(0);
+        md.memory.valueNow = 0.0;
         ui->lbl_main->setText("REALLY?");
         QMessageBox::information(0, "ERROR", str);
     }
