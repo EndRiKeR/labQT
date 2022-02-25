@@ -89,3 +89,17 @@ void MainWindow::clearAll()
     delete list;
     delete listOfWords;
 }
+
+void MainWindow::on_btn_column_count_clicked()
+{
+    int columnNum;
+    inputFile();
+    std::vector<double> vec = catchNumbers(list, columnNum);
+    auto pair = maxAndMin(vec);
+    sd.max = pair.first;
+    sd.min = pair.second;
+    sd.med = med(vec);
+    clearAllItem();
+    outputTable();
+}
+

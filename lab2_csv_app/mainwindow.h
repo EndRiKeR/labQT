@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "newDataType.h"
+#include "BLogic.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,9 +30,12 @@ private slots:
 
     void clearAll();
 
+    void on_btn_column_count_clicked();
+
 private:
     Ui::MainWindow *ui;
     struct excel ex;
+    struct statisticData sd;
     std::list<std::string>* list;
     std::list<std::string>* listOfWords;
 };

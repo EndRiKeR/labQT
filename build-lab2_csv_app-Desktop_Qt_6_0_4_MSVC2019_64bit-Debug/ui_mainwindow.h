@@ -30,6 +30,9 @@ public:
     QPushButton *btn_view_part;
     QTextEdit *txt_region;
     QLabel *lbl_region;
+    QLabel *lbl_column;
+    QTextEdit *txt_column;
+    QPushButton *btn_column_count;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -67,10 +70,27 @@ public:
         btn_view_part->setGeometry(QRect(810, 170, 191, 41));
         txt_region = new QTextEdit(centralwidget);
         txt_region->setObjectName(QString::fromUtf8("txt_region"));
-        txt_region->setGeometry(QRect(210, 170, 581, 41));
+        txt_region->setGeometry(QRect(290, 170, 501, 41));
+        QFont font;
+        font.setPointSize(13);
+        txt_region->setFont(font);
         lbl_region = new QLabel(centralwidget);
         lbl_region->setObjectName(QString::fromUtf8("lbl_region"));
-        lbl_region->setGeometry(QRect(30, 170, 191, 41));
+        lbl_region->setGeometry(QRect(30, 170, 261, 41));
+        QFont font1;
+        font1.setPointSize(12);
+        lbl_region->setFont(font1);
+        lbl_column = new QLabel(centralwidget);
+        lbl_column->setObjectName(QString::fromUtf8("lbl_column"));
+        lbl_column->setGeometry(QRect(30, 120, 261, 41));
+        lbl_column->setFont(font1);
+        txt_column = new QTextEdit(centralwidget);
+        txt_column->setObjectName(QString::fromUtf8("txt_column"));
+        txt_column->setGeometry(QRect(290, 120, 501, 41));
+        txt_column->setFont(font);
+        btn_column_count = new QPushButton(centralwidget);
+        btn_column_count->setObjectName(QString::fromUtf8("btn_column_count"));
+        btn_column_count->setGeometry(QRect(810, 120, 191, 41));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -96,6 +116,8 @@ public:
         btn_view_all->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\320\262\320\265\321\201\321\202\320\270 \320\277\320\276\320\273\320\275\321\203\321\216 \321\202\320\260\320\261\320\273\320\270\321\206\321\203", nullptr));
         btn_view_part->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\320\262\320\265\321\201\321\202\320\270 \321\207\320\260\321\201\321\202\321\214 \321\202\320\260\320\261\320\273\320\270\321\207\320\272\320\270", nullptr));
         lbl_region->setText(QCoreApplication::translate("MainWindow", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \321\200\320\265\320\263\320\270\320\276\320\275 \320\264\320\273\321\217 \320\277\320\276\320\270\321\201\320\272\320\260:", nullptr));
+        lbl_column->setText(QCoreApplication::translate("MainWindow", "\320\222\320\262\320\265\320\264\320\270\321\202\320\265 \320\275\320\276\320\274\320\265\321\200 \320\272\320\276\320\273\320\273\320\276\320\275\320\272\320\270:", nullptr));
+        btn_column_count->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\321\207\320\270\321\201\320\273\320\270\321\202\321\214", nullptr));
     } // retranslateUi
 
 };
