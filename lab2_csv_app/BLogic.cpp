@@ -75,16 +75,22 @@ std::pair<double, double> maxAndMin(const std::vector<double>& vec)
     return std::make_pair(max, min);
 }
 
-std::vector<double> catchNumbers(const std::list<std::string>& list, const int columnNum)
+std::vector<double> catchNumbers(std::list<std::string>& list, int columnNum)
 {
     std::vector<double> vec;
+    double num = 0.0;
     auto it = list.begin();
     for (int i = 1; i < columnNum; ++i) {
-        it++;
+        if (it != list.end()) {
+            it++;
+        }
     }
-    vec.push_back(atof(it->c_str()));
+    num = atof(it->c_str());
+    vec.push_back(num);
     for (int i = columnNum; i <= 7; ++i) {
-        it++;
+        if (it != list.end()) {
+            it++;
+        }
     }
     return vec;
 }

@@ -19,6 +19,6 @@ void countMaxMinMed(struct statisticData& sd,
                         int columnNum);
 double med(std::vector<double>& vec);
 std::pair<double, double> maxAndMin(const std::vector<double>& vec);
-std::vector<double> catchNumbers(const std::list<std::string>& list, const int columnNum);
+std::vector<double> catchNumbers(std::list<std::string>& list, int columnNum);
 
 #endif // BLOGIC_H

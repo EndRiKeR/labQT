@@ -92,9 +92,9 @@ void MainWindow::clearAll()
 
 void MainWindow::on_btn_column_count_clicked()
 {
-    int columnNum;
+    int columnNum = atoi(ui->txt_column->toPlainText().toStdString().c_str());
     inputFile();
-    std::vector<double> vec = catchNumbers(list, columnNum);
+    std::vector<double> vec = catchNumbers(*listOfWords, columnNum);
     auto pair = maxAndMin(vec);
     sd.max = pair.first;
     sd.min = pair.second;
