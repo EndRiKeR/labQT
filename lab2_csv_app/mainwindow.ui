@@ -308,7 +308,7 @@
      <string>Med:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_column_count_2">
+   <widget class="QPushButton" name="btn_connect_file">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -339,7 +339,7 @@
      <string>Текущий файл: </string>
     </property>
    </widget>
-   <widget class="QLabel" name="lbl_column_2">
+   <widget class="QLabel" name="lbl_file_name">
     <property name="geometry">
      <rect>
       <x>180</x>

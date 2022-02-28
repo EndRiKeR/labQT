@@ -39,9 +39,9 @@ public:
     QLabel *lbl_min;
     QLabel *lbl_med;
     QLabel *lbl_txt_med;
-    QPushButton *btn_column_count_2;
+    QPushButton *btn_connect_file;
     QLabel *lbl_file;
-    QLabel *lbl_column_2;
+    QLabel *lbl_file_name;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -133,21 +133,21 @@ public:
         lbl_txt_med->setObjectName(QString::fromUtf8("lbl_txt_med"));
         lbl_txt_med->setGeometry(QRect(630, 80, 41, 41));
         lbl_txt_med->setFont(font1);
-        btn_column_count_2 = new QPushButton(centralwidget);
-        btn_column_count_2->setObjectName(QString::fromUtf8("btn_column_count_2"));
-        btn_column_count_2->setGeometry(QRect(380, 30, 411, 41));
+        btn_connect_file = new QPushButton(centralwidget);
+        btn_connect_file->setObjectName(QString::fromUtf8("btn_connect_file"));
+        btn_connect_file->setGeometry(QRect(380, 30, 411, 41));
         lbl_file = new QLabel(centralwidget);
         lbl_file->setObjectName(QString::fromUtf8("lbl_file"));
         lbl_file->setGeometry(QRect(30, 30, 141, 41));
         QFont font2;
         font2.setPointSize(14);
         lbl_file->setFont(font2);
-        lbl_column_2 = new QLabel(centralwidget);
-        lbl_column_2->setObjectName(QString::fromUtf8("lbl_column_2"));
-        lbl_column_2->setGeometry(QRect(180, 30, 191, 41));
+        lbl_file_name = new QLabel(centralwidget);
+        lbl_file_name->setObjectName(QString::fromUtf8("lbl_file_name"));
+        lbl_file_name->setGeometry(QRect(180, 30, 191, 41));
         QFont font3;
         font3.setPointSize(10);
-        lbl_column_2->setFont(font3);
+        lbl_file_name->setFont(font3);
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -181,9 +181,9 @@ public:
         lbl_min->setText(QCoreApplication::translate("MainWindow", "0.0", nullptr));
         lbl_med->setText(QCoreApplication::translate("MainWindow", "0.0", nullptr));
         lbl_txt_med->setText(QCoreApplication::translate("MainWindow", "Med:", nullptr));
-        btn_column_count_2->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214 \321\204\320\260\320\271\320\273", nullptr));
+        btn_connect_file->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\320\264\320\272\320\273\321\216\321\207\320\270\321\202\321\214 \321\204\320\260\320\271\320\273", nullptr));
         lbl_file->setText(QCoreApplication::translate("MainWindow", "\320\242\320\265\320\272\321\203\321\211\320\270\320\271 \321\204\320\260\320\271\320\273: ", nullptr));
-        lbl_column_2->setText(QCoreApplication::translate("MainWindow", "NONE", nullptr));
+        lbl_file_name->setText(QCoreApplication::translate("MainWindow", "NONE", nullptr));
     } // retranslateUi
 
 };
