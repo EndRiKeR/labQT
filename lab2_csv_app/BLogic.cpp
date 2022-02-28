@@ -57,6 +57,7 @@ double med(std::vector<double>& vec)
 {
     std::sort(vec.begin(), vec.end());
     int pos = vec.size() / 2;
+    std::cout << vec[pos] << std::endl;
     return vec[pos];
 }
 
@@ -64,6 +65,7 @@ std::pair<double, double> maxAndMin(const std::vector<double>& vec)
 {
     double max = vec[0];
     double min = vec[0];
+    std::cout << "max: " << max << " min: " << min << std::endl;
     for (const auto& el : vec) {
         if (el > max) {
             max = el;
@@ -71,6 +73,7 @@ std::pair<double, double> maxAndMin(const std::vector<double>& vec)
         if (el < min) {
             min = el;
         }
+        std::cout << "max: " << max << " min: " << min << std::endl;
     }
     return std::make_pair(max, min);
 }
@@ -80,17 +83,31 @@ std::vector<double> catchNumbers(std::list<std::string>& list, int columnNum)
     std::vector<double> vec;
     double num = 0.0;
     auto it = list.begin();
-    for (int i = 1; i < columnNum; ++i) {
-        if (it != list.end()) {
-            it++;
+    int count = 1;
+    while (it != list.end()) {
+        if (count == columnNum && *it != "") {
+            num = atof(it->c_str());
+            std::cout << num << std::endl;
+            vec.push_back(num);
+        }
+        it++;
+        if (count == 7) {
+            count = 1;
+        } else {
+            count++;
         }
     }
-    num = atof(it->c_str());
-    vec.push_back(num);
-    for (int i = columnNum; i <= 7; ++i) {
-        if (it != list.end()) {
-            it++;
-        }
-    }
+//    for (int i = 1; i < columnNum; ++i) {
+//        if (it != list.end()) {
+//            it++;
+//        }
+//    }
+
+//
+//    for (int i = columnNum; i <= 7; ++i) {
+//        if (it != list.end()) {
+//            it++;
+//        }
+//    }
     return vec;
 }

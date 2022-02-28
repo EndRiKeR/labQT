@@ -19,6 +19,7 @@ public:
 
     std::list<std::string>* list;
     std::list<std::string>* listOfWords;
+    struct statisticData* sd;
 
 private slots:
     void setSizeColumToDefault();
@@ -35,13 +36,14 @@ private slots:
 
     void on_btn_column_count_clicked();
 
-    std::vector<double> catchNumbers(std::list<std::string>& list, const int columnNum);
 
+    void on_btn_column_count_2_clicked();
+
+    void infoForUser();
 
 private:
     Ui::MainWindow *ui;
     struct excel ex;
-    struct statisticData sd;
 
 };
 #endif // MAINWINDOW_H

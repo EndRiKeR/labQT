@@ -64,7 +64,7 @@ void MainWindow::inputFile()
         region = ",";
     }
     inputDataFromFile(*list,
-                            "D:/progectsForCPP/labQT/lab2_csv_app/russian_demography.csv",
+                            "E:/myProgects/labQT/lab2_csv_app/russian_demography.csv",
                             region);
     ex.row = list->size();
     listOfWords = new std::list<std::string>;
@@ -93,13 +93,21 @@ void MainWindow::clearAll()
 void MainWindow::on_btn_column_count_clicked()
 {
     int columnNum = atoi(ui->txt_column->toPlainText().toStdString().c_str());
+    if (columnNum > 2 && columnNum <= 7) {
+        inputFile();
+        countMaxMinMed(*sd, *listOfWords, columnNum);
+        ui->lbl_max->setText(QString::number(sd->max));
+        ui->lbl_min->setText(QString::number(sd->min));
+        ui->lbl_med->setText(QString::number(sd->med));
+    }
+}
+
+
+void MainWindow::on_btn_column_count_2_clicked()
+{
+    //вот тут поиск файла в системе и подключение оного
+    ui->txt_region->clear();
     inputFile();
-    std::vector<double> vec = catchNumbers(*listOfWords, columnNum);
-    auto pair = maxAndMin(vec);
-    sd.max = pair.first;
-    sd.min = pair.second;
-    sd.med = med(vec);
     clearAllItem();
     outputTable();
 }
-
