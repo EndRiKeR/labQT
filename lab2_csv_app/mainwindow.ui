@@ -109,10 +109,25 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="font">
      <font>
       <pointsize>13</pointsize>
      </font>
+    </property>
+    <property name="undoRedoEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="lineWrapMode">
+     <enum>QTextEdit::WidgetWidth</enum>
+    </property>
+    <property name="acceptRichText">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_region">
@@ -130,7 +145,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Введите регион для поиска:</string>
+     <string>Введите фильтр для поиска:</string>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_column">
@@ -148,7 +163,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Введите номер коллонки(4 - 7):</string>
+     <string>Введите номер коллонки(3 - 7):</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="txt_column">

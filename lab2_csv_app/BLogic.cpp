@@ -30,7 +30,7 @@ void openFileAndTakeName(struct dataFromFile& data)
 {
     data.filePath = QFileDialog::getOpenFileName(0,
                                                     "Open File",
-                                                    "E://myProgects/labQT/lab2_csv_app/",//ЗАМЕНА ПРИ СМЕНЕ УСТРОЙСТВА
+                                                    "D://progectsForCpp/labQT/lab2_csv_app/",
                                                     "Excel Files (*.csv)").toStdString();
     data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
     if (data.filePath == "") {
@@ -40,6 +40,8 @@ void openFileAndTakeName(struct dataFromFile& data)
     //QMessageBox::information(0, "File Path", data.fileName);
 }
 
+
+//Считывание данных из подключенного файла
 void inputFile(struct dataFromFile& data)
 {
     data.stringsFromFile = new std::list<std::string>;
@@ -48,9 +50,14 @@ void inputFile(struct dataFromFile& data)
     }
     inputDataFromFile(data);
     data.table.row = data.stringsFromFile->size();
-    data.wordsFromFile = new std::list<std::string>;
-    for (auto & str : *(data.stringsFromFile)) {
-        splitStrToWords(*(data.wordsFromFile), str, ',');
+    if (data.table.row == 0){
+        data.error = ErRowZero;
+    } else {
+        data.wordsFromFile = new std::list<std::string>;
+        for (auto & str : *(data.stringsFromFile)) {
+            splitStrToWords(*(data.wordsFromFile), str, ',');
+        }
+
     }
     delete data.stringsFromFile;
 }
@@ -112,9 +119,10 @@ void outputListOfStr(const std::list<std::string>& list)
     }
 }
 
+//Вычисление статистики
 void countMaxMinMed(struct dataFromFile& data)
 {
-    if (data.statistic.columnNum >= 4 && data.statistic.columnNum <= 7) {
+    if (data.statistic.columnNum >= 3 && data.statistic.columnNum <= 7) {
         std::vector<double> vec = catchNumbers(data);
         auto pair = maxAndMin(vec);
         data.statistic.max = pair.first;
@@ -159,7 +167,6 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
     while (it != data.wordsFromFile->end()) {
         if (count == data.statistic.columnNum && *it != "") {
             num = atof(it->c_str());
-            std::cout << num << std::endl;
             vec.push_back(num);
         }
         it++;

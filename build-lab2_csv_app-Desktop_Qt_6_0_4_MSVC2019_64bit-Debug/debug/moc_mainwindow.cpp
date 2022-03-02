@@ -32,20 +32,21 @@ static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
 QT_MOC_LITERAL(0, 10), // "MainWindow"
 QT_MOC_LITERAL(11, 21), // "setSizeColumToDefault"
 QT_MOC_LITERAL(33, 0), // ""
-QT_MOC_LITERAL(34, 12), // "clearAllItem"
-QT_MOC_LITERAL(47, 23), // "on_btn_view_all_clicked"
-QT_MOC_LITERAL(71, 24), // "on_btn_view_part_clicked"
-QT_MOC_LITERAL(96, 11), // "outputTable"
-QT_MOC_LITERAL(108, 8), // "clearAll"
-QT_MOC_LITERAL(117, 27), // "on_btn_connect_file_clicked"
-QT_MOC_LITERAL(145, 27) // "on_btn_column_count_clicked"
+QT_MOC_LITERAL(34, 23), // "on_btn_view_all_clicked"
+QT_MOC_LITERAL(58, 24), // "on_btn_view_part_clicked"
+QT_MOC_LITERAL(83, 27), // "on_btn_connect_file_clicked"
+QT_MOC_LITERAL(111, 27), // "on_btn_column_count_clicked"
+QT_MOC_LITERAL(139, 11), // "outputTable"
+QT_MOC_LITERAL(151, 12), // "clearAllItem"
+QT_MOC_LITERAL(164, 8) // "clearAll"
 
     },
     "MainWindow\0setSizeColumToDefault\0\0"
-    "clearAllItem\0on_btn_view_all_clicked\0"
-    "on_btn_view_part_clicked\0outputTable\0"
-    "clearAll\0on_btn_connect_file_clicked\0"
-    "on_btn_column_count_clicked"
+    "on_btn_view_all_clicked\0"
+    "on_btn_view_part_clicked\0"
+    "on_btn_connect_file_clicked\0"
+    "on_btn_column_count_clicked\0outputTable\0"
+    "clearAllItem\0clearAll"
 };
 #undef QT_MOC_LITERAL
 
@@ -92,13 +93,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         (void)_t;
         switch (_id) {
         case 0: _t->setSizeColumToDefault(); break;
-        case 1: _t->clearAllItem(); break;
-        case 2: _t->on_btn_view_all_clicked(); break;
-        case 3: _t->on_btn_view_part_clicked(); break;
-        case 4: _t->outputTable(); break;
-        case 5: _t->clearAll(); break;
-        case 6: _t->on_btn_connect_file_clicked(); break;
-        case 7: _t->on_btn_column_count_clicked(); break;
+        case 1: _t->on_btn_view_all_clicked(); break;
+        case 2: _t->on_btn_view_part_clicked(); break;
+        case 3: _t->on_btn_connect_file_clicked(); break;
+        case 4: _t->on_btn_column_count_clicked(); break;
+        case 5: _t->outputTable(); break;
+        case 6: _t->clearAllItem(); break;
+        case 7: _t->clearAll(); break;
         default: ;
         }
     }

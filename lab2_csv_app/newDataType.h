@@ -12,8 +12,8 @@ enum
   ErFileRead,
   ErUncorrectColumn,
   DoNone,
-  DoDefault
-
+  DoDefault,
+  ErRowZero
 };
 
 enum

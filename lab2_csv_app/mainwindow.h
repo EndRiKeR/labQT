@@ -16,17 +16,21 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void infoForUser();
 
 private slots:
     void setSizeColumToDefault();
-    void clearAllItem();
+
     void on_btn_view_all_clicked();
     void on_btn_view_part_clicked();
-    void outputTable();
-    void clearAll();
     void on_btn_connect_file_clicked();
-
     void on_btn_column_count_clicked();
+
+    void outputTable();
+
+    void clearAllItem();
+    void clearAll();
+
 
 private:
     Ui::MainWindow *ui;
