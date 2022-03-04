@@ -1,4 +1,6 @@
 #include "visualLogic.h"
+#include "BLogic.h"
+#include <QFile>
 
 void MainWindow::setSizeColumToDefault()
 {
@@ -9,6 +11,21 @@ void MainWindow::setSizeColumToDefault()
     ui->tbl_main->setColumnWidth(4, 120);
     ui->tbl_main->setColumnWidth(5, 120);
     ui->tbl_main->setColumnWidth(6, 120);
+}
+
+//подключение файла
+void openFileAndTakeName(struct dataFromFile& data)
+{
+    data.filePath = QFileDialog::getOpenFileName(0,
+                                                    "Open File",
+                                                    "D://progectsForCpp/labQT/lab2_csv_app/",
+                                                    "Excel Files (*.csv)").toStdString();
+    data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
+    if (data.filePath == "") {
+        data.error = ErFileOpen;
+    }
+    //QMessageBox::information(0, "File Path", QString::fromStdString(data.filePath));
+    //QMessageBox::information(0, "File Path", data.fileName);
 }
 
 //Визуальная логика для таблицы

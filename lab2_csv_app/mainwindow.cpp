@@ -63,8 +63,7 @@ void MainWindow::infoForUser()
 //Подключение файла
 void MainWindow::on_btn_connect_file_clicked()
 {
-    data.nextMove = OpenFile;
-    doData(data);
+    openFileAndTakeName(data);
     if (data.error) {
         securityBreach(data);
     } else {
@@ -148,6 +147,47 @@ void securityBreach(struct dataFromFile& data)
     }
     QMessageBox::information(0, "ERROR", errorInfo);
     data.error = NoError;
+}
+
+bool isDigit(std::string& str)
+{
+    bool digit = true;
+    if (str == ".") {
+        digit = false;
+    } else {
+        bool justPoint = false;
+        QString qstr = QString::fromStdString(str);
+        for (size_t i = 0; i < str.size(); ++i) {
+            if ((!qstr[i].isDigit() && qstr[i] != '.')
+                    || (qstr == '.' && justPoint)) {
+                digit = false;
+                break;
+            } else if (qstr[i] == '.' && !justPoint) {
+                justPoint = true;
+            }
+        }
+    }
+    return digit;
+}
+
+bool isDigit(QString& qstr)
+{
+    bool digit = true;
+    if (qstr == ".") {
+        digit = false;
+    } else {
+        bool justPoint = false;
+        for (size_t i = 0; i < qstr.size(); ++i) {
+            if ((!qstr[i].isDigit() && qstr[i] != '.')
+                    || (qstr == '.' && justPoint)) {
+                digit = false;
+                break;
+            } else if (qstr[i] == '.' && !justPoint) {
+                justPoint = true;
+            }
+        }
+    }
+    return digit;
 }
 
 void MainWindow::clearAllItem()

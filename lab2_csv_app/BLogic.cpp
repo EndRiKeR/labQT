@@ -1,14 +1,10 @@
 #include "BLogic.h"
-#include <QFile>
 
 void doData(struct dataFromFile& data)
 {
     switch(data.nextMove) {
     case None:
         data.error = DoNone;
-        break;
-    case OpenFile:
-        openFileAndTakeName(data);
         break;
     case ViewAll:
         inputFile(data);
@@ -24,22 +20,6 @@ void doData(struct dataFromFile& data)
         break;
     }
 }
-
-//подключение файла
-void openFileAndTakeName(struct dataFromFile& data)
-{
-    data.filePath = QFileDialog::getOpenFileName(0,
-                                                    "Open File",
-                                                    "D://progectsForCpp/labQT/lab2_csv_app/",
-                                                    "Excel Files (*.csv)").toStdString();
-    data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
-    if (data.filePath == "") {
-        data.error = ErFileOpen;
-    }
-    //QMessageBox::information(0, "File Path", QString::fromStdString(data.filePath));
-    //QMessageBox::information(0, "File Path", data.fileName);
-}
-
 
 //Считывание данных из подключенного файла
 void inputFile(struct dataFromFile& data)
@@ -70,7 +50,7 @@ void inputDataFromFile(struct dataFromFile& data)
     if (fileForRead.is_open()) {
         getline(fileForRead, str); //убираю вспомогат. строку
         while(getline(fileForRead, str)) {
-            if (str.find(data.filter) != -1) {
+            if (str.find(data.filter) != -1) {//Гарантированно найдет запятую, но может не найти другого фильтра
                 data.stringsFromFile->push_back(str);
             }
         }
@@ -90,7 +70,7 @@ void splitStrToWords(std::list<std::string>& list, const std::string& str, char 
         start = pos + 1;
         pos = str.find(sep, start);
     }
-    if (str[start] != sep ) {
+    if (str[start] != sep) {
         list.emplace_back(str.substr(start, str.size() - start));
     }
 }
@@ -136,7 +116,7 @@ void countMaxMinMed(struct dataFromFile& data)
 double med(std::vector<double>& vec)
 {
     std::sort(vec.begin(), vec.end());
-    int pos = vec.size() / 2;
+    size_t pos = vec.size() / 2;
     std::cout << vec[pos] << std::endl;
     return vec[pos];
 }
@@ -177,21 +157,4 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
         }
     }
     return vec;
-}
-
-bool isDigit(std::string& str)
-{
-    bool digit = true;
-    bool justPoint = false;
-    QString qstr = QString::fromStdString(str);
-    for (size_t i = 0; i < str.size(); ++i) {
-        if ((!qstr[i].isDigit() && qstr[i] != '.')
-                || (qstr == '.' && justPoint)) {
-            digit = false;
-            break;
-        } else if (qstr[i] == '.' && !justPoint) {
-            justPoint = true;
-        }
-    }
-    return digit;
 }

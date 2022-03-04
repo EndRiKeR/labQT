@@ -25,11 +25,25 @@ enum
   CountStatistic
 };
 
+//Эта структура пока нигде не используется. Я хочу немного переделать ввод и хранение данных.
+//Ну как "немного")
+struct rowData
+{
+    double age = 0.0;
+    QString region = "";
+    double natPopGrow = 0.0;
+    double birthRate = 0.0;
+    double deathRate = 0.0;
+    double genDemRate = 0.0;
+    double urbanisation = 0.0;
+};
+
 //банальная структура, которую можно заменить на std::pair
 struct excel
 {
     const size_t column = 7;
     size_t row = 0;
+    std::list<struct rowData> items;
 };
 
 struct statisticData
@@ -50,7 +64,7 @@ struct dataFromFile
     struct excel table;
     struct statisticData statistic;
     int nextMove = None;
-    int error = NoError;
+    int error = NoError; //добавить еще пояснение ошибок
 };
 
 #endif // NEWDATATYPE_H
