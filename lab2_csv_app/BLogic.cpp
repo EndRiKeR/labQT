@@ -165,7 +165,7 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
     auto it = data.wordsFromFile->begin();
     int count = 1;
     while (it != data.wordsFromFile->end()) {
-        if (count == data.statistic.columnNum && *it != "") {
+        if (count == data.statistic.columnNum && *it != "" && isDigit(*it)) {
             num = atof(it->c_str());
             vec.push_back(num);
         }
@@ -177,4 +177,21 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
         }
     }
     return vec;
+}
+
+bool isDigit(std::string& str)
+{
+    bool digit = true;
+    bool justPoint = false;
+    QString qstr = QString::fromStdString(str);
+    for (size_t i = 0; i < str.size(); ++i) {
+        if ((!qstr[i].isDigit() && qstr[i] != '.')
+                || (qstr == '.' && justPoint)) {
+            digit = false;
+            break;
+        } else if (qstr[i] == '.' && !justPoint) {
+            justPoint = true;
+        }
+    }
+    return digit;
 }

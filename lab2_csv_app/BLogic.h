@@ -21,5 +21,6 @@ void countMaxMinMed(struct dataFromFile& data);
 double med(std::vector<double>& vec);
 std::pair<double, double> maxAndMin(const std::vector<double>& vec);
 std::vector<double> catchNumbers(struct dataFromFile& data);
+bool isDigit(std::string& str);
 
 #endif // BLOGIC_H
