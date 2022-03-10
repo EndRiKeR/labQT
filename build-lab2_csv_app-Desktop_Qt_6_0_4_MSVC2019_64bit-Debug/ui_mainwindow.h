@@ -90,6 +90,9 @@ public:
         QFont font;
         font.setPointSize(13);
         txt_region->setFont(font);
+        txt_region->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        txt_region->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        txt_region->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
         txt_region->setUndoRedoEnabled(true);
         txt_region->setLineWrapMode(QTextEdit::WidgetWidth);
         txt_region->setAcceptRichText(false);

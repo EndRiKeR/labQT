@@ -24,50 +24,46 @@ void doData(struct dataFromFile& data)
 //Считывание данных из подключенного файла
 void inputFile(struct dataFromFile& data)
 {
-    data.stringsFromFile = new std::list<std::string>;
+    data.sortedData = new std::list<struct rowData>;
     inputDataFromFile(data);
-    data.table.row = data.stringsFromFile->size();
+    data.table.row = data.sortedData->size();
     if (data.table.row == 0){
         data.error = ErRowZero;
-    } else {
-        data.wordsFromFile = new std::list<std::string>;
-        for (auto & str : *(data.stringsFromFile)) {
-            splitStrToWords(*(data.wordsFromFile), str, ',');
-        }
-        data.sortedData = new std::list<struct rowData>;
-        sortWordsByColumn(data);
     }
-    delete data.wordsFromFile;
-    delete data.stringsFromFile;
 }
 
-void sortWordsByColumn(struct dataFromFile& data)
+void sortWordsByColumn(struct dataFromFile& data, const std::vector<std::string>& vec)
 {
-    auto it = data.wordsFromFile->begin();
+    auto it = vec.begin();
     struct rowData rowData;
-    while (it != data.wordsFromFile->end()) {
-        rowData.age = *it++;
-        rowData.region = *it++;
-        rowData.natPopGrow = *it++;
-        rowData.birthRate = *it++;
-        rowData.deathRate = *it++;
-        rowData.genDemRate = *it++;
-        rowData.urbanisation = *it++;
-        data.sortedData->push_back(rowData);
-    }
+    rowData.age = *it++;
+    rowData.region = *it++;
+    rowData.natPopGrow = *it++;
+    rowData.birthRate = *it++;
+    rowData.deathRate = *it++;
+    rowData.genDemRate = *it++;
+    rowData.urbanisation = *it++;
+    data.sortedData->push_back(rowData);
 }
 
 //читает файл
 void inputDataFromFile(struct dataFromFile& data)
 {
     std::string str;
+    std::vector<std::string> vec;
     std::ifstream fileForRead(data.filePath);
     if (fileForRead.is_open()) {
-        getline(fileForRead, str); //убираю вспомогат. строку
-        while(getline(fileForRead, str)) {
-            if (str.find(data.filter + ",") != -1) {//Гарантированно найдет запятую, но может не найти другого фильтра
-                data.stringsFromFile->push_back(str);
+        getline(fileForRead, str);
+        if (str == "year,region,npg,birth_rate,death_rate,gdw,urbanization") {
+            while(getline(fileForRead, str)) {
+                if (str.find(data.filter + ",") != -1) {//Гарантированно найдет запятую, но может не найти другого фильтра
+                    //data.stringsFromFile->push_back(str);
+                    vec = splitStrToVector(str, ',');
+                    sortWordsByColumn(data, vec);
+                }
             }
+        } else {
+            data.error = ErFileQuality;
         }
         fileForRead.close();
     } else {
@@ -88,6 +84,22 @@ void splitStrToWords(std::list<std::string>& list, const std::string& str, char 
     if (str[start] != sep) {
         list.emplace_back(str.substr(start, str.size() - start));
     }
+}
+
+std::vector<std::string> splitStrToVector(const std::string& str, char sep) // я убрал const перед str, тк на нее рагалась перегрузка
+{
+    int start = 0;
+    int pos = str.find(sep, start);
+    std::vector<std::string> vec;
+    while (pos != -1) {
+        vec.push_back(str.substr(start, pos - start));
+        start = pos + 1;
+        pos = str.find(sep, start);
+    }
+    if (str[start] != sep) {
+        vec.push_back(str.substr(start, str.size() - start));//в чем разница push и emplace back
+    }
+    return vec;
 }
 
 std::string splitStrToWords(const std::string& str, char sep)
@@ -177,10 +189,14 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
         default:
             break;
         }
-
         if (el != "" && isDigit(el)) {
             vec.push_back(atof(el.c_str()));
         }
     }
     return vec;
+}
+
+void clearAllNew(struct dataFromFile& data)
+{
+    delete data.sortedData;
 }

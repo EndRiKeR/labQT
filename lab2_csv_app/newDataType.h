@@ -13,7 +13,8 @@ enum
   ErUncorrectColumn,
   DoNone,
   DoDefault,
-  ErRowZero
+  ErRowZero,
+  ErFileQuality
 };
 
 enum
@@ -59,8 +60,6 @@ struct dataFromFile
     QString fileName = "";
     std::string filePath = "";
     std::string filter = "";
-    std::list<std::string>* stringsFromFile = nullptr;
-    std::list<std::string>* wordsFromFile = nullptr;
     std::list<struct rowData>* sortedData = nullptr;
     struct excel table;
     struct statisticData statistic;

@@ -5,6 +5,7 @@
 #include "BLogic.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTableWidget>
 
 void securityBreach(struct dataFromFile& data);
 
@@ -24,7 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 //деструктор
 MainWindow::~MainWindow()
 {
-    clearAll();
+    ui->tbl_main->clearContents();
+    clearAllNew(data);
     delete ui;
 }
 
@@ -82,7 +84,7 @@ void MainWindow::on_btn_view_all_clicked()
     if (data.error) {
         securityBreach(data);
     } else {
-        clearAllItem();
+        ui->tbl_main->clearContents();
         outputTable();
         ui->btn_column_count->setEnabled(1);
         ui->btn_view_part->setEnabled(1);
@@ -98,7 +100,7 @@ void MainWindow::on_btn_view_part_clicked()
     if (data.error) {
         securityBreach(data);
     } else {
-        clearAllItem();
+        ui->tbl_main->clearContents();
         outputTable();
     }
 }
@@ -140,6 +142,9 @@ void securityBreach(struct dataFromFile& data)
         break;
     case ErRowZero:
         errorInfo = "По вашему запросу ничего не найдено.\nПроверьте корректность своего запроса!\n\nErCode = ErRowZero";
+        break;
+    case ErFileQuality:
+        errorInfo = "Ваш файл не соответствует стандарту.\nПокайтесь и проверьте файл!\n\nErCode = ErFileQuality";
         break;
     default:
         errorInfo = "Я не знаю, как вы сюда умудрились попасть, но это ужасно!\nПрезапустите прграмму и попробуйте снова!\n\nErCode = DoSwitchDefault";
@@ -191,20 +196,4 @@ bool isDigit(QString& qstr)
         }
     }
     return digit;
-}
-
-void MainWindow::clearAllItem()
-{
-    for (int i = 0; i < ui->tbl_main->rowCount(); ++i) {
-        for (int j = 0; j < ui->tbl_main->columnCount(); ++ j) {
-            delete ui->tbl_main->item(i, j);
-        }
-    }
-}
-
-void MainWindow::clearAll()
-{
-    clearAllItem();
-    delete data.stringsFromFile;
-    delete data.wordsFromFile;
 }

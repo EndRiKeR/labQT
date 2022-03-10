@@ -29,10 +29,6 @@ private slots:
     void createItem(std::string str, int row, int column);
     void outputTable();
 
-    void clearAllItem();
-    void clearAll();
-
-
 private:
     Ui::MainWindow *ui;
     struct dataFromFile data;
