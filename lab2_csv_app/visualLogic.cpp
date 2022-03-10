@@ -28,26 +28,31 @@ void openFileAndTakeName(struct dataFromFile& data)
     //QMessageBox::information(0, "File Path", data.fileName);
 }
 
+void MainWindow::createItem(std::string str, int row, int column)
+{
+    QTableWidgetItem* item;
+    QString qstr = QString::fromStdString(str);
+    if (qstr == "") {
+        qstr = "-";
+    }
+    item = new QTableWidgetItem(qstr);
+    ui->tbl_main->setItem(row, column, item);
+}
+
 //Визуальная логика для таблицы
 void MainWindow::outputTable()
 {
-    QTableWidgetItem* item;
-    QString qstr;
     ui->tbl_main->setRowCount(data.table.row - 1);
-    auto it = data.wordsFromFile->begin();
-    for (size_t i = 0; i < ui->tbl_main->rowCount(); ++i) {
-        for (size_t j = 0; j < ui->tbl_main->columnCount(); ++j) {
-            qstr = QString::fromStdString(*it);
-            if (qstr == "") {
-                qstr = "-";
-            }
-            item = new QTableWidgetItem(qstr);
-            ui->tbl_main->setItem(i, j, item);
-            it++;
-            if (it  == data.wordsFromFile->end()) {
-                break;
-            }
-        }
+    auto it = data.sortedData->begin();
+    for (size_t i = 0; i < ui->tbl_main->rowCount() || it != data.sortedData->end(); ++i) {
+        struct rowData row = *it++;
+        createItem(row.age, i, 0);
+        createItem(row.region, i, 1);
+        createItem(row.natPopGrow, i, 2);
+        createItem(row.birthRate, i, 3);
+        createItem(row.deathRate, i, 4);
+        createItem(row.genDemRate, i, 5);
+        createItem(row.urbanisation, i, 6);
     }
     QMessageBox::information(0, "Все ок!", "Ваша таблица была успешно загружена)");
 }

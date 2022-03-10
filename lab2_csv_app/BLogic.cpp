@@ -25,9 +25,6 @@ void doData(struct dataFromFile& data)
 void inputFile(struct dataFromFile& data)
 {
     data.stringsFromFile = new std::list<std::string>;
-    if (data.filter == "") {
-        data.filter = ",";
-    }
     inputDataFromFile(data);
     data.table.row = data.stringsFromFile->size();
     if (data.table.row == 0){
@@ -37,9 +34,27 @@ void inputFile(struct dataFromFile& data)
         for (auto & str : *(data.stringsFromFile)) {
             splitStrToWords(*(data.wordsFromFile), str, ',');
         }
-
+        data.sortedData = new std::list<struct rowData>;
+        sortWordsByColumn(data);
     }
+    delete data.wordsFromFile;
     delete data.stringsFromFile;
+}
+
+void sortWordsByColumn(struct dataFromFile& data)
+{
+    auto it = data.wordsFromFile->begin();
+    struct rowData rowData;
+    while (it != data.wordsFromFile->end()) {
+        rowData.age = *it++;
+        rowData.region = *it++;
+        rowData.natPopGrow = *it++;
+        rowData.birthRate = *it++;
+        rowData.deathRate = *it++;
+        rowData.genDemRate = *it++;
+        rowData.urbanisation = *it++;
+        data.sortedData->push_back(rowData);
+    }
 }
 
 //читает файл
@@ -50,7 +65,7 @@ void inputDataFromFile(struct dataFromFile& data)
     if (fileForRead.is_open()) {
         getline(fileForRead, str); //убираю вспомогат. строку
         while(getline(fileForRead, str)) {
-            if (str.find(data.filter) != -1) {//Гарантированно найдет запятую, но может не найти другого фильтра
+            if (str.find(data.filter + ",") != -1) {//Гарантированно найдет запятую, но может не найти другого фильтра
                 data.stringsFromFile->push_back(str);
             }
         }
@@ -141,19 +156,30 @@ std::pair<double, double> maxAndMin(const std::vector<double>& vec)
 std::vector<double> catchNumbers(struct dataFromFile& data)
 {
     std::vector<double> vec;
-    double num = 0.0;
-    auto it = data.wordsFromFile->begin();
-    int count = 1;
-    while (it != data.wordsFromFile->end()) {
-        if (count == data.statistic.columnNum && *it != "" && isDigit(*it)) {
-            num = atof(it->c_str());
-            vec.push_back(num);
+    std::string el = "";
+    for (const auto& row : *(data.sortedData)) {
+        switch (data.statistic.columnNum) {
+        case 3:
+            el = row.natPopGrow;
+            break;
+        case 4:
+            el = row.birthRate;
+            break;
+        case 5:
+            el = row.deathRate;
+            break;
+        case 6:
+            el = row.genDemRate;
+            break;
+        case 7:
+            el = row.urbanisation;
+            break;
+        default:
+            break;
         }
-        it++;
-        if (count == 7) {
-            count = 1;
-        } else {
-            count++;
+
+        if (el != "" && isDigit(el)) {
+            vec.push_back(atof(el.c_str()));
         }
     }
     return vec;

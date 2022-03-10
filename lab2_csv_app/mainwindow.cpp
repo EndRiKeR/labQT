@@ -139,7 +139,7 @@ void securityBreach(struct dataFromFile& data)
         errorInfo = "Я не знаю, как вы попали сюда, но это плохо!\nПрезапустите прграмму и попробуйте снова!\n\nErCode = DoDefault";
         break;
     case ErRowZero:
-        errorInfo = "По вашему запросу ничего не найдено.\nДед, выпей таблетки и проверь свой запрос!\n\nErCode = ErRowZero";
+        errorInfo = "По вашему запросу ничего не найдено.\nПроверьте корректность своего запроса!\n\nErCode = ErRowZero";
         break;
     default:
         errorInfo = "Я не знаю, как вы сюда умудрились попасть, но это ужасно!\nПрезапустите прграмму и попробуйте снова!\n\nErCode = DoSwitchDefault";
@@ -158,6 +158,9 @@ bool isDigit(std::string& str)
         bool justPoint = false;
         QString qstr = QString::fromStdString(str);
         for (size_t i = 0; i < str.size(); ++i) {
+            if (i == 0 && qstr[0] == '-') {
+                continue;
+            }
             if ((!qstr[i].isDigit() && qstr[i] != '.')
                     || (qstr == '.' && justPoint)) {
                 digit = false;

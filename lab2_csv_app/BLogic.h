@@ -14,6 +14,7 @@ void doData(struct dataFromFile& data);
 void openFileAndTakeName(struct dataFromFile& data);
 void inputFile(struct dataFromFile& data);
 void inputDataFromFile(struct dataFromFile& data);
+void sortWordsByColumn(struct dataFromFile& data);
 void splitStrToWords(std::list<std::string>& list, const std::string& str, char sep);
 std::string splitStrToWords(const std::string& str, char sep);
 void outputListOfStr(const std::list<std::string>& list);

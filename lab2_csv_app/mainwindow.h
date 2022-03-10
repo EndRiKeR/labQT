@@ -26,6 +26,7 @@ private slots:
     void on_btn_connect_file_clicked();
     void on_btn_column_count_clicked();
 
+    void createItem(std::string str, int row, int column);
     void outputTable();
 
     void clearAllItem();

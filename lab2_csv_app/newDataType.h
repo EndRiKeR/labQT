@@ -29,13 +29,13 @@ enum
 //Ну как "немного")
 struct rowData
 {
-    double age = 0.0;
-    QString region = "";
-    double natPopGrow = 0.0;
-    double birthRate = 0.0;
-    double deathRate = 0.0;
-    double genDemRate = 0.0;
-    double urbanisation = 0.0;
+    std::string age = "";
+    std::string region = "";
+    std::string natPopGrow = "";
+    std::string birthRate = "";
+    std::string deathRate = "";
+    std::string genDemRate = "";
+    std::string urbanisation = "";
 };
 
 //банальная структура, которую можно заменить на std::pair
@@ -61,6 +61,7 @@ struct dataFromFile
     std::string filter = "";
     std::list<std::string>* stringsFromFile = nullptr;
     std::list<std::string>* wordsFromFile = nullptr;
+    std::list<struct rowData>* sortedData = nullptr;
     struct excel table;
     struct statisticData statistic;
     int nextMove = None;
