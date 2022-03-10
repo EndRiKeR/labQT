@@ -57,7 +57,6 @@ void inputDataFromFile(struct dataFromFile& data)
         if (str == "year,region,npg,birth_rate,death_rate,gdw,urbanization") {
             while(getline(fileForRead, str)) {
                 if (str.find(data.filter + ",") != -1) {//Гарантированно найдет запятую, но может не найти другого фильтра
-                    //data.stringsFromFile->push_back(str);
                     vec = splitStrToVector(str, ',');
                     sortWordsByColumn(data, vec);
                 }

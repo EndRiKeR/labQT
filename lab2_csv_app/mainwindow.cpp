@@ -8,6 +8,7 @@
 #include <QTableWidget>
 
 void securityBreach(struct dataFromFile& data);
+void tmpF();
 
 //конструктор
 MainWindow::MainWindow(QWidget *parent)
