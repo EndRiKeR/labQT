@@ -189,7 +189,7 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
             break;
         }
         if (el != "" && isDigit(el)) {
-            vec.push_back(atof(el.c_str()));
+            vec.push_back(std::stod(el.c_str()));
         }
     }
     return vec;
