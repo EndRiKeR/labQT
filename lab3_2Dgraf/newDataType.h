@@ -55,7 +55,7 @@ struct statisticData
 struct error
 {
     int erCode = NoError;
-    std::string erInfo;
+    std::string erInfo = "";
 };
 
 struct dataFromFile
