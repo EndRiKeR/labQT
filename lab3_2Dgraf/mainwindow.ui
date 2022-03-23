@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1033</width>
-    <height>582</height>
+    <width>1532</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -338,13 +338,18 @@
       <string>Choose region</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>All Regions</string>
+     </property>
+    </item>
    </widget>
    <widget class="QComboBox" name="cb_colunm">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>260</x>
       <y>80</y>
-      <width>81</width>
+      <width>121</width>
       <height>41</height>
      </rect>
     </property>
@@ -353,6 +358,22 @@
       <string>Choose column</string>
      </property>
     </item>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>30</y>
+      <width>481</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
    </widget>
   </widget>
  </widget>

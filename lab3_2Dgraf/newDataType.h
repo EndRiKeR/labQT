@@ -14,7 +14,10 @@ enum
   DoNone,
   DoDefault,
   ErRowZero,
-  ErFileQuality
+  ErFileQuality,
+    ErColumnChoose,
+    ErRegionFilterChoose
+
 };
 
 enum
@@ -23,7 +26,8 @@ enum
   OpenFile,
   ViewAll,
   ViewPart,
-  CountStatistic
+  CountStatistic,
+    creatGraf
 };
 
 struct rowData
@@ -46,7 +50,7 @@ struct excel
 
 struct statisticData
 {
-    std::string columnNum = 0;
+    std::string columnNum = "";//Вот тут было написано std::string columnNum = 0;
     double max = 0.0;
     double min = 0.0;
     double med = 0.0;

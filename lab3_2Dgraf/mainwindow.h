@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
 #include "newDataType.h"
 #include "BLogic.h"
 
@@ -31,8 +32,14 @@ private slots:
 
     void errorNotify();
 
+    //New F for Lab3
+    void setupComboBox();
+    void setupGraf();
+    void drawGraf();
+    void setupOXandOY();
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene* scene = nullptr;
     struct dataFromFile data;
 
 };

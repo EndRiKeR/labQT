@@ -4,73 +4,72 @@
 
 void MainWindow::setSizeColumToDefault()
 {
-//    ui->tbl_main->setColumnWidth(0, 50);
-//    ui->tbl_main->setColumnWidth(1, 260);
-//    ui->tbl_main->setColumnWidth(2, 120);
-//    ui->tbl_main->setColumnWidth(3, 120);
-//    ui->tbl_main->setColumnWidth(4, 120);
-//    ui->tbl_main->setColumnWidth(5, 120);
-//    ui->tbl_main->setColumnWidth(6, 120);
+    ui->tbl_main->setColumnWidth(0, 50);
+    ui->tbl_main->setColumnWidth(1, 260);
+    ui->tbl_main->setColumnWidth(2, 120);
+    ui->tbl_main->setColumnWidth(3, 120);
+    ui->tbl_main->setColumnWidth(4, 120);
+    ui->tbl_main->setColumnWidth(5, 120);
+    ui->tbl_main->setColumnWidth(6, 120);
 }
 
 //подключение файла
 void openFileAndTakeName(struct dataFromFile& data)
 {
-//    data.filePath = QFileDialog::getOpenFileName(0,
-//                                                    "Open File",
-//                                                    "E://myProgects/labQT/lab3_2Dgraf",
-//                                                    "Excel Files (*.csv)").toStdString();
-//    data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
-//    if (data.filePath == "") {
-//        data.error.erCode = ErFileOpen;
-//        data.error.erInfo = "Не удалось открыть файл!\nПрезапустите прграмму и попробуйте снова!\n\nErCode = ErFileOpen";
-//    }
+    data.filePath = QFileDialog::getOpenFileName(0,
+                                                    "Open File",
+                                                    "E://myProgects/labQT/lab3_2Dgraf",
+                                                    "Excel Files (*.csv)").toStdString();
+    data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
+    if (data.filePath == "") {
+        data.error.erCode = ErFileOpen;
+        data.error.erInfo = "Не удалось открыть файл!\nПрезапустите прграмму и попробуйте снова!\n\nErCode = ErFileOpen";
+    }
 }
 
 void MainWindow::createItem(std::string str, int row, int column)
 {
-//    QTableWidgetItem* item;
-//    QString qstr = QString::fromStdString(str);
-//    if (qstr == "") {
-//        qstr = "-";
-//    }
-//    item = new QTableWidgetItem(qstr);
-//    ui->tbl_main->setItem(row, column, item);
+    QTableWidgetItem* item;
+    QString qstr = QString::fromStdString(str);
+    if (qstr == "") {
+        qstr = "-";
+    }
+    item = new QTableWidgetItem(qstr);
+    ui->tbl_main->setItem(row, column, item);
 }
 
 //Визуальная логика для таблицы
 void MainWindow::outputTable()
 {
-//    ui->tbl_main->setRowCount(data.table.row - 1);
-//    auto it = data.sortedData->begin();
-//    std::vector<std::string> vec;
-//    for (size_t i = 0; i < ui->tbl_main->rowCount() || it != data.sortedData->end(); ++i) {
-//        struct rowData row = *it++;
-//        createItem(row.age, i, 0);
-//        createItem(row.region, i, 1);
-//        createItem(row.natPopGrow, i, 2);
-//        createItem(row.birthRate, i, 3);
-//        createItem(row.deathRate, i, 4);
-//        createItem(row.genDemRate, i, 5);
-//        createItem(row.urbanisation, i, 6);
-//        if (!contain(vec, row.region)) {
-//            vec.push_back(row.region);
-//            ui->cb_region->addItem(QString::fromStdString(row.region));
-//        }
-//    }
+    ui->tbl_main->setRowCount(data.table.row - 1);
+    auto it = data.sortedData->begin();
+    std::vector<std::string> vec;
+    for (size_t i = 0; i < ui->tbl_main->rowCount() || it != data.sortedData->end(); ++i) {
+        struct rowData row = *it++;
+        createItem(row.age, i, 0);
+        createItem(row.region, i, 1);
+        createItem(row.natPopGrow, i, 2);
+        createItem(row.birthRate, i, 3);
+        createItem(row.deathRate, i, 4);
+        createItem(row.genDemRate, i, 5);
+        createItem(row.urbanisation, i, 6);
+        if (!contain(vec, row.region)) {
+            vec.push_back(row.region);
+            ui->cb_region->addItem(QString::fromStdString(row.region));
+        }
+    }
 
-//    QMessageBox::information(0, "Все ок!", "Ваша таблица была успешно загружена)");
+    QMessageBox::information(0, "Все ок!", "Ваша таблица была успешно загружена)");
 }
 
 bool contain(const std::vector<std::string>& vec, std::string str)
 {
-//    bool result = false;
-//    for (const auto& region : vec) {
-//        if (region == str) {
-//            result = true;
-//            break;
-//        }
-//    }
-//    return result;
-    return true;
+    bool result = false;
+    for (const auto& region : vec) {
+        if (region == str) {
+            result = true;
+            break;
+        }
+    }
+    return result;
 }
