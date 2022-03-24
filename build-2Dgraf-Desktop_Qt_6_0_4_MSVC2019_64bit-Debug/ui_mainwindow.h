@@ -44,12 +44,15 @@ public:
     QComboBox *cb_region;
     QComboBox *cb_colunm;
     QGraphicsView *graphicsView;
+    QLabel *lbl_y;
+    QLabel *lbl_x;
+    QPushButton *btn_graf;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1532, 513);
+        MainWindow->resize(1620, 513);
         MainWindow->setMinimumSize(QSize(1033, 513));
         MainWindow->setMaximumSize(QSize(9000, 9000));
         centralwidget = new QWidget(MainWindow);
@@ -150,9 +153,18 @@ public:
         cb_colunm->setGeometry(QRect(260, 80, 121, 41));
         graphicsView = new QGraphicsView(centralwidget);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
-        graphicsView->setGeometry(QRect(1020, 30, 481, 451));
+        graphicsView->setGeometry(QRect(1110, 30, 481, 451));
         graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        lbl_y = new QLabel(centralwidget);
+        lbl_y->setObjectName(QString::fromUtf8("lbl_y"));
+        lbl_y->setGeometry(QRect(1110, 10, 161, 16));
+        lbl_x = new QLabel(centralwidget);
+        lbl_x->setObjectName(QString::fromUtf8("lbl_x"));
+        lbl_x->setGeometry(QRect(1540, 280, 49, 16));
+        btn_graf = new QPushButton(centralwidget);
+        btn_graf->setObjectName(QString::fromUtf8("btn_graf"));
+        btn_graf->setGeometry(QRect(1030, 30, 51, 141));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -194,6 +206,9 @@ public:
 
         cb_colunm->setItemText(0, QCoreApplication::translate("MainWindow", "Choose column", nullptr));
 
+        lbl_y->setText(QString());
+        lbl_x->setText(QString());
+        btn_graf->setText(QCoreApplication::translate("MainWindow", "Graf", nullptr));
     } // retranslateUi
 
 };

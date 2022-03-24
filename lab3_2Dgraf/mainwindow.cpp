@@ -17,11 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btn_column_count->setEnabled(0);
     ui->btn_view_all->setEnabled(0);
     ui->btn_view_part->setEnabled(0);
+    ui->btn_graf->setEnabled(0);
     setSizeColumToDefault();
     setupComboBox();
 
     setupGraf();
-    drawGraf();
 }
 
 //деструктор
@@ -89,6 +89,7 @@ void MainWindow::on_btn_view_all_clicked()
         outputTable();
         ui->btn_column_count->setEnabled(1);
         ui->btn_view_part->setEnabled(1);
+        ui->btn_graf->setEnabled(1);
     }
 }
 
@@ -208,13 +209,21 @@ void MainWindow::setupOXandOY()
 {
     QPen pen(Qt::red);
     pen.setWidth(2);
-    scene->addLine(10, 0, 10, 470, pen);
-    scene->addLine(10, 250, 470, 250, pen);
-    scene->addLine(10, 0, 5, 15, pen);
-    scene->addLine(10, 0, 15, 15, pen);
+    scene->addLine(40, 0, 40, 470, pen);
+    scene->addLine(40, 250, 470, 250, pen);
+    scene->addLine(40, 0, 35, 15, pen);
+    scene->addLine(40, 0, 45, 15, pen);
     scene->addLine(470, 250, 455, 240, pen);
     scene->addLine(470, 250, 455, 260, pen);
-    //ui->label_X->setText("year");
-    //ui->label_Y->setText(ui->tableWidget->horizontalHeaderItem(ui->spinBox_numberOfColumn->value() - 1)->text());
+    ui->lbl_x->setText("year");
+    if (ui->cb_colunm->currentIndex() != 0) {
+        ui->lbl_y->setText(ui->cb_colunm->currentText());
+    }
+}
+
+
+void MainWindow::on_btn_graf_clicked()
+{
+    drawGraf();
 }
 

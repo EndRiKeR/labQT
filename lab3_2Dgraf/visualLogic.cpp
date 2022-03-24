@@ -16,10 +16,11 @@ void MainWindow::setSizeColumToDefault()
 //подключение файла
 void openFileAndTakeName(struct dataFromFile& data)
 {
-    data.filePath = QFileDialog::getOpenFileName(0,
-                                                    "Open File",
-                                                    "E://myProgects/labQT/lab3_2Dgraf",
-                                                    "Excel Files (*.csv)").toStdString();
+    std::string filePath = QFileDialog::getOpenFileName(0,
+                                                        "Open File",
+                                                        "E://myProgects/labQT/lab3_2Dgraf",
+                                                        "Excel Files (*.csv)").toStdString();
+    data.filePath = filePath;
     data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
     if (data.filePath == "") {
         data.error.erCode = ErFileOpen;
