@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btn_column_count->setEnabled(0);
     ui->btn_view_all->setEnabled(0);
     ui->btn_view_part->setEnabled(0);
-    ui->btn_graf->setEnabled(0);
     setSizeColumToDefault();
     setupComboBox();
 
@@ -89,7 +88,6 @@ void MainWindow::on_btn_view_all_clicked()
         outputTable();
         ui->btn_column_count->setEnabled(1);
         ui->btn_view_part->setEnabled(1);
-        ui->btn_graf->setEnabled(1);
     }
 }
 
@@ -121,6 +119,7 @@ void MainWindow::on_btn_column_count_clicked()
         ui->lbl_min->setText(QString::number(data.statistic.min));
         ui->lbl_med->setText(QString::number(data.statistic.med));
     }
+    drawGraf();
 }
 
 bool isDigit(std::string& str)
@@ -180,7 +179,7 @@ void MainWindow::setupComboBox()
 {
     ui->cb_colunm->addItem(QString::fromStdString("Nat Pop Grow"));
     ui->cb_colunm->addItem(QString::fromStdString("Birth Rate"));
-    ui->cb_colunm->addItem(QString::fromStdString("Deat Rate"));
+    ui->cb_colunm->addItem(QString::fromStdString("Death Rate"));
     ui->cb_colunm->addItem(QString::fromStdString("Gen Dem Rate"));
     ui->cb_colunm->addItem(QString::fromStdString("Urbanization"));
 }
@@ -209,21 +208,17 @@ void MainWindow::setupOXandOY()
 {
     QPen pen(Qt::red);
     pen.setWidth(2);
-    scene->addLine(40, 0, 40, 470, pen);
-    scene->addLine(40, 250, 470, 250, pen);
+    scene->addLine(40, 0, 40, 470, pen); //OY
+    scene->addLine(40, 270, 930, 270, pen); //OX
     scene->addLine(40, 0, 35, 15, pen);
     scene->addLine(40, 0, 45, 15, pen);
-    scene->addLine(470, 250, 455, 240, pen);
-    scene->addLine(470, 250, 455, 260, pen);
-    ui->lbl_x->setText("year");
+    scene->addLine(930, 270, 930 - 15, 265, pen);
+    scene->addLine(930, 270, 930 - 15, 275, pen);
+    ui->lbl_x->setText("Year");
     if (ui->cb_colunm->currentIndex() != 0) {
         ui->lbl_y->setText(ui->cb_colunm->currentText());
     }
 }
 
 
-void MainWindow::on_btn_graf_clicked()
-{
-    drawGraf();
-}
 

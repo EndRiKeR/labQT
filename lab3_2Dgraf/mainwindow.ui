@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1620</width>
-    <height>513</height>
+    <width>1033</width>
+    <height>841</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -133,7 +133,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Введите номер коллонки(3 - 7):</string>
+     <string>Введите номер колонки:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_column_count">
@@ -362,10 +362,10 @@
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>1110</x>
-      <y>30</y>
-      <width>481</width>
-      <height>451</height>
+      <x>30</x>
+      <y>500</y>
+      <width>971</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="verticalScrollBarPolicy">
@@ -378,10 +378,10 @@
    <widget class="QLabel" name="lbl_y">
     <property name="geometry">
      <rect>
-      <x>1110</x>
-      <y>10</y>
-      <width>161</width>
-      <height>16</height>
+      <x>80</x>
+      <y>500</y>
+      <width>201</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -391,27 +391,14 @@
    <widget class="QLabel" name="lbl_x">
     <property name="geometry">
      <rect>
-      <x>1540</x>
-      <y>280</y>
-      <width>49</width>
-      <height>16</height>
+      <x>930</x>
+      <y>770</y>
+      <width>63</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_graf">
-    <property name="geometry">
-     <rect>
-      <x>1030</x>
-      <y>30</y>
-      <width>51</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Graf</string>
     </property>
    </widget>
   </widget>

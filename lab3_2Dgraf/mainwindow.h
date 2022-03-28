@@ -37,7 +37,6 @@ private slots:
     void setupGraf();
     void drawGraf();
     void setupOXandOY();
-    void on_btn_graf_clicked();
 
 private:
     Ui::MainWindow *ui;
