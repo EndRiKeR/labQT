@@ -23,6 +23,7 @@ std::pair<double, double> maxAndMin(const std::vector<double>& vec);
 std::vector<double> catchNumbers(struct dataFromFile& data);
 bool isDigit(std::string& str);
 bool isDigit(QString& qstr);
+bool contain(const std::vector<std::string>& vec, std::string str);
 void clearAllNew(struct dataFromFile& data);
 
 #endif // BLOGIC_H

@@ -62,15 +62,3 @@ void MainWindow::outputTable()
 
     QMessageBox::information(0, "Все ок!", "Ваша таблица была успешно загружена)");
 }
-
-bool contain(const std::vector<std::string>& vec, std::string str)
-{
-    bool result = false;
-    for (const auto& region : vec) {
-        if (region == str) {
-            result = true;
-            break;
-        }
-    }
-    return result;
-}

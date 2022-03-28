@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1050</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1050</width>
+    <height>900</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1050</width>
+    <height>900</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1031</width>
+      <height>784</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="10" column="11">
+      <widget class="QLabel" name="lblDraw">
+       <property name="minimumSize">
+        <size>
+         <width>550</width>
+         <height>560</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>550</width>
+         <height>560</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="11">
+      <widget class="QPushButton" name="btnCalculateMetrix">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124, 133, 57);</string>
+       </property>
+       <property name="text">
+        <string>Calculate and Draw</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="lblMin">
+       <property name="text">
+        <string>Min:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="9" colspan="2">
+      <widget class="QLabel" name="lblForMax">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QComboBox" name="comboBox">
+       <item>
+        <property name="text">
+         <string>Choose</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Npg</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>BirthRate</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DeathRate</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Gdw</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Urbanization</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="3" column="8">
+      <widget class="QLabel" name="lblMax">
+       <property name="text">
+        <string>Max:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="btnChooseFile">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124, 133, 57);</string>
+       </property>
+       <property name="text">
+        <string>Выбор файла</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0" colspan="11">
+      <widget class="QTableWidget" name="table">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(24, 43, 62);
+</string>
+       </property>
+       <column>
+        <property name="text">
+         <string>Year</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Region</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Npg</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Birth rate</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Death rate</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Gdw</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Urbanization</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item row="1" column="11" rowspan="2">
+      <widget class="QPushButton" name="btnOutput">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124, 133, 57);
+</string>
+       </property>
+       <property name="text">
+        <string>Вывести</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="6" colspan="2">
+      <widget class="QLabel" name="lblForMed">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="11">
+      <widget class="QPushButton" name="btnLoadData">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124, 133, 57);</string>
+       </property>
+       <property name="text">
+        <string>Load data</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="10">
+      <widget class="QLabel" name="lblOutputName">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(123, 133, 142);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="10">
+      <widget class="QLineEdit" name="inputRegion">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(118, 112, 126);
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="5">
+      <widget class="QLabel" name="lblMed">
+       <property name="text">
+        <string>Med:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3" colspan="2">
+      <widget class="QLabel" name="lblForMin">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Region 1</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1050</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

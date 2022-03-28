@@ -359,27 +359,11 @@
      </property>
     </item>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>500</y>
-      <width>971</width>
-      <height>321</height>
-     </rect>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-   </widget>
    <widget class="QLabel" name="lbl_y">
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>500</y>
+      <y>482</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -395,6 +379,19 @@
       <y>770</y>
       <width>63</width>
       <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_graf">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>500</y>
+      <width>971</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="text">

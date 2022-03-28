@@ -174,6 +174,7 @@ std::pair<double, double> maxAndMin(const std::vector<double>& vec)
 std::vector<double> catchNumbers(struct dataFromFile& data)
 {
     std::vector<double> vec;
+    std::vector<std::string> years;
     std::string el = "";
     for (const auto& row : *(data.sortedData)) {
         switch (data.statistic.columnNum[0]) {
@@ -203,8 +204,25 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
         if (el != "" && isDigit(el)) {
             vec.push_back(std::stod(el.c_str()));
         }
+        if (!contain(years, row.age)) {
+            years.push_back(row.age);
+        }
     }
+    data.colData = vec;
+    data.yearsData = years;
     return vec;
+}
+
+bool contain(const std::vector<std::string>& vec, std::string str)
+{
+    bool result = false;
+    for (const auto& region : vec) {
+        if (region == str) {
+            result = true;
+            break;
+        }
+    }
+    return result;
 }
 
 void clearAllNew(struct dataFromFile& data)

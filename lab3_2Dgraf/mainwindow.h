@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QPicture>
+#include <QPainter>
 #include "newDataType.h"
 #include "BLogic.h"
 
@@ -37,11 +39,14 @@ private slots:
     void setupGraf();
     void drawGraf();
     void setupOXandOY();
+    void setupMetrics();
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene* scene = nullptr;
     struct dataFromFile data;
+
+    QPicture picture;
+    QPainter painter;
 
 };
 #endif // MAINWINDOW_H

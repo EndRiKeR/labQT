@@ -186,39 +186,65 @@ void MainWindow::setupComboBox()
 
 void MainWindow::setupGraf()
 {
-    scene = new QGraphicsScene;
-    ui->graphicsView->setScene(scene);
+    ui->lbl_graf->setPicture(picture);
 }
 
 void MainWindow::drawGraf()
 {
-    scene->clear();
+    painter.begin(&picture);
+    picture.setBoundingRect(QRect(QPoint(0, 0), QPoint(971, 321)));
     setupOXandOY();
     if (ui->cb_colunm->currentIndex() != 0 && ui->cb_region->currentIndex()) {
-        //setupMetrics(); // установка значений + годов
-        scene->update();
+        setupMetrics();
     } else {
         data.error.erCode = ErColumnChoose;
         data.error.erInfo = "Вы не выбрали регион и/или столбец для построения графа.\nПроверьте корректность своего запроса!\n\nErCode = ErColumnChoose";
     }
-    ui->graphicsView->setScene(scene);
+    setupGraf();
+    painter.end();
 }
 
 void MainWindow::setupOXandOY()
 {
+
     QPen pen(Qt::red);
     pen.setWidth(2);
-    scene->addLine(40, 0, 40, 470, pen); //OY
-    scene->addLine(40, 270, 930, 270, pen); //OX
-    scene->addLine(40, 0, 35, 15, pen);
-    scene->addLine(40, 0, 45, 15, pen);
-    scene->addLine(930, 270, 930 - 15, 265, pen);
-    scene->addLine(930, 270, 930 - 15, 275, pen);
+    painter.setPen(pen);
+    painter.drawLine(40, 0, 40, 470); //OY
+    painter.drawLine(40, 270, 930, 270); //OX
+    painter.drawLine(40, 0, 35, 15);
+    painter.drawLine(40, 0, 45, 15);
+    painter.drawLine(930, 270, 930 - 15, 265);
+    painter.drawLine(930, 270, 930 - 15, 275);
     ui->lbl_x->setText("Year");
     if (ui->cb_colunm->currentIndex() != 0) {
         ui->lbl_y->setText(ui->cb_colunm->currentText());
     }
+    setupGraf();
 }
 
+void MainWindow::setupMetrics()
+{
+    QPen pen(Qt::blue);
+    pen.setWidth(5);
+    painter.setPen(pen);
+    struct point startP = {0.0, 0.0};
+    struct point endP = {0.0, 0.0};
+    struct point moveMult = {930. / data.yearsData.size(), 250. / (data.statistic.max - data.statistic.min)};
+    bool first = true;
+    for (const auto& el : data.colData) {
+        if (first) {
+            startP = {40 + moveMult.x, 321 - abs(321 - el * moveMult.y)}; //продумать формулу
+            std::cout << "first point: [" << startP.x << "] [" << startP.y << "]" << std::endl;
+            first = false;
+            continue;
+        }
+        endP = {startP.x + moveMult.x, 321 - abs(321 - el * moveMult.y)};
+        std::cout << "first point: [" << startP.x << "] [" << startP.y << "]\t"
+                  << "last point: [" << endP.x << "] [" << endP.y << "]" << std::endl;
+        painter.drawLine(startP.x, startP.y, endP.x, endP.y);
+        startP = {endP.x, endP.y};
+    }
 
+}
 

@@ -62,6 +62,12 @@ struct error
     std::string erInfo = "";
 };
 
+struct point
+{
+    double x = 0;
+    double y = 0;
+};
+
 struct dataFromFile
 {
     QString fileName = "";
@@ -72,6 +78,10 @@ struct dataFromFile
     struct statisticData statistic;
     int nextMove = None;
     struct error error;
+
+    //New Data for Lab3
+    std::vector<double> colData;
+    std::vector<std::string> yearsData;
 };
 
 #endif // NEWDATATYPE_H
