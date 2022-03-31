@@ -107,7 +107,7 @@ std::vector<std::string> splitStrToVector(const std::string& str, char sep) // �
         pos = str.find(sep, start);
     }
     if (str[start] != sep) {
-        vec.push_back(str.substr(start, str.size() - start));//в чем разница push и emplace back
+        vec.push_back(str.substr(start, str.size() - start));
     }
     return vec;
 }
@@ -204,7 +204,7 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
         if (el != "" && isDigit(el)) {
             vec.push_back(std::stod(el.c_str()));
         }
-        if (!contain(years, row.age)) {
+        if (!contain(years, row.age) && el != "-") {
             years.push_back(row.age);
         }
     }

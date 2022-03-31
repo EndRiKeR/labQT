@@ -18,7 +18,7 @@ void openFileAndTakeName(struct dataFromFile& data)
 {
     std::string filePath = QFileDialog::getOpenFileName(0,
                                                         "Open File",
-                                                        "E://myProgects/labQT/lab3_2Dgraf",
+                                                        "D:\progectsForCPP\labQT\lab3_2Dgraf",
                                                         "Excel Files (*.csv)").toStdString();
     data.filePath = filePath;
     data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));

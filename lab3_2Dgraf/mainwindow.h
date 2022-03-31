@@ -45,8 +45,9 @@ private:
     Ui::MainWindow *ui;
     struct dataFromFile data;
 
-    QPicture picture;
+    QPicture* picture = nullptr;
     QPainter painter;
+    struct grafConst grafSize;
 
 };
 #endif // MAINWINDOW_H

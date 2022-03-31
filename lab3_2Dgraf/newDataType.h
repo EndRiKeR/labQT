@@ -68,6 +68,16 @@ struct point
     double y = 0;
 };
 
+struct grafConst
+{
+    const double maxX = 930.0;
+    const double maxY = 320.0;
+    const double minX = 0.0;
+    const double minY = 0.0;
+    const double offsetX = 40.0;
+    const double offsetY = 260.0;
+};
+
 struct dataFromFile
 {
     QString fileName = "";

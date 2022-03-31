@@ -186,13 +186,16 @@ void MainWindow::setupComboBox()
 
 void MainWindow::setupGraf()
 {
-    ui->lbl_graf->setPicture(picture);
+    if (picture != nullptr) {
+        ui->lbl_graf->setPicture(*picture);
+    }
 }
 
 void MainWindow::drawGraf()
 {
-    painter.begin(&picture);
-    picture.setBoundingRect(QRect(QPoint(0, 0), QPoint(971, 321)));
+    picture = new QPicture;
+    painter.begin(picture);
+    picture->setBoundingRect(QRect(QPoint(0, 0), QPoint(971, 321)));
     setupOXandOY();
     if (ui->cb_colunm->currentIndex() != 0 && ui->cb_region->currentIndex()) {
         setupMetrics();
@@ -202,6 +205,7 @@ void MainWindow::drawGraf()
     }
     setupGraf();
     painter.end();
+    delete picture;
 }
 
 void MainWindow::setupOXandOY()
@@ -210,12 +214,12 @@ void MainWindow::setupOXandOY()
     QPen pen(Qt::red);
     pen.setWidth(2);
     painter.setPen(pen);
-    painter.drawLine(40, 0, 40, 470); //OY
-    painter.drawLine(40, 270, 930, 270); //OX
-    painter.drawLine(40, 0, 35, 15);
-    painter.drawLine(40, 0, 45, 15);
-    painter.drawLine(930, 270, 930 - 15, 265);
-    painter.drawLine(930, 270, 930 - 15, 275);
+    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX, grafSize.offsetY); //OY
+    painter.drawLine(grafSize.offsetX, grafSize.offsetY, grafSize.maxX, grafSize.offsetY); //OX
+    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX - 5, 15);
+    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX + 5, 15);
+    painter.drawLine(grafSize.maxX, grafSize.offsetY, grafSize.maxX - 15, grafSize.offsetY - 5);
+    painter.drawLine(grafSize.maxX, grafSize.offsetY, grafSize.maxX - 15, grafSize.offsetY + 5);
     ui->lbl_x->setText("Year");
     if (ui->cb_colunm->currentIndex() != 0) {
         ui->lbl_y->setText(ui->cb_colunm->currentText());
@@ -225,26 +229,34 @@ void MainWindow::setupOXandOY()
 
 void MainWindow::setupMetrics()
 {
-    QPen pen(Qt::blue);
+    QPen pen;
     pen.setWidth(5);
+    pen.setColor(Qt::blue);
     painter.setPen(pen);
+    double delta = abs(data.statistic.max - data.statistic.min);
     struct point startP = {0.0, 0.0};
     struct point endP = {0.0, 0.0};
-    struct point moveMult = {930. / data.yearsData.size(), 250. / (data.statistic.max - data.statistic.min)};
+    struct point moveMult = {grafSize.maxX / data.yearsData.size(), grafSize.offsetY / delta};
     bool first = true;
     for (const auto& el : data.colData) {
         if (first) {
-            startP = {40 + moveMult.x, 321 - abs(321 - el * moveMult.y)}; //продумать формулу
+            startP = {5 + grafSize.offsetX, grafSize.offsetY - abs(el - data.statistic.min) * moveMult.y}; //продумать формулу
             std::cout << "first point: [" << startP.x << "] [" << startP.y << "]" << std::endl;
             first = false;
             continue;
+        } else {
+            endP = {startP.x + moveMult.x, grafSize.offsetY - (el - data.statistic.min) * moveMult.y};
+            std::cout << "first point: [" << startP.x << "] [" << startP.y << "]\t"
+                      << "last point: [" << endP.x << "] [" << endP.y << "]" << std::endl;
+            painter.drawLine(startP.x, startP.y, endP.x, endP.y);
+
+            startP = {endP.x, endP.y};
         }
-        endP = {startP.x + moveMult.x, 321 - abs(321 - el * moveMult.y)};
-        std::cout << "first point: [" << startP.x << "] [" << startP.y << "]\t"
-                  << "last point: [" << endP.x << "] [" << endP.y << "]" << std::endl;
-        painter.drawLine(startP.x, startP.y, endP.x, endP.y);
-        startP = {endP.x, endP.y};
     }
-
+    pen.setWidth(2);
+    pen.setColor(Qt::green);
+    painter.setPen(pen);
+    painter.drawLine(grafSize.offsetX, grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y, grafSize.maxX, grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetX, grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y, grafSize.maxX, grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetX, grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y, grafSize.maxX, grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y);
 }
-
