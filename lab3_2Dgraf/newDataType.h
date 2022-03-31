@@ -75,7 +75,7 @@ struct grafConst
     const double minX = 0.0;
     const double minY = 0.0;
     const double offsetX = 40.0;
-    const double offsetY = 260.0;
+    const double offsetY = 280.0;
 };
 
 struct dataFromFile

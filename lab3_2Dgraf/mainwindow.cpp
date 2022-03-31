@@ -214,12 +214,12 @@ void MainWindow::setupOXandOY()
     QPen pen(Qt::red);
     pen.setWidth(2);
     painter.setPen(pen);
-    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX, grafSize.offsetY); //OY
-    painter.drawLine(grafSize.offsetX, grafSize.offsetY, grafSize.maxX, grafSize.offsetY); //OX
+    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX, grafSize.maxY); //OY
+    painter.drawLine(grafSize.offsetX, grafSize.offsetY + 5, grafSize.maxX, grafSize.offsetY + 5); //OX
     painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX - 5, 15);
     painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX + 5, 15);
-    painter.drawLine(grafSize.maxX, grafSize.offsetY, grafSize.maxX - 15, grafSize.offsetY - 5);
-    painter.drawLine(grafSize.maxX, grafSize.offsetY, grafSize.maxX - 15, grafSize.offsetY + 5);
+    painter.drawLine(grafSize.maxX, grafSize.offsetY + 5, grafSize.maxX - 15, grafSize.offsetY);
+    painter.drawLine(grafSize.maxX, grafSize.offsetY + 5, grafSize.maxX - 15, grafSize.offsetY + 10);
     ui->lbl_x->setText("Year");
     if (ui->cb_colunm->currentIndex() != 0) {
         ui->lbl_y->setText(ui->cb_colunm->currentText());
@@ -236,11 +236,11 @@ void MainWindow::setupMetrics()
     double delta = abs(data.statistic.max - data.statistic.min);
     struct point startP = {0.0, 0.0};
     struct point endP = {0.0, 0.0};
-    struct point moveMult = {grafSize.maxX / data.yearsData.size(), grafSize.offsetY / delta};
+    struct point moveMult = {grafSize.maxX / data.yearsData.size(), (grafSize.offsetY - 10) / delta};
     bool first = true;
     for (const auto& el : data.colData) {
         if (first) {
-            startP = {5 + grafSize.offsetX, grafSize.offsetY - abs(el - data.statistic.min) * moveMult.y}; //продумать формулу
+            startP = {5 + grafSize.offsetX, grafSize.offsetY - abs(el - data.statistic.min) * moveMult.y};
             std::cout << "first point: [" << startP.x << "] [" << startP.y << "]" << std::endl;
             first = false;
             continue;
@@ -256,7 +256,16 @@ void MainWindow::setupMetrics()
     pen.setWidth(2);
     pen.setColor(Qt::green);
     painter.setPen(pen);
-    painter.drawLine(grafSize.offsetX, grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y, grafSize.maxX, grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y);
-    painter.drawLine(grafSize.offsetX, grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y, grafSize.maxX, grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y);
-    painter.drawLine(grafSize.offsetX, grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y, grafSize.maxX, grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetX,
+                         grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y,
+                         grafSize.maxX,
+                         grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetX,
+                         grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y,
+                         grafSize.maxX,
+                         grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetX,
+                        grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y,
+                        grafSize.maxX,
+                        grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y);
 }

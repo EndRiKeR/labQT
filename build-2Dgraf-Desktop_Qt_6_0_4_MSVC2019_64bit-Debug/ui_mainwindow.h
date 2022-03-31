@@ -151,7 +151,7 @@ public:
         cb_colunm->setGeometry(QRect(260, 80, 121, 41));
         lbl_y = new QLabel(centralwidget);
         lbl_y->setObjectName(QString::fromUtf8("lbl_y"));
-        lbl_y->setGeometry(QRect(80, 500, 201, 20));
+        lbl_y->setGeometry(QRect(80, 482, 201, 20));
         lbl_x = new QLabel(centralwidget);
         lbl_x->setObjectName(QString::fromUtf8("lbl_x"));
         lbl_x->setGeometry(QRect(930, 770, 63, 20));
