@@ -42,7 +42,7 @@ void MainWindow::createItem(std::string str, int row, int column)
 //Визуальная логика для таблицы
 void MainWindow::outputTable()
 {
-    ui->tbl_main->setRowCount(data.table.row - 1);
+    ui->tbl_main->setRowCount(data.table.row);
     auto it = data.sortedData->begin();
     std::vector<std::string> vec;
     for (size_t i = 0; i < ui->tbl_main->rowCount() || it != data.sortedData->end(); ++i) {

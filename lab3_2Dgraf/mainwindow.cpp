@@ -195,7 +195,8 @@ void MainWindow::drawGraf()
 {
     picture = new QPicture;
     painter.begin(picture);
-    picture->setBoundingRect(QRect(QPoint(0, 0), QPoint(971, 321)));
+    //painter.rotate(-90);
+    picture->setBoundingRect(QRect(QPoint(0, 0), QPoint(971, -321)));
     setupOXandOY();
     if (ui->cb_colunm->currentIndex() != 0 && ui->cb_region->currentIndex()) {
         setupMetrics();
@@ -210,16 +211,21 @@ void MainWindow::drawGraf()
 
 void MainWindow::setupOXandOY()
 {
-
-    QPen pen(Qt::red);
-    pen.setWidth(2);
-    painter.setPen(pen);
-    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX, grafSize.maxY); //OY
-    painter.drawLine(grafSize.offsetX, grafSize.offsetY + 5, grafSize.maxX, grafSize.offsetY + 5); //OX
-    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX - 5, 15);
-    painter.drawLine(grafSize.offsetX, 0, grafSize.offsetX + 5, 15);
-    painter.drawLine(grafSize.maxX, grafSize.offsetY + 5, grafSize.maxX - 15, grafSize.offsetY);
-    painter.drawLine(grafSize.maxX, grafSize.offsetY + 5, grafSize.maxX - 15, grafSize.offsetY + 10);
+    setPenForPainter(pen, 2, Qt::red);
+    painter.drawLine(grafSize.offsetOX, grafSize.minY,
+                        grafSize.offsetOX, grafSize.maxY); //OY
+    painter.drawLine(grafSize.offsetOX, grafSize.maxY - grafSize.offsetOY,
+                        grafSize.maxX, grafSize.maxY - grafSize.offsetOY); //OX
+    painter.drawLine(grafSize.offsetOX, grafSize.minY,
+                        grafSize.offsetOX + grafSize.offset5Pix, grafSize.minY + 3 * grafSize.offset5Pix);
+    painter.drawLine(grafSize.offsetOX, grafSize.minY,
+                        grafSize.offsetOX - grafSize.offset5Pix, grafSize.minY + 3 * grafSize.offset5Pix);
+    painter.drawLine(grafSize.maxX, grafSize.maxY - grafSize.offsetOY,
+                        grafSize.maxX - 3 * grafSize.offset5Pix,
+                        grafSize.maxY - grafSize.offsetOY - grafSize.offset5Pix);
+    painter.drawLine(grafSize.maxX, grafSize.maxY - grafSize.offsetOY,
+                        grafSize.maxX - 3 * grafSize.offset5Pix,
+                        grafSize.maxY - grafSize.offsetOY + grafSize.offset5Pix);
     ui->lbl_x->setText("Year");
     if (ui->cb_colunm->currentIndex() != 0) {
         ui->lbl_y->setText(ui->cb_colunm->currentText());
@@ -229,43 +235,51 @@ void MainWindow::setupOXandOY()
 
 void MainWindow::setupMetrics()
 {
-    QPen pen;
-    pen.setWidth(5);
-    pen.setColor(Qt::blue);
-    painter.setPen(pen);
     double delta = abs(data.statistic.max - data.statistic.min);
+    const double OY = grafSize.maxGrafY + grafSize.offsetUpY - grafSize.offset5Pix;
     struct point startP = {0.0, 0.0};
     struct point endP = {0.0, 0.0};
-    struct point moveMult = {grafSize.maxX / data.yearsData.size(), (grafSize.offsetY - 10) / delta};
+    struct point moveMult = {grafSize.maxGrafX / data.yearsData.size(), grafSize.maxGrafY / delta};
     bool first = true;
-    for (const auto& el : data.colData) {
+    for (size_t i = 0; i < data.colData.size(); ++i) {
+        setPenForPainter(pen, 3, Qt::blue);
         if (first) {
-            startP = {5 + grafSize.offsetX, grafSize.offsetY - abs(el - data.statistic.min) * moveMult.y};
+            startP = {grafSize.offsetLeftX, OY - abs(data.colData[i] - data.statistic.min) * moveMult.y};
             std::cout << "first point: [" << startP.x << "] [" << startP.y << "]" << std::endl;
             first = false;
-            continue;
         } else {
-            endP = {startP.x + moveMult.x, grafSize.offsetY - (el - data.statistic.min) * moveMult.y};
+            endP = {startP.x + moveMult.x, OY - abs(data.colData[i] - data.statistic.min) * moveMult.y};
             std::cout << "first point: [" << startP.x << "] [" << startP.y << "]\t"
                       << "last point: [" << endP.x << "] [" << endP.y << "]" << std::endl;
             painter.drawLine(startP.x, startP.y, endP.x, endP.y);
-
             startP = {endP.x, endP.y};
         }
+        setPenForPainter(pen, 3, Qt::black);
+        //painter.rotate(-90);
+        painter.drawText(startP.x, grafSize.maxY - grafSize.offsetDownY + 4 * grafSize.offset5Pix,
+                            QString::fromStdString(data.yearsData[i]));
+        painter.drawLine(startP.x, grafSize.maxY - grafSize.offsetDownY + grafSize.offset5Pix,
+                            startP.x, grafSize.maxY - grafSize.offsetDownY - grafSize.offset5Pix);
+        //painter.rotate(90);
     }
-    pen.setWidth(2);
-    pen.setColor(Qt::green);
-    painter.setPen(pen);
-    painter.drawLine(grafSize.offsetX,
-                         grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y,
+    setPenForPainter(pen, 2, Qt::green);
+    painter.drawLine(grafSize.offsetOX,
+                         OY - (data.statistic.max - data.statistic.min) * moveMult.y,
                          grafSize.maxX,
-                         grafSize.offsetY - (data.statistic.max - data.statistic.min) * moveMult.y);
-    painter.drawLine(grafSize.offsetX,
-                         grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y,
+                         OY - (data.statistic.max - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetOX,
+                         OY - (data.statistic.min - data.statistic.min) * moveMult.y,
                          grafSize.maxX,
-                         grafSize.offsetY - (data.statistic.min - data.statistic.min) * moveMult.y);
-    painter.drawLine(grafSize.offsetX,
-                        grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y,
+                         OY - (data.statistic.min - data.statistic.min) * moveMult.y);
+    painter.drawLine(grafSize.offsetOX,
+                        OY - (data.statistic.med - data.statistic.min) * moveMult.y,
                         grafSize.maxX,
-                        grafSize.offsetY - (data.statistic.med - data.statistic.min) * moveMult.y);
+                        OY - (data.statistic.med - data.statistic.min) * moveMult.y);
+}
+
+void MainWindow::setPenForPainter(QPen& pen, int width, const QColor& color)
+{
+    pen.setWidth(width);
+    pen.setColor(color);
+    painter.setPen(pen);
 }

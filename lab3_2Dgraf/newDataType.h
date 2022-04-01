@@ -70,12 +70,28 @@ struct point
 
 struct grafConst
 {
-    const double maxX = 930.0;
+    //Размеры главной плоскости
+    const double maxX = 970.0;
     const double maxY = 320.0;
     const double minX = 0.0;
     const double minY = 0.0;
-    const double offsetX = 40.0;
-    const double offsetY = 280.0;
+
+    //Размеры области графика
+    const double maxGrafX = 885.0;
+    const double maxGrafY = 225.0;
+
+    //Отступы от краев для осей (по нормальным координатам)
+    const double offsetOX = 40.0;
+    const double offsetOY = 50.0;
+
+    //Отступы от краев для области графика (по нормальным координатам)
+    const double offsetLeftX = 45.0;
+    const double offsetRightX = 40.0;
+    const double offsetUpY = 40.0;
+    const double offsetDownY = 55.0;
+
+    //Стандартные отступы для корректировки
+    const double offset5Pix = 5.0;
 };
 
 struct dataFromFile

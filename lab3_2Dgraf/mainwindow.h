@@ -40,6 +40,7 @@ private slots:
     void drawGraf();
     void setupOXandOY();
     void setupMetrics();
+    void setPenForPainter(QPen& pen, int width, const QColor& color);
 
 private:
     Ui::MainWindow *ui;
@@ -47,6 +48,7 @@ private:
 
     QPicture* picture = nullptr;
     QPainter painter;
+    QPen pen;
     struct grafConst grafSize;
 
 };
