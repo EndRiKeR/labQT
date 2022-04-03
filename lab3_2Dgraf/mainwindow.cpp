@@ -241,6 +241,7 @@ void MainWindow::setupMetrics()
     struct point endP = {0.0, 0.0};
     struct point moveMult = {grafSize.maxGrafX / data.yearsData.size(), grafSize.maxGrafY / delta};
     bool first = true;
+    drawMaxMinMed(moveMult, OY);
     for (size_t i = 0; i < data.colData.size(); ++i) {
         setPenForPainter(pen, 3, Qt::blue);
         if (first) {
@@ -254,14 +255,12 @@ void MainWindow::setupMetrics()
             painter.drawLine(startP.x, startP.y, endP.x, endP.y);
             startP = {endP.x, endP.y};
         }
-        setPenForPainter(pen, 3, Qt::black);
-        //painter.rotate(-90);
-        painter.drawText(startP.x, grafSize.maxY - grafSize.offsetDownY + 4 * grafSize.offset5Pix,
-                            QString::fromStdString(data.yearsData[i]));
-        painter.drawLine(startP.x, grafSize.maxY - grafSize.offsetDownY + grafSize.offset5Pix,
-                            startP.x, grafSize.maxY - grafSize.offsetDownY - grafSize.offset5Pix);
-        //painter.rotate(90);
+        drawLinesAndYears(startP, i);
     }
+}
+
+void MainWindow::drawMaxMinMed(struct point& moveMult, double OY)
+{
     setPenForPainter(pen, 2, Qt::green);
     painter.drawLine(grafSize.offsetOX,
                          OY - (data.statistic.max - data.statistic.min) * moveMult.y,
@@ -275,6 +274,18 @@ void MainWindow::setupMetrics()
                         OY - (data.statistic.med - data.statistic.min) * moveMult.y,
                         grafSize.maxX,
                         OY - (data.statistic.med - data.statistic.min) * moveMult.y);
+}
+
+void MainWindow::drawLinesAndYears(struct point& startP, size_t i)
+{
+    setPenForPainter(pen, 3, Qt::black);
+    painter.rotate(-90);
+    painter.drawText(grafSize.offsetDownY - grafSize.maxY - 8.5 * grafSize.offset5Pix,
+                        startP.x + grafSize.offset5Pix,
+                        QString::fromStdString(data.yearsData[i]));
+    painter.rotate(90);
+    painter.drawLine(startP.x, grafSize.maxY - grafSize.offsetDownY + 3 * grafSize.offset5Pix,
+                        startP.x, grafSize.maxY - grafSize.offsetDownY - 0.5 * grafSize.offset5Pix);
 }
 
 void MainWindow::setPenForPainter(QPen& pen, int width, const QColor& color)

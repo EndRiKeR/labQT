@@ -40,6 +40,8 @@ private slots:
     void drawGraf();
     void setupOXandOY();
     void setupMetrics();
+    void drawMaxMinMed(struct point& moveMult, double OY);
+    void drawLinesAndYears(struct point& startP, size_t i);
     void setPenForPainter(QPen& pen, int width, const QColor& color);
 
 private:
