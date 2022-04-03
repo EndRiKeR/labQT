@@ -43,6 +43,7 @@ private slots:
     void drawMaxMinMed(struct point& moveMult, double OY);
     void drawLinesAndYears(struct point& startP, size_t i);
     void setPenForPainter(QPen& pen, int width, const QColor& color);
+    void drawHelpLines(struct point& moveMult, double OY);
 
 private:
     Ui::MainWindow *ui;

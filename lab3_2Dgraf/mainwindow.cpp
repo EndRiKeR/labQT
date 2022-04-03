@@ -255,7 +255,9 @@ void MainWindow::setupMetrics()
             painter.drawLine(startP.x, startP.y, endP.x, endP.y);
             startP = {endP.x, endP.y};
         }
+        drawHelpLines(startP, i);
         drawLinesAndYears(startP, i);
+
     }
 }
 
@@ -267,25 +269,60 @@ void MainWindow::drawMaxMinMed(struct point& moveMult, double OY)
                          grafSize.maxX,
                          OY - (data.statistic.max - data.statistic.min) * moveMult.y);
     painter.drawLine(grafSize.offsetOX,
-                         OY - (data.statistic.min - data.statistic.min) * moveMult.y,
+                         OY,
                          grafSize.maxX,
-                         OY - (data.statistic.min - data.statistic.min) * moveMult.y);
+                         OY);
     painter.drawLine(grafSize.offsetOX,
                         OY - (data.statistic.med - data.statistic.min) * moveMult.y,
                         grafSize.maxX,
                         OY - (data.statistic.med - data.statistic.min) * moveMult.y);
+    setPenForPainter(pen, 2, QColorConstants::Svg::purple);
+    painter.drawText(grafSize.maxX - 4 * grafSize.offset5Pix,
+                        OY - (data.statistic.max - data.statistic.min) * moveMult.y - 2 * grafSize.offset5Pix,
+                        QString::number(data.statistic.max));
+    painter.drawText(grafSize.maxX - 4 * grafSize.offset5Pix,
+                        OY - (data.statistic.max - data.statistic.min) * moveMult.y - 4 * grafSize.offset5Pix,
+                        "MAX");
+    painter.drawText(grafSize.maxX - 4 * grafSize.offset5Pix,
+                        OY - 2 * grafSize.offset5Pix,
+                        QString::number(data.statistic.min));
+    painter.drawText(grafSize.maxX - 4 * grafSize.offset5Pix,
+                        OY - 4 * grafSize.offset5Pix,
+                        "MIN");
+    if (data.statistic.max != data.statistic.med && data.statistic.min != data.statistic.med) {
+        painter.drawText(grafSize.maxX - 4 * grafSize.offset5Pix,
+                            OY - (data.statistic.med - data.statistic.min) * moveMult.y - 2 * grafSize.offset5Pix,
+                            QString::number(data.statistic.med));
+        painter.drawText(grafSize.maxX - 4 * grafSize.offset5Pix,
+                            OY - (data.statistic.med - data.statistic.min) * moveMult.y - 4 * grafSize.offset5Pix,
+                            "MED");
+    }
 }
 
 void MainWindow::drawLinesAndYears(struct point& startP, size_t i)
 {
     setPenForPainter(pen, 3, Qt::black);
     painter.rotate(-90);
-    painter.drawText(grafSize.offsetDownY - grafSize.maxY - 8.5 * grafSize.offset5Pix,
-                        startP.x + grafSize.offset5Pix,
+    painter.drawText(grafSize.offsetDownY - grafSize.maxY - 8 * grafSize.offset5Pix,
+                        startP.x + 1.5 * grafSize.offset5Pix,
                         QString::fromStdString(data.yearsData[i]));
     painter.rotate(90);
-    painter.drawLine(startP.x, grafSize.maxY - grafSize.offsetDownY + 3 * grafSize.offset5Pix,
-                        startP.x, grafSize.maxY - grafSize.offsetDownY - 0.5 * grafSize.offset5Pix);
+    painter.drawLine(startP.x, grafSize.maxY - grafSize.offsetDownY + 2 * grafSize.offset5Pix,
+                        startP.x, grafSize.maxY - grafSize.offsetDownY);
+}
+
+void MainWindow::drawHelpLines(struct point& moveMult, double OY)
+{
+    setPenForPainter(pen, 3, Qt::black);
+    double k = 0.2;
+    while (k != 1) {
+        painter.drawLine(grafSize.offsetOX - grafSize.offset5Pix,
+                            k * OY,
+                            grafSize.offsetOX + grafSize.offset5Pix,
+                            k * OY);
+        //dsxbcktybt xbvckf
+        k += 0.2;
+    }
 }
 
 void MainWindow::setPenForPainter(QPen& pen, int width, const QColor& color)
