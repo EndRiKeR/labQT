@@ -20,9 +20,10 @@ void openFileAndTakeName(struct dataFromFile& data)
                                                         "Open File",
                                                         "D:\progectsForCPP\labQT\lab3_2Dgraf",
                                                         "Excel Files (*.csv)").toStdString();
-    data.filePath = filePath;
-    data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
-    if (data.filePath == "") {
+    if (filePath != "") {
+        data.filePath = filePath;
+        data.fileName = QString::fromStdString(splitStrToWords(data.filePath, '/'));
+    } else {
         data.error.erCode = ErFileOpen;
         data.error.erInfo = "Не удалось открыть файл!\nПрезапустите прграмму и попробуйте снова!\n\nErCode = ErFileOpen";
     }

@@ -10,12 +10,14 @@ CONFIG += c++11
 
 SOURCES += \
     BLogic.cpp \
+    graf.cpp \
     main.cpp \
     mainwindow.cpp \
     visualLogic.cpp
 
 HEADERS += \
     BLogic.h \
+    graf.h \
     mainwindow.h \
     newDataType.h \
     visualLogic.h

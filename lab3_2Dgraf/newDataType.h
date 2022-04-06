@@ -15,9 +15,8 @@ enum
   DoDefault,
   ErRowZero,
   ErFileQuality,
-    ErColumnChoose,
-    ErRegionFilterChoose
-
+  ErColumnChoose,
+  ErRegionFilterChoose
 };
 
 enum
@@ -27,7 +26,7 @@ enum
   ViewAll,
   ViewPart,
   CountStatistic,
-    creatGraf
+  creatGraf
 };
 
 struct rowData

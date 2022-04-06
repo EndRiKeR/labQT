@@ -338,11 +338,6 @@
       <string>Choose region</string>
      </property>
     </item>
-    <item>
-     <property name="text">
-      <string>All Regions</string>
-     </property>
-    </item>
    </widget>
    <widget class="QComboBox" name="cb_colunm">
     <property name="geometry">

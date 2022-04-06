@@ -139,11 +139,16 @@ void outputVectorOfStr(const std::vector<std::string>& vec)
 //Вычисление статистики
 void countMaxMinMed(struct dataFromFile& data)
 {
-    std::vector<double> vec = catchNumbers(data);
-    auto pair = maxAndMin(vec);
-    data.statistic.max = pair.first;
-    data.statistic.min = pair.second;
-    data.statistic.med = med(vec);
+    if (data.statistic.columnNum != "Choose column") {
+        std::vector<double> vec = catchNumbers(data);
+        auto pair = maxAndMin(vec);
+        data.statistic.max = pair.first;
+        data.statistic.min = pair.second;
+        data.statistic.med = med(vec);
+    } else {
+        data.error.erCode = ErRegionFilterChoose;
+        data.error.erInfo = "Неверно выбран регион!\nПроверьте правильность своег овыбора!\n\nErCode = ErRegionFilterChoose";
+    }
 }
 
 double med(std::vector<double>& vec)
@@ -204,7 +209,7 @@ std::vector<double> catchNumbers(struct dataFromFile& data)
         if (el != "" && isDigit(el)) {
             vec.push_back(std::stod(el.c_str()));
         }
-        if (!contain(years, row.age) && el != "-") {
+        if (!contain(years, row.age) && el != "") {
             years.push_back(row.age);
         }
     }
