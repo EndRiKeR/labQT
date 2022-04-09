@@ -1,6 +1,5 @@
 #include "matrix.h"
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //           Matrix
@@ -12,14 +11,14 @@
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-Matrix<T>::Matrix() :
+MyMatrix<T>::MyMatrix() :
     row(0),
     column(0),
     data(nullptr)
 {}
 
 template <class T>
-Matrix<T>::Matrix(size_t rows, size_t columns) :
+MyMatrix<T>::MyMatrix(size_t rows, size_t columns) :
     row(rows),
     column(columns),
     data(nullptr)
@@ -28,7 +27,7 @@ Matrix<T>::Matrix(size_t rows, size_t columns) :
 }
 
 template <class T>
-Matrix<T>::Matrix(Matrix<T>& matrix) :
+MyMatrix<T>::MyMatrix(MyMatrix<T>& matrix) :
     row(matrix.row),
     column(matrix.column),
     data(nullptr)
@@ -38,7 +37,7 @@ Matrix<T>::Matrix(Matrix<T>& matrix) :
 }
 
 template <class T>
-Matrix<T>::Matrix(Matrix<T>&& matrix) :
+MyMatrix<T>::MyMatrix(MyMatrix<T>&& matrix) :
     row(matrix.row),
     column(matrix.column),
     data(matrix.data)
@@ -46,8 +45,8 @@ Matrix<T>::Matrix(Matrix<T>&& matrix) :
     matrix.data = nullptr;
 }
 
-template <class T>
-Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> list) :
+/*template <class T>
+MyMatrix<T>::MyMatrix(std::initializer_list<std::initializer_list<T>> list) :
     row(list.size()),
     column(0),
     data(nullptr)
@@ -71,49 +70,50 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> list) :
             }
         }
     }
-}
+}*/
 
 template <class T>
-Matrix<T>::~Matrix()
+MyMatrix<T>::~MyMatrix()
 {
-    for (size_t i = 0; i < row; ++i) {
-        delete[] data[i];
+    if (data != nullptr) {
+        for (size_t i = 0; i < row; ++i) {
+            delete[] data[i];
+        }
+        delete[] data;
+        data = nullptr;
     }
-    delete[] data;
-    data = nullptr;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //    Equale
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-template <class T>
-Matrix<T>& Matrix<T>::operator=(Matrix<T>& matrix)
-{
-
-    return *this;
-}
+/*template <class T>
+MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>& oldMat)
+{   
+    return newMat(oldMat);
+}*/
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //    Default operations (Mat + Mat)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-Matrix<T>& Matrix<T>::operator+=(Matrix<T>& matrix)
+MyMatrix<T>& MyMatrix<T>::operator+=(MyMatrix<T>& matrix)
 {
     *this += matrix;
     return *this;
 }
 
 template <class T>
-Matrix<T>& Matrix<T>::operator-=(Matrix<T>& matrix)
+MyMatrix<T>& MyMatrix<T>::operator-=(MyMatrix<T>& matrix)
 {
     *this -= matrix;
     return *this;
 }
 
 template <class T>
-Matrix<T> operator+(Matrix<T>& newMat, Matrix<T>& oldMat)
+MyMatrix<T> operator+(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
 {
     if (oldMat.row == newMat.row && oldMat.column == newMat.column) {
         for (size_t i = 0; i < oldMat.row; ++i) {
@@ -126,7 +126,7 @@ Matrix<T> operator+(Matrix<T>& newMat, Matrix<T>& oldMat)
 }
 
 template <class T>
-Matrix<T> operator-(Matrix<T>& newMat, Matrix<T>& oldMat)
+MyMatrix<T> operator-(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
 {
     if (oldMat.row == newMat.row && oldMat.column == newMat.column) {
         for (size_t i = 0; i < oldMat.row; ++i) {
@@ -139,7 +139,7 @@ Matrix<T> operator-(Matrix<T>& newMat, Matrix<T>& oldMat)
 }
 
 template <class T>
-Matrix<T> operator*(Matrix<T>& newMat, Matrix<T>& oldMat)
+MyMatrix<T> operator*(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
 {
     if (oldMat.row == newMat.row && oldMat.column == newMat.column) {
         for (size_t i = 0; i < oldMat.row; ++i) {
@@ -156,7 +156,7 @@ Matrix<T> operator*(Matrix<T>& newMat, Matrix<T>& oldMat)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-Matrix<T> operator+(Matrix<T>& newMat, double num)
+MyMatrix<T> operator+(MyMatrix<T>& newMat, double num)
 {
     if (newMat.row == newMat.row && newMat.column == newMat.column) {
         for (size_t i = 0; i < newMat.row; ++i) {
@@ -169,7 +169,7 @@ Matrix<T> operator+(Matrix<T>& newMat, double num)
 }
 
 template <class T>
-Matrix<T> operator-(Matrix<T>& newMat, double num)
+MyMatrix<T> operator-(MyMatrix<T>& newMat, double num)
 {
     if (newMat.row == newMat.row && newMat.column == newMat.column) {
         for (size_t i = 0; i < newMat.row; ++i) {
@@ -182,7 +182,7 @@ Matrix<T> operator-(Matrix<T>& newMat, double num)
 }
 
 template <class T>
-Matrix<T> operator*(Matrix<T>& newMat, double num)
+MyMatrix<T> operator*(MyMatrix<T>& newMat, double num)
 {
     if (newMat.row == newMat.row && newMat.column == newMat.column) {
         for (size_t i = 0; i < newMat.row; ++i) {
@@ -195,7 +195,7 @@ Matrix<T> operator*(Matrix<T>& newMat, double num)
 }
 
 template <class T>
-Matrix<T> operator/(Matrix<T>& newMat, double num)
+MyMatrix<T> operator/(MyMatrix<T>& newMat, double num)
 {
     if (newMat.row == newMat.row && newMat.column == newMat.column) {
         for (size_t i = 0; i < newMat.row; ++i) {
@@ -212,43 +212,43 @@ Matrix<T> operator/(Matrix<T>& newMat, double num)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-void Matrix<T>::set_elem(size_t i, size_t j, T& elem)
+void MyMatrix<T>::set_elem(size_t i, size_t j, T& elem)
 {
     data[i][j] = elem;
 }
 
 template <class T>
-T& Matrix<T>::get_elem(size_t i, size_t j)
+T& MyMatrix<T>::get_elem(size_t i, size_t j)
 {
     return data[i][j];
 }
 
 template <class T>
-T& Matrix<T>::operator()(size_t i, size_t j)
+T& MyMatrix<T>::operator()(size_t i, size_t j)
 {
     return data[i][j];
 }
 
 template <class T>
-T* Matrix<T>::operator[](size_t i)
+T* MyMatrix<T>::operator[](size_t i)
 {
     return data[i];
 }
 
 template <class T>
-bool Matrix<T>::is_square()
+bool MyMatrix<T>::is_square()
 {
     return row == column;
 }
 
 template <class T>
-size_t Matrix<T>::get_count_of_rows()
+size_t MyMatrix<T>::get_count_of_rows()
 {
     return row;
 }
 
 template <class T>
-size_t Matrix<T>::get_count_of_columns()
+size_t MyMatrix<T>::get_count_of_columns()
 {
     return column;
 }
@@ -258,15 +258,17 @@ size_t Matrix<T>::get_count_of_columns()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-typename Matrix<T>::Iterator Matrix<T>::begin() //Для чего тут typename?
+typename MyMatrix<T>::Iterator MyMatrix<T>::begin() //Для чего тут typename?
 {
-    //Work In Progress
+    //Work In Progres
+    return *this;
 }
 
 template <class T>
-typename Matrix<T>::Iterator Matrix<T>::end()
+typename MyMatrix<T>::Iterator MyMatrix<T>::end()
 {
     //Work In Progress
+    return *this;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,7 +276,7 @@ typename Matrix<T>::Iterator Matrix<T>::end()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template<class T>
-std::ostream& operator<<(std::ostream& out, Matrix<T>& matrix)
+std::ostream& operator<<(std::ostream& out, MyMatrix<T>& matrix)
 {
     out << "Output Matrix" << std::endl;
     for (size_t i = 0; i < matrix.row; ++i) {
@@ -293,7 +295,7 @@ std::ostream& operator<<(std::ostream& out, Matrix<T>& matrix)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <typename T>
-Matrix<T>::Iterator::Iterator(Matrix<T> matrix) :
+MyMatrix<T>::Iterator::Iterator(MyMatrix<T> matrix) :
     originalMatrix(matrix.data),
     rowNow(0),
     colNow(0),
@@ -303,7 +305,7 @@ Matrix<T>::Iterator::Iterator(Matrix<T> matrix) :
 {}
 
 template <typename T>
-typename Matrix<T>::Iterator Matrix<T>::Iterator::next()
+typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::next()
 {
     if (!end) {
         if (colNow + 1 < colMax) {
@@ -319,19 +321,19 @@ typename Matrix<T>::Iterator Matrix<T>::Iterator::next()
 }
 
 template <class T>
-T Matrix<T>::Iterator::value()
+T MyMatrix<T>::Iterator::value()
 {
     return originalMatrix[rowNow][colNow];
 }
 
 template <class T>
-bool Matrix<T>::Iterator::is_end()
+bool MyMatrix<T>::Iterator::is_end()
 {
     return end;
 }
 
 template <typename T>
-typename Matrix<T>::Iterator& Matrix<T>::Iterator::operator++()
+typename MyMatrix<T>::Iterator& MyMatrix<T>::Iterator::operator++()
 {
     if (!end) {
         *this = next();
@@ -339,21 +341,21 @@ typename Matrix<T>::Iterator& Matrix<T>::Iterator::operator++()
     return *this;
 }
 
-template <class T>
-T& Matrix<T>::Iterator::operator*()
+/*template <class T>
+T& MyMatrix<T>::Iterator::operator*()
 {
     return value();
-}
+}*/
 
 template <class T>
-bool Matrix<T>::Iterator::operator==(Matrix<T>::Iterator &rightIt)
+bool MyMatrix<T>::Iterator::operator==(MyMatrix<T>::Iterator &rightIt)
 {
     return (rowNow == rightIt.rowNow &&
             colNow == rightIt.colNow) ? true: false;
 }
 
 template <class T>
-bool Matrix<T>::Iterator::operator!=(Matrix<T>::Iterator &rightIt)
+bool MyMatrix<T>::Iterator::operator!=(MyMatrix<T>::Iterator &rightIt)
 {
     return !(*this == rightIt);
 }
@@ -363,7 +365,7 @@ bool Matrix<T>::Iterator::operator!=(Matrix<T>::Iterator &rightIt)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-T** Matrix<T>::createMatrix()
+T** MyMatrix<T>::createMatrix()
 {
     T** matrix = new T*[row];
     for (size_t j = 0; j < column; ++j) {
@@ -373,11 +375,21 @@ T** Matrix<T>::createMatrix()
 }
 
 template <class T>
-void Matrix<T>::copyMatrix(Matrix<T>& oldMat)
+void MyMatrix<T>::copyMatrix(MyMatrix<T>& oldMat)
 {
     for (size_t i = 0; i < row; ++i) {
         for (size_t j = 0; j < column; ++j) {
             data[i][j] = oldMat.data[i][j];
         }
     }
+}
+
+template <class T>
+void MyMatrix<T>::clearMatrix()
+{
+    for (size_t i = 0; i < row; ++i) {
+        delete[] data[i];
+    }
+    delete[] data;
+    data = nullptr;
 }
