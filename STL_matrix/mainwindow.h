@@ -5,7 +5,7 @@
 #include "matrix.h"
 
 void matrixTest();
-void outputFCKMatrix(class MyMatrix<int>& matrix);
+void outputFCKMatrix(class MyMatrix<int>& matrix, const std::string& str = "Output Matrix");
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
