@@ -5,6 +5,7 @@
 #include "matrix.h"
 
 void matrixTest();
+void outputFCKMatrix(class MyMatrix<int>& matrix);
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
