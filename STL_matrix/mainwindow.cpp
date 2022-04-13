@@ -36,15 +36,26 @@ void matrixTest()
     matDefault = matCopy;
     outputFCKMatrix(matDefault, "matDefault = matCopy");
 
-    matCopy += matCopy;
+    matCopy += matDefault;
     outputFCKMatrix(matCopy, "matCopy += matCopy");
 
     matCopy -= matCopy;
     outputFCKMatrix(matCopy, "matCopy -= matCopy");
 
-    //matCopy = matCopy + matDefault;
-    //outputFCKMatrix(matCopy, "matCopy = matCopy + matDefault");
+    matCopy = matCopy + matDefault;
+    outputFCKMatrix(matCopy, "matCopy = matCopy + matDefault");
 
+    matCopy = matCopy - matDefault;
+    outputFCKMatrix(matCopy, "matCopy = matCopy - matDefault");
+
+    matCopy = matCopy + 5;
+    outputFCKMatrix(matCopy, "matCopy = matCopy + 5");
+    matCopy = matCopy - 3;
+    outputFCKMatrix(matCopy, "matCopy = matCopy - 3");
+    matCopy = matCopy * 2;
+    outputFCKMatrix(matCopy, "matCopy = matCopy * 2");
+    matCopy = matCopy / 2;
+    outputFCKMatrix(matCopy, "matCopy = matCopy / 2");
 
     auto it = matCopy.begin();
 

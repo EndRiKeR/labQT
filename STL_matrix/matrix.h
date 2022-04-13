@@ -26,13 +26,13 @@ class MyMatrix
             bool end;
 
           public:
-            Iterator(MyMatrix<T> matrix); //Как оправдать отсутствие () и ~
+            Iterator(MyMatrix<T> matrix, bool end_state); //Как оправдать отсутствие () и ~
 
             Iterator next();
             T value();
             bool is_end();
-            Iterator &operator++();
-            //T &operator*();
+            Iterator& operator++();
+            T& operator*();
             bool operator==(Iterator &rightIt);
             bool operator!=(Iterator &rightIt);
         };
@@ -52,15 +52,15 @@ class MyMatrix
         //Default operations (Mat + Mat)
         MyMatrix<T>& operator+=(MyMatrix<T>& oldMat);
         MyMatrix<T>& operator-=(MyMatrix<T>& oldMat);
-        //friend MyMatrix<T> operator+(MyMatrix<T>& newMat, MyMatrix<T>& oldMat);
-        //friend MyMatrix<T> operator-(MyMatrix<T>& newMat, MyMatrix<T>& oldMat);
-        /*friend MyMatrix<T> operator*(MyMatrix<T>& newMat, MyMatrix<T>& oldMat);
+        MyMatrix<T>& operator+(MyMatrix<T>& oldMat);
+        MyMatrix<T>& operator-(MyMatrix<T>& oldMat);
+        //MyMatrix<T>& operator*(MyMatrix<T>& oldMat);
 
         //Default operations (Mat + Num)
-        friend MyMatrix<T> operator+(MyMatrix<T>& newMat, double num);
-        friend MyMatrix<T> operator-(MyMatrix<T>& newMat, double num);
-        friend MyMatrix<T> operator*(MyMatrix<T>& newMat, double num);
-        friend MyMatrix<T> operator/(MyMatrix<T>& newMat, double num);*/
+        MyMatrix<T> operator+(double num);
+        MyMatrix<T> operator-(double num);
+        MyMatrix<T> operator*(double num);
+        MyMatrix<T> operator/(double num);
 
         //Some Ways to Set or Get Element
         void set_elem(size_t i, size_t j, T& elem);
@@ -177,11 +177,13 @@ MyMatrix<T>::~MyMatrix()
 template <class T>
 MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>& oldMat)
 {
-    clearMatrix();
-    row = oldMat.row;
-    column = oldMat.column;
-    createMatrix();
-    copyMatrix(oldMat);
+    if (this != &oldMat) {
+        clearMatrix();
+        row = oldMat.row;
+        column = oldMat.column;
+        createMatrix();
+        copyMatrix(oldMat);
+    }
     return *this;
 }
 
@@ -216,20 +218,20 @@ MyMatrix<T>& MyMatrix<T>::operator-=(MyMatrix<T>& oldMat)
 }
 
 template <class T>
-MyMatrix<T> operator+(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
+MyMatrix<T>& MyMatrix<T>::operator+(MyMatrix<T>& oldMat)
 {
-    newMat += oldMat;
-    return newMat;
+    *this += oldMat;
+    return *this;
 }
 
 template <class T>
-MyMatrix<T> operator-(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
+MyMatrix<T>& MyMatrix<T>::operator-(MyMatrix<T>& oldMat)
 {
-    newMat -= oldMat;
-    return newMat;
+    *this-= oldMat;
+    return *this;
 }
 
-/*template <class T>
+template <class T>
 MyMatrix<T> operator*(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
 {
     if (oldMat.row == newMat.row && oldMat.column == newMat.column) {
@@ -247,57 +249,51 @@ MyMatrix<T> operator*(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <class T>
-MyMatrix<T> operator+(MyMatrix<T>& newMat, double num)
+MyMatrix<T> MyMatrix<T>::operator+(double num)
 {
-    if (newMat.row == newMat.row && newMat.column == newMat.column) {
-        for (size_t i = 0; i < newMat.row; ++i) {
-            for (size_t j = 0; j < newMat.column; ++j) {
-                newMat.data[i][j] += num;
-            }
+    for (size_t i = 0; i < row; ++i) {
+        for (size_t j = 0; j < column; ++j) {
+            data[i][j] += num;
         }
     }
-    return newMat;
+    return *this;
 }
 
 template <class T>
-MyMatrix<T> operator-(MyMatrix<T>& newMat, double num)
+MyMatrix<T> MyMatrix<T>::operator-(double num)
 {
-    if (newMat.row == newMat.row && newMat.column == newMat.column) {
-        for (size_t i = 0; i < newMat.row; ++i) {
-            for (size_t j = 0; j < newMat.column; ++j) {
-                newMat.data[i][j] -= num;
-            }
+    for (size_t i = 0; i < row; ++i) {
+        for (size_t j = 0; j < column; ++j) {
+            data[i][j] -= num;
         }
     }
-    return newMat;
+    return *this;
 }
 
 template <class T>
-MyMatrix<T> operator*(MyMatrix<T>& newMat, double num)
+MyMatrix<T> MyMatrix<T>::operator*(double num)
 {
-    if (newMat.row == newMat.row && newMat.column == newMat.column) {
-        for (size_t i = 0; i < newMat.row; ++i) {
-            for (size_t j = 0; j < newMat.column; ++j) {
-                newMat.data[i][j] *= num;
-            }
+    for (size_t i = 0; i < row; ++i) {
+        for (size_t j = 0; j < column; ++j) {
+            data[i][j] *= num;
         }
     }
-    return newMat;
+    return *this;
 }
 
 template <class T>
-MyMatrix<T> operator/(MyMatrix<T>& newMat, double num)
+MyMatrix<T> MyMatrix<T>::operator/(double num)
 {
-    if (newMat.row == newMat.row && newMat.column == newMat.column) {
-        for (size_t i = 0; i < newMat.row; ++i) {
-            for (size_t j = 0; j < newMat.column; ++j) {
-                newMat.data[i][j] /= num;
+    if (num != 0) {
+        for (size_t i = 0; i < row; ++i) {
+            for (size_t j = 0; j < column; ++j) {
+                data[i][j] += num;
             }
         }
     }
-    return newMat;
+    return *this;
 }
-*/
+
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //    Some Ways to Set or Get Element
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -361,15 +357,15 @@ T** MyMatrix<T>::get_pointer_on_data()
 template <class T>
 typename MyMatrix<T>::Iterator MyMatrix<T>::begin() //Для чего тут typename?
 {
-
-    return *this;
+    MyMatrix<T>::Iterator it(*this, false);
+    return it;
 }
 
 template <class T>
 typename MyMatrix<T>::Iterator MyMatrix<T>::end()
 {
-    //Work In Progress
-    return *this;
+    MyMatrix<T>::Iterator it(*this, true);
+    return it;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -409,13 +405,13 @@ std::ostream& operator<< (std::ostream& out, MyMatrix<double>& matrix)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <typename T>
-MyMatrix<T>::Iterator::Iterator(MyMatrix<T> matrix) :
+MyMatrix<T>::Iterator::Iterator(MyMatrix<T> matrix, bool end_state) :
     originalMatrix(matrix.data),
     rowNow(0),
     colNow(0),
     rowMax(matrix.row),
     colMax(matrix.column),
-    end(false)
+    end(end_state)
 {}
 
 template <typename T>
@@ -437,7 +433,9 @@ typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::next()
 template <class T>
 T MyMatrix<T>::Iterator::value()
 {
-    return originalMatrix[rowNow][colNow];
+    if (!end){
+        return originalMatrix[rowNow][colNow];
+    }
 }
 
 template <class T>
@@ -455,11 +453,11 @@ typename MyMatrix<T>::Iterator& MyMatrix<T>::Iterator::operator++()
     return *this;
 }
 
-/*template <class T>
+template <class T>
 T& MyMatrix<T>::Iterator::operator*()
 {
     return value();
-}*/
+}
 
 template <class T>
 bool MyMatrix<T>::Iterator::operator==(MyMatrix<T>::Iterator &rightIt)
