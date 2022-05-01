@@ -10,8 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    matrix.cpp
+    mainwindow.cpp
 
 HEADERS += \
     mainwindow.h \

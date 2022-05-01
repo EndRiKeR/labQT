@@ -3,6 +3,7 @@
 
 #include <initializer_list>
 #include <iostream>
+#include <stdexcept>
 
 template <typename T>
 class MyMatrix
@@ -26,12 +27,14 @@ class MyMatrix
             bool end;
 
           public:
-            Iterator(MyMatrix<T> matrix, bool end_state); //Как оправдать отсутствие () и ~
+            Iterator(MyMatrix<T>& matrix, bool end_state); //Как оправдать отсутствие () и ~
+            //explicit Iterator(MyMatrix<T>::Iterator oldIt);
 
             Iterator next();
             T value();
             bool is_end();
             Iterator& operator++();
+            Iterator operator++(int i);
             T& operator*();
             bool operator==(Iterator &rightIt);
             bool operator!=(Iterator &rightIt);
@@ -48,6 +51,7 @@ class MyMatrix
 
         //Equale
         MyMatrix<T>& operator=(MyMatrix<T>& matrix);
+        MyMatrix<T>& operator=(MyMatrix<T>&& oldMat);
 
         //Default operations (Mat + Mat)
         MyMatrix<T>& operator+=(MyMatrix<T>& oldMat);
@@ -77,7 +81,27 @@ class MyMatrix
         Iterator end();
 
         //Output Matrix
-        //friend std::ostream& operator <<(std::ostream& out, MyMatrix<T>& matrix);
+        friend std::ostream& operator<<(std::ostream& out, MyMatrix<T>& matrix)
+        {
+            if (matrix.data != nullptr && (matrix.row != 0 || matrix.column != 0)) {
+                for (size_t i = 0; i < matrix.row; ++i) {
+                    for (size_t j = 0; j < matrix.column; ++j) {
+                        out << "[" << matrix[i][j] << "]\t";
+                    }
+                    out << std::endl;
+                }
+                out << std::endl;
+            } else {
+                if (matrix.row !=0 || matrix.column != 0) {
+                    throw std::string("Error! << can't print matrix");
+                    return out;
+                } else {
+                    throw std::string("Error! << can't print nullptr matrix!");
+                    return out;
+                }
+            }
+            return out;
+        }
 
         //Help Functions
         T** createMatrix();
@@ -131,32 +155,41 @@ MyMatrix<T>::MyMatrix(MyMatrix<T>&& matrix) :
     matrix.data = nullptr;
 }
 
-/*template <class T>
-MyMatrix<T>::MyMatrix(std::initializer_list<std::initializer_list<T>> list) :
-    row(list.size()),
-    column(0),
-    data(nullptr)
-{
-    //Проверка поданных данных на корректность
-    size_t listSize = list[0].size;
-    bool goodInitList = true;
-    for(const auto& subList : list) {
-        if (subList.size() != listSize) {
-            goodInitList = false;
-            break;
-        }
-    }
-    //Сам конструктор
-    if (goodInitList) {
-        column = listSize;
-        createMatrix();
-        for (size_t i = 0; i < row; ++i) {
-            for (size_t j = 0; j < column; ++j) {
-                data[i][j] = list[i][j];
-            }
-        }
-    }
-}*/
+//template <class T>
+//MyMatrix<T>::MyMatrix(std::initializer_list<std::initializer_list<T>> list)
+//{
+
+//    if (list.size() != 0) {
+//        bool correctMatrix = true;
+//        column = list.begin()->size();
+//        for(const auto& subList : list) {
+//            if (subList.size() != column) {
+//                correctMatrix = false;
+//                break;
+//            }
+//        }
+//        if (correctMatrix) {
+//            row = list.size();
+//            column = 0;
+//            data = nullptr;
+//            column = list.begin()->size();
+//            createMatrix();
+//            for (size_t i = 0; i < row; ++i) {
+//                auto it = list.begin();
+//                auto doubleIt = it->begin();
+//                for (size_t j = 0; j < column; ++j) {
+//                    data[i][j] = *doubleIt++;
+//                }
+//                it++;
+//            }
+//        } else {
+//            throw 1;
+//            //throw "Uncorrect size";
+//        }
+//    } else {
+//        throw "List of arguments is empty!";
+//    }
+//}
 
 template <class T>
 MyMatrix<T>::~MyMatrix()
@@ -184,6 +217,15 @@ MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>& oldMat)
         createMatrix();
         copyMatrix(oldMat);
     }
+    return *this;
+}
+
+template <class T>
+MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>&& oldMat)
+{
+    delete[] this->data;
+    this->data = oldMat.data;
+    oldMat.data = nullptr;
     return *this;
 }
 
@@ -287,7 +329,7 @@ MyMatrix<T> MyMatrix<T>::operator/(double num)
     if (num != 0) {
         for (size_t i = 0; i < row; ++i) {
             for (size_t j = 0; j < column; ++j) {
-                data[i][j] += num;
+                data[i][j] /= num;
             }
         }
     }
@@ -357,46 +399,14 @@ T** MyMatrix<T>::get_pointer_on_data()
 template <class T>
 typename MyMatrix<T>::Iterator MyMatrix<T>::begin() //Для чего тут typename?
 {
-    MyMatrix<T>::Iterator it(*this, false);
-    return it;
+    return MyMatrix<T>::Iterator(*this, false);
 }
 
 template <class T>
 typename MyMatrix<T>::Iterator MyMatrix<T>::end()
 {
-    MyMatrix<T>::Iterator it(*this, true);
-    return it;
+    return MyMatrix<T>::Iterator(*this, true);
 }
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//    Output Matrix
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-/*template<class T>
-std::ostream& operator<< (std::ostream& out, MyMatrix<int>& matrix)
-{
-    out << "Output Matrix" << std::endl;
-    for (size_t i = 0; i < matrix.row; ++i) {
-        for (size_t j = 0; j < matrix.column; ++j) {
-            out << "[" << matrix[i][j] << "]\t";
-        }
-        out << std::endl;
-    }
-    out << std::endl;
-}
-
-template<class T>
-std::ostream& operator<< (std::ostream& out, MyMatrix<double>& matrix)
-{
-    out << "Output Matrix" << std::endl;
-    for (size_t i = 0; i < matrix.row; ++i) {
-        for (size_t j = 0; j < matrix.column; ++j) {
-            out << "[" << matrix[i][j] << "]\t";
-        }
-        out << std::endl;
-    }
-    out << std::endl;
-}*/
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -405,7 +415,7 @@ std::ostream& operator<< (std::ostream& out, MyMatrix<double>& matrix)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 template <typename T>
-MyMatrix<T>::Iterator::Iterator(MyMatrix<T> matrix, bool end_state) :
+MyMatrix<T>::Iterator::Iterator(MyMatrix<T>& matrix, bool end_state) :
     originalMatrix(matrix.data),
     rowNow(0),
     colNow(0),
@@ -413,6 +423,16 @@ MyMatrix<T>::Iterator::Iterator(MyMatrix<T> matrix, bool end_state) :
     colMax(matrix.column),
     end(end_state)
 {}
+
+//template <typename T>
+//MyMatrix<T>::Iterator::Iterator(MyMatrix<T>::Iterator oldIt) :
+//    originalMatrix(oldIt.originalMatrix),
+//    rowNow(oldIt.rowNow),
+//    colNow(oldIt.colNow),
+//    rowMax(oldIt.rowMax),
+//    colMax(oldIt.colMax),
+//    end(oldIt.end)
+//{}
 
 template <typename T>
 typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::next()
@@ -433,8 +453,10 @@ typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::next()
 template <class T>
 T MyMatrix<T>::Iterator::value()
 {
-    if (!end){
-        return originalMatrix[rowNow][colNow];
+    if (!end) {
+
+        auto val = originalMatrix[rowNow][colNow];
+        return val;
     }
 }
 
@@ -453,10 +475,23 @@ typename MyMatrix<T>::Iterator& MyMatrix<T>::Iterator::operator++()
     return *this;
 }
 
+template <typename T>
+typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::operator++(int i)
+{
+    auto tmp(*this);
+    if (!end) {
+        *this = next();
+    }
+    return *tmp;
+}
+
 template <class T>
 T& MyMatrix<T>::Iterator::operator*()
 {
-    return value();
+    if (!end){
+        auto val = originalMatrix[rowNow][colNow];
+        return val;
+    }
 }
 
 template <class T>
@@ -480,7 +515,7 @@ template <class T>
 T** MyMatrix<T>::createMatrix()
 {
     T** matrix = new T*[row];
-    for (size_t j = 0; j < column; ++j) {
+    for (size_t j = 0; j < row; ++j) {
         matrix[j] = new T[column];
     }
     data = matrix;

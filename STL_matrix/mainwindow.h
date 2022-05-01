@@ -6,6 +6,8 @@
 
 void matrixTest();
 void outputFCKMatrix(class MyMatrix<int>& matrix, const std::string& str = "Output Matrix");
+void fillMatrix(class MyMatrix<int>& matCopy);
+void testThis(class MyMatrix<int>& matrix, std::string str, void (*F)(MyMatrix<int>&, const std::string&));
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
