@@ -46,7 +46,7 @@ class MyMatrix
         MyMatrix(size_t n, size_t m);
         MyMatrix(MyMatrix<T>& matrix);
         MyMatrix(MyMatrix<T>&& matrix);
-        //explicit MyMatrix(std::initializer_list<std::initializer_list<T>> list);
+        explicit MyMatrix(std::initializer_list<std::initializer_list<T>> list);
         ~MyMatrix();
 
         //Equale
@@ -58,7 +58,7 @@ class MyMatrix
         MyMatrix<T>& operator-=(MyMatrix<T>& oldMat);
         MyMatrix<T>& operator+(MyMatrix<T>& oldMat);
         MyMatrix<T>& operator-(MyMatrix<T>& oldMat);
-        //MyMatrix<T>& operator*(MyMatrix<T>& oldMat);
+        MyMatrix<T>& operator*(MyMatrix<T>& oldMat);
 
         //Default operations (Mat + Num)
         MyMatrix<T> operator+(double num);
@@ -155,41 +155,40 @@ MyMatrix<T>::MyMatrix(MyMatrix<T>&& matrix) :
     matrix.data = nullptr;
 }
 
-//template <class T>
-//MyMatrix<T>::MyMatrix(std::initializer_list<std::initializer_list<T>> list)
-//{
+template <class T>
+MyMatrix<T>::MyMatrix(std::initializer_list<std::initializer_list<T>> list)
+{
 
-//    if (list.size() != 0) {
-//        bool correctMatrix = true;
-//        column = list.begin()->size();
-//        for(const auto& subList : list) {
-//            if (subList.size() != column) {
-//                correctMatrix = false;
-//                break;
-//            }
-//        }
-//        if (correctMatrix) {
-//            row = list.size();
-//            column = 0;
-//            data = nullptr;
-//            column = list.begin()->size();
-//            createMatrix();
-//            for (size_t i = 0; i < row; ++i) {
-//                auto it = list.begin();
-//                auto doubleIt = it->begin();
-//                for (size_t j = 0; j < column; ++j) {
-//                    data[i][j] = *doubleIt++;
-//                }
-//                it++;
-//            }
-//        } else {
-//            throw 1;
-//            //throw "Uncorrect size";
-//        }
-//    } else {
-//        throw "List of arguments is empty!";
-//    }
-//}
+    if (list.size() != 0) {
+        bool correctMatrix = true;
+        column = list.begin()->size();
+        for(const auto& subList : list) {
+            if (subList.size() != column) {
+                correctMatrix = false;
+                break;
+            }
+        }
+        if (correctMatrix) {
+            row = list.size();
+            column = 0;
+            data = nullptr;
+            column = list.begin()->size();
+            createMatrix();
+            for (size_t i = 0; i < row; ++i) {
+                auto it = list.begin();
+                auto doubleIt = it->begin();
+                for (size_t j = 0; j < column; ++j) {
+                    data[i][j] = *doubleIt++;
+                }
+                it++;
+            }
+        } else {
+            throw std::string("Uncorrect size");
+        }
+    } else {
+        throw std::string("List of arguments is empty!");
+    }
+}
 
 template <class T>
 MyMatrix<T>::~MyMatrix()
@@ -274,16 +273,26 @@ MyMatrix<T>& MyMatrix<T>::operator-(MyMatrix<T>& oldMat)
 }
 
 template <class T>
-MyMatrix<T> operator*(MyMatrix<T>& newMat, MyMatrix<T>& oldMat)
+MyMatrix<T>& MyMatrix<T>::operator*(MyMatrix<T>& oldMat)
 {
-    if (oldMat.row == newMat.row && oldMat.column == newMat.column) {
-        for (size_t i = 0; i < oldMat.row; ++i) {
-            for (size_t j = 0; j < oldMat.column; ++j) {
-                newMat.data[i][j] *= oldMat.data[i][j];
+    if (column == oldMat.row) {
+        T sum = 0;
+        MyMatrix<T>* tmp = new MyMatrix<T>(row, oldMat.column);
+        for (size_t rows = 0; rows < row; ++rows) {
+            for (size_t col = 0; col < oldMat.column; ++col) {
+                sum = 0;
+                for (size_t k = 0; k < column; ++k) {
+                    sum += data[rows][k] * oldMat.data[k][col];
+                }
+                tmp->data[rows][col] = sum;
             }
         }
+        *this = *tmp;
+        return *this;
+    } else {
+        throw std::string("Error! Columns != Rows");
+        return *this;
     }
-    return newMat;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -326,11 +335,12 @@ MyMatrix<T> MyMatrix<T>::operator*(double num)
 template <class T>
 MyMatrix<T> MyMatrix<T>::operator/(double num)
 {
-    if (num != 0) {
-        for (size_t i = 0; i < row; ++i) {
-            for (size_t j = 0; j < column; ++j) {
-                data[i][j] /= num;
-            }
+    if (num == 0) {
+        throw std::string("Error! Cannot divide by 0");
+    }
+    for (size_t i = 0; i < row; ++i) {
+        for (size_t j = 0; j < column; ++j) {
+            data[i][j] /= num;
         }
     }
     return *this;
@@ -345,6 +355,8 @@ void MyMatrix<T>::set_elem(size_t i, size_t j, T& elem)
 {
     if (i < row && j < column) {
         data[i][j] = elem;
+    } else {
+        throw std::string("Error! Uncorrect Row or Column");
     }
 }
 
@@ -353,25 +365,34 @@ T& MyMatrix<T>::get_elem(size_t i, size_t j)
 {
     if (i < row && j < column) {
         return data[i][j];
+    } else {
+        throw std::string("Error! Uncorrect Row or Column");
     }
 }
 
 template <class T>
 T& MyMatrix<T>::operator()(size_t i, size_t j)
 {
-    return data[i][j];
+    if (i < row && j < column) {
+        return data[i][j];
+    } else {
+        throw std::string("Error! Uncorrect Row or Column");
+    }
 }
 
 template <class T>
 T* MyMatrix<T>::operator[](size_t i)
 {
+    if (i >= row || i >= column) {
+        throw std::string("Error! Uncorrect Row or Column");
+    }
     return data[i];
 }
 
 template <class T>
 bool MyMatrix<T>::is_square()
 {
-    return row == column;
+    return row == column && data != nullptr;
 }
 
 template <class T>
@@ -438,13 +459,13 @@ template <typename T>
 typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::next()
 {
     if (!end) {
-        if (colNow + 1 < colMax) {
-            colNow += 1;
-        } else if (rowNow + 1 < rowMax) {
-            rowMax += 1;
+        colNow += 1;
+        if (colNow == colMax) {
             colNow = 0;
-        } else {
-            end = true;
+            rowNow += 1;
+            if (rowNow == rowMax) {
+                end = true;
+            }
         }
     }
     return *this;
@@ -482,7 +503,7 @@ typename MyMatrix<T>::Iterator MyMatrix<T>::Iterator::operator++(int i)
     if (!end) {
         *this = next();
     }
-    return *tmp;
+    return tmp;
 }
 
 template <class T>
@@ -497,14 +518,13 @@ T& MyMatrix<T>::Iterator::operator*()
 template <class T>
 bool MyMatrix<T>::Iterator::operator==(MyMatrix<T>::Iterator &rightIt)
 {
-    return (rowNow == rightIt.rowNow &&
-            colNow == rightIt.colNow) ? true: false;
+    return is_end() == rightIt.is_end();
 }
 
 template <class T>
 bool MyMatrix<T>::Iterator::operator!=(MyMatrix<T>::Iterator &rightIt)
 {
-    return !(*this == rightIt);
+    return is_end() != rightIt.is_end();
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
