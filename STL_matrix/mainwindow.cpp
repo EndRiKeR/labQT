@@ -16,6 +16,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void iNeedMatrix(MyMatrix<int>& mat)
+{
+    std::cout << "I stole matrix" << std::endl << mat << std::endl << std::endl;
+}
+
 void constructTest()
 {
     MyMatrix<int> matDefault;
@@ -31,24 +36,38 @@ void constructTest()
     outputFCKMatrix(matCopy, "MatCopy from MatSizeConstruct");
 
     try {
+        iNeedMatrix(matZero);
+    } catch (std::string str) {
+        std::cout << "Error! " << str << std::endl;
+    }
+
+    try {
+        iNeedMatrix(matCopy);
+    } catch (std::string str) {
+        std::cout << "Error! " << str << std::endl;
+    }
+
+    try {
         MyMatrix<int> matIt({{1, 2, 3},{1, 2, 3},{1, 2, 3}});
         outputFCKMatrix(matIt, "MatIt: {{1, 2, 3},{1, 2, 3},{1, 2, 3}}");
     } catch (std::string str) {
         std::cout << "Error! " << str << std::endl;
     }
 
+    std::cout << "matIt2{{1},{1, 2, 3},{1, 2, 3}}" << std::endl;
     try {
         MyMatrix<int> matIt2({{1},{1, 2, 3},{1, 2, 3}});
     } catch (std::string str) {
-        std::cout << "Error! " << str << std::endl;
+        std::cout << "Error! " << str << std::endl << std::endl;
     }
+
+    std::cout << "matIt3{}" << std::endl;
 
     try {
         MyMatrix<int> matIt3({});
     } catch (std::string str) {
-        std::cout << "Error! " << str << std::endl;
+        std::cout << "Error! " << str << std::endl << std::endl;
     }
-
 }
 
 void fillTest()
@@ -154,6 +173,7 @@ void mathTest()
     outputFCKMatrix(matCopy, "matCopy += matZero");
 
     try {
+        std::cout << "Mult test" << std::endl;
         outputFCKMatrix(matCopy, "matCopy");
         outputFCKMatrix(matDefault, "matDefault");
         matCopy * matDefault;
@@ -181,19 +201,21 @@ void banditMathTest()
     }
 
     try {
+        std::cout << "Bandit Mult test" << std::endl;
         outputFCKMatrix(mat1, "mat1");
         outputFCKMatrix(mat3, "mat3");
         mat1 * mat3;
         outputFCKMatrix(mat3, "mat1 * mat3");
     } catch(std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
 
     try {
+        std::cout << "Dived by Zero! MUHaHaHaHa!" << std::endl;
         mat1 / 0;
         outputFCKMatrix(mat1, "mat1 / 0");
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
 }
 
@@ -217,6 +239,11 @@ void iteratorTest()
     while (startIt != endIt) {
         std::cout << "[" << *startIt++ << "]" << std::endl;
     }
+
+    if (startIt == endIt) {
+        std::cout << "Itearator" << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 void doULoveSpongeBob()
@@ -231,7 +258,7 @@ void doULoveSpongeBob()
     std::cout << "1 * 0 matrix: " << squidward.is_square() << std::endl;
 
     MyMatrix<int> misterCrabs;
-    std::cout << "Zero matrix: " << misterCrabs.is_square() << std::endl;
+    std::cout << "Zero matrix: " << misterCrabs.is_square() << std::endl << std::endl;
 }
 
 void banditAccess()
@@ -240,63 +267,73 @@ void banditAccess()
     fillMatrix(mat);
 
     try {
+        std::cout << "mat[-1][-1]" << std::endl;
         std::cout << mat[-1][-1] << std::endl;
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
+
     try {
+        std::cout << "mat[123][987]" << std::endl;
         std::cout << mat[123][987] << std::endl;
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
 
     try {
+        std::cout << "mat(-1, -1)" << std::endl;
         std::cout << mat(-1, -1) << std::endl;
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
+
     try {
+        std::cout << "mat(123, 987)" << std::endl;
         std::cout << mat(123, 987) << std::endl;
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
 
     try {
+        std::cout << "mat.get_elem(-1, -1)" << std::endl;
         std::cout << mat.get_elem(-1, -1) << std::endl;
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
     try {
+        std::cout << "mat.get_elem(123, 987)" << std::endl;
         std::cout << mat.get_elem(123, 987) << std::endl;
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
 
     try {
+        std::cout << "mat.set_elem(123, 987, 1)" << std::endl;
         int i = 1;
         mat.set_elem(123, 987, i);
     }  catch (std::string str) {
-        std::cout << str << std::endl;
+        std::cout << str << std::endl << std::endl;
     }
 }
 
 void matrixTest()
 {
-    std::cout << "~~~Construct Test~~~" << std::endl;
+    std::cout << std::endl << std::endl;
+    std::cout << "~~~Construct~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     constructTest();
-    std::cout << "~~~Fill Test~~~" << std::endl;
+    std::cout << "~~~Fill~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     fillTest();
-    std::cout << "~~~Equale Test~~~" << std::endl;
+    std::cout << "~~~Equale~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     equaleTest();
-    std::cout << "~~~Math Test~~~" << std::endl;
+    std::cout << "~~~Math~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     mathTest();
-    std::cout << "~~~Bandit Math Test~~~" << std::endl;
+    std::cout << "~~~Bandit~Math~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     banditMathTest();
-    std::cout << "~~~Iterator Test~~~" << std::endl;
+    std::cout << "~~~Iterator~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     iteratorTest();
-    std::cout << "~~~Square Test~~~" << std::endl;
+    std::cout << "~~~Square~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     doULoveSpongeBob();
-    std::cout << "~~~Bandit Access Test~~~" << std::endl;
+    std::cout << "~~~Bandit~Access~Test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
     banditAccess();
 }
 

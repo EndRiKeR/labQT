@@ -84,20 +84,21 @@ class MyMatrix
         friend std::ostream& operator<<(std::ostream& out, MyMatrix<T>& matrix)
         {
             if (matrix.data != nullptr && (matrix.row != 0 || matrix.column != 0)) {
-                for (size_t i = 0; i < matrix.row; ++i) {
-                    for (size_t j = 0; j < matrix.column; ++j) {
-                        out << "[" << matrix[i][j] << "]\t";
+                size_t count = 0;
+                for (auto const el : matrix) {
+                    out << "[" << el << "]\t";
+                    count++;
+                    if (count == matrix.column) {
+                        out << std::endl;
+                        count = 0;
                     }
-                    out << std::endl;
                 }
-                out << std::endl;
+                out << std::endl << std::endl;
             } else {
                 if (matrix.row !=0 || matrix.column != 0) {
                     throw std::string("Error! << can't print matrix");
-                    return out;
-                } else {
+                 } else {
                     throw std::string("Error! << can't print nullptr matrix!");
-                    return out;
                 }
             }
             return out;
@@ -132,7 +133,10 @@ MyMatrix<T>::MyMatrix(size_t rows, size_t columns) :
     row(rows),
     column(columns),
     data(nullptr)
-{
+{ //Проверка на создание
+   if (rows < 0 || columns < 0) {
+       throw std::string("Error! Rows or Columns can't be less than 0!");
+   }
    createMatrix();
 }
 
@@ -158,7 +162,6 @@ MyMatrix<T>::MyMatrix(MyMatrix<T>&& matrix) :
 template <class T>
 MyMatrix<T>::MyMatrix(std::initializer_list<std::initializer_list<T>> list)
 {
-
     if (list.size() != 0) {
         bool correctMatrix = true;
         column = list.begin()->size();
@@ -209,7 +212,7 @@ MyMatrix<T>::~MyMatrix()
 template <class T>
 MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>& oldMat)
 {
-    if (this != &oldMat) {
+    if (this != & oldMat) {
         clearMatrix();
         row = oldMat.row;
         column = oldMat.column;
@@ -222,10 +225,12 @@ MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>& oldMat)
 template <class T>
 MyMatrix<T>& MyMatrix<T>::operator=(MyMatrix<T>&& oldMat)
 {
+   if (this != &oldMat) {
     delete[] this->data;
     this->data = oldMat.data;
     oldMat.data = nullptr;
-    return *this;
+   }
+   return *this;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -268,7 +273,7 @@ MyMatrix<T>& MyMatrix<T>::operator+(MyMatrix<T>& oldMat)
 template <class T>
 MyMatrix<T>& MyMatrix<T>::operator-(MyMatrix<T>& oldMat)
 {
-    *this-= oldMat;
+    *this -= oldMat;
     return *this;
 }
 
