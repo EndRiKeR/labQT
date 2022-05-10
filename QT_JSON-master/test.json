@@ -1,0 +1,14 @@
+{
+    "intMem" 1,
+    "strMem": "string",
+  "arrMem": [
+    1,
+    2,
+    "Object"
+    :
+    {
+      "Subobject": 6
+    }
+  ]
+
+}
