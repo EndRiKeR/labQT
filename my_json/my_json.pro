@@ -12,12 +12,14 @@ SOURCES += \
     error.cpp \
     main.cpp \
     mainwindow.cpp \
-    myjson.cpp
+    myjson.cpp \
+    stack.cpp
 
 HEADERS += \
     error.h \
     mainwindow.h \
-    myjson.h
+    myjson.h \
+    stack.h
 
 FORMS += \
     mainwindow.ui

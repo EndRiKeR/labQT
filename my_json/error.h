@@ -1,9 +1,15 @@
 #ifndef ERROR_H
 #define ERROR_H
 
+#define TERMINATE 10
+#define UNEXPECT 10
+
 #include <string>
 #include <exception>
 #include <iostream>
+
+void myTerminate();
+void myUnexpect();
 
 enum
 {
@@ -29,14 +35,14 @@ public:
     std::string getPlace(class error er){return er.erPlace;}
     size_t getCode(class error er){return er.erCode;}
 
-    friend std::ostream& operator<< (std::ostream& out, class error er);
+//    friend std::ostream& operator<< (std::ostream& out, class error er);
 };
 
-std::ostream& operator<< (std::ostream& out, class error er)
-{
-   out << "Error!" << er.erMessage << std::endl;
-   out << er.erPlace << '\t' << er.erCode <<std::endl;
-   return out;
-}
+//std::ostream& operator<< (std::ostream& out, class error er)
+//{
+//   out << "Error!" << er.erMessage << std::endl;
+//   out << er.erPlace << '\t' << er.erCode <<std::endl;
+//   return out;
+//}
 
 #endif // ERROR_H

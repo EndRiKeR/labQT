@@ -23,3 +23,15 @@ error::error(std::string msg, std::string plc, size_t code):
     erPlace(plc),
     erCode(code)
 {};
+
+void myTerminate()
+{
+    std::cout << "Неперехваченное исключение!/n" << std::endl;
+    exit(TERMINATE);
+}
+
+void myUnexpect()
+{
+    std::cout << "Непредвиденное исключение!/n" << std::endl;
+    exit(UNEXPECT);
+}

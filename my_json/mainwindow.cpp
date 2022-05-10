@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    set_terminate(myTerminate);
+    set_unexpected(myUnexpect);
 }
 
 MainWindow::~MainWindow()
