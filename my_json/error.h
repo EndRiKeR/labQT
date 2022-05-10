@@ -29,12 +29,14 @@ public:
     std::string getPlace(class error er){return er.erPlace;}
     size_t getCode(class error er){return er.erCode;}
 
-    friend std::ostream& operator<< (std::ostream& out, class error er) {
-        out << "Error!" << er.erMessage << std::endl;
-        out << er.erPlace << '\t' << er.erCode <<std::endl;
-        return out;
-    }
-
+    friend std::ostream& operator<< (std::ostream& out, class error er);
 };
+
+std::ostream& operator<< (std::ostream& out, class error er)
+{
+   out << "Error!" << er.erMessage << std::endl;
+   out << er.erPlace << '\t' << er.erCode <<std::endl;
+   return out;
+}
 
 #endif // ERROR_H
